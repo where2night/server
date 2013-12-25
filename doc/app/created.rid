@@ -1,0 +1,6 @@
+Tue, 17 Dec 2013 22:35:48 +0100
+doc/README_FOR_APP	Tue, 17 Dec 2013 10:09:00 +0100
+app/controllers/application_controller.rb	Tue, 17 Dec 2013 10:09:00 +0100
+app/decorators/social_stream/base/user_decorator.rb	Tue, 17 Dec 2013 10:09:00 +0100
+app/helpers/application_helper.rb	Tue, 17 Dec 2013 10:09:00 +0100
+app/models/ability.rb	Tue, 17 Dec 2013 10:09:00 +0100
