@@ -279,6 +279,49 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInPub` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `Where2Night`.`Lists`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Where2Night`.`Lists` ;
+
+CREATE TABLE IF NOT EXISTS `Where2Night`.`Lists` (
+  `idLists` INT NOT NULL,
+  `idPub` INT NOT NULL,
+  PRIMARY KEY (`idLists`),
+  INDEX `fk_Lists_Pub1_idx` (`idPub` ASC),
+  CONSTRAINT `fk_Lists_Pub1`
+    FOREIGN KEY (`idPub`)
+    REFERENCES `Where2Night`.`Pub` (`idPub`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Where2Night`.`PartierIsInLists`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Where2Night`.`PartierIsInLists` ;
+
+CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInLists` (
+  `idPartier` INT NOT NULL,
+  `idLists` INT NOT NULL,
+  PRIMARY KEY (`idPartier`, `idLists`),
+  INDEX `fk_Partier_has_Lists_Lists1_idx` (`idLists` ASC),
+  INDEX `fk_Partier_has_Lists_Partier1_idx` (`idPartier` ASC),
+  CONSTRAINT `fk_Partier_has_Lists_Partier1`
+    FOREIGN KEY (`idPartier`)
+    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Partier_has_Lists_Lists1`
+    FOREIGN KEY (`idLists`)
+    REFERENCES `Where2Night`.`Lists` (`idLists`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

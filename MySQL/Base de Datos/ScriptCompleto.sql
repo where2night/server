@@ -279,9 +279,52 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInPub` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `Where2Night`.`Lists`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Where2Night`.`Lists` ;
+
+CREATE TABLE IF NOT EXISTS `Where2Night`.`Lists` (
+  `idLists` INT NOT NULL,
+  `idPub` INT NOT NULL,
+  PRIMARY KEY (`idLists`),
+  INDEX `fk_Lists_Pub1_idx` (`idPub` ASC),
+  CONSTRAINT `fk_Lists_Pub1`
+    FOREIGN KEY (`idPub`)
+    REFERENCES `Where2Night`.`Pub` (`idPub`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Where2Night`.`PartierIsInLists`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Where2Night`.`PartierIsInLists` ;
+
+CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInLists` (
+  `idPartier` INT NOT NULL,
+  `idLists` INT NOT NULL,
+  PRIMARY KEY (`idPartier`, `idLists`),
+  INDEX `fk_Partier_has_Lists_Lists1_idx` (`idLists` ASC),
+  INDEX `fk_Partier_has_Lists_Partier1_idx` (`idPartier` ASC),
+  CONSTRAINT `fk_Partier_has_Lists_Partier1`
+    FOREIGN KEY (`idPartier`)
+    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Partier_has_Lists_Lists1`
+    FOREIGN KEY (`idLists`)
+    REFERENCES `Where2Night`.`Lists` (`idLists`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 ----------------------------------FUNCIONES Y PROCEDIMIENTOS----------------------------------
 
@@ -337,14 +380,52 @@ CREATE PROCEDURE insertNormalUser(email VARCHAR(50), pass VARCHAR(25))
 	END//
     
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE insertFacebookUser(email VARCHAR(50))
+    BEGIN
+		INSERT INTO `User`
+		VALUES (email,NULL,0,NULL);
+
+		INSERT INTO `Profile` (`type`,`email`)
+		VALUES (0,email);
+
+		INSERT INTO `Partier` (`idProfile`)
+					SELECT p.idProfile
+					FROM `Profile` p
+					WHERE p.email = email;
+
+	END//
+    
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE insertGoogleUser(email VARCHAR(50))
+    BEGIN
+		INSERT INTO `User`
+		VALUES (email,NULL,1,NULL);
+
+		INSERT INTO `Profile` (`type`,`email`)
+		VALUES (0,email);
+
+		INSERT INTO `Partier` (`idProfile`)
+					SELECT p.idProfile
+					FROM `Profile` p
+					WHERE p.email = email;
+
+	END//
+    
+DELIMITER ;
 	
 DELIMITER //
  
- CREATE FUNCTION loginSucceed(usr VARCHAR(50), pass VARCHAR(25)) RETURNS BOOLEAN
+ CREATE FUNCTION passOK(usr VARCHAR(50), pass VARCHAR(25)) RETURNS BOOLEAN
     BEGIN
 		RETURN ((SELECT Count(*)
 				FROM `User` u
-				WHERE (u.email = usr) AND u.`password` = pass) = 1);
+				WHERE (u.email = usr) AND u.`password` = pass AND u.`type` = -1) = 1);
 	END//
     
 DELIMITER ;
