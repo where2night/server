@@ -9,9 +9,17 @@
 		  case 'POST':
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			$email = $_POST["email"]; 
-
+			$newuser= false;
 			$succeed = _loginFB($email); 
-			$arr = array('Token' => $succeed);
+			
+			
+			if($succeed == '0'){
+		
+			$newuser = true;
+			$succeed = _insertUserFB($email);
+			}
+			$arr = array('Token' => $succeed,
+						'New' => $newuser	);
 			echo json_encode($arr);
 			}
 			break;		

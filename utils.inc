@@ -161,16 +161,29 @@ function _loginFB($email){
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);
-
+  
 	if ($existe == 1){
 		$sToken = md5(uniqid(mt_rand(), true));
 		$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
 		return $sToken;		
+		
 	}
 	else return 0;
 	
 
+}
+
+function _insertUserFB($email){
+	
+	$query = "Call insertFacebookUser('{$email}')";
+	_db_query($query);
+ 
+	
+	$sToken = md5(uniqid(mt_rand(), true));
+	$query = "Call insertToken('{$email}','{$sToken}')";
+	_db_query($query);
+	return $sToken;		
 }
 
 ?>

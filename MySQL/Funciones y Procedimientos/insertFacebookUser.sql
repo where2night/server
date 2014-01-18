@@ -3,7 +3,7 @@ DELIMITER //
 CREATE PROCEDURE insertFacebookUser(email VARCHAR(50))
     BEGIN
 		INSERT INTO `User`
-		VALUES (email,NULL,0,NULL);
+		VALUES (email,0,0,NULL);
 
 		INSERT INTO `Profile` (`type`,`email`)
 		VALUES (0,email);
