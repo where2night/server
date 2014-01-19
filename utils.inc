@@ -7,7 +7,7 @@
 require_once 'db.inc';
 
 
-// Protege variables tipo string contra posible ataques de inyección SQL
+// Protege variables tipo string contra posible ataques de inyecci贸n SQL
 function _protect_data ($string)
 {
 	if (!get_magic_quotes_gpc())
@@ -26,7 +26,7 @@ function _protect_data_type_int ($object)
 }
 
 
-// Protege arrays contra posible ataques de inyección SQL
+// Protege arrays contra posible ataques de inyecci贸n SQL
 function _protect_data_array ($array)
 {
 	if (isset ($array) && is_array ($array))
@@ -35,7 +35,7 @@ function _protect_data_array ($array)
 			foreach ($array as $key => $value)
 				$secure[addslashes ($key)] = addslashes ($value);	
 		else
-			// Revisar la protección de las claves en este caso
+			// Revisar la protecci贸n de las claves en este caso
 			$secure = $array;
 		
 		return $secure;
@@ -72,64 +72,12 @@ function _get_username ()
 		return $_SESSION['username'];	
 }
 
-function _db_concuerdan($nombre,$id)
-{
-	 $query = "Select concuerdan('{$nombre}',{$id})";
-	 $resultado = _db_query($query);
-	 $concuerdan = _db_fetch_array($resultado);
-	 $campo = current($concuerdan);	
-	 return $campo;
-}
-
-function _check_privileges($email)
-{
-	 _db_connect();
-	 $query = "Select existeUsuario('{$email}')";	 	
-	 $resultado = _db_query($query);
-	 $campo = _db_fetch_array($resultado);
-	 $existe = current($campo);	
-	 print($existe);
-
-	 if ($existe == 1)
-	 {
-		 $query = "Select esAdministrador('{$email}')";
-		 $resultado = _db_query($query);
-	 	 $campo = _db_fetch_array($resultado);
-	 	 $esAdmin = current($campo);	
-		 print($esAdmin);		 
-	 }
-	 else
-	 {
-		 $query = "call crearUsuario('{$email}')";
-		 _db_query($query);
-		 $esAdmin = 0;
-	 }
-	 _db_close ();
-	 return $esAdmin;	
-}
-
 function _formato_fechas($fecha)
 {
 	return str_replace("-","/",$fecha);
 }
 
-function _db_esGestor($id)
-{
-	 $query = "Select esGestor({$id})";
-	 $resultado = _db_query($query);
-	 $concuerdan = _db_fetch_array($resultado);
-	 $campo = current($concuerdan);	
-	 return $campo;
-}
 
-function _db_existeProyecto ($name)
-{
-	 $query = "select existeProyecto(\"{$name}\");";
-	 $resultado = _db_query($query);	 
-	 $existe = _db_fetch_array($resultado);
-	 $campo = current($existe);	
-	 return $campo;
-}
 
 function _session_destroy ()
 {
@@ -140,7 +88,9 @@ function _session_destroy ()
 function _login($email,$password){
 
 	_db_connect();
-	$query = "Select loginSucceed('{$email}','{$password}')";
+	
+	$passEncriptada = sha1($password);
+	$query = "Select loginSucceed('{$email}',\"{$passEncriptada}\")";
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
@@ -148,9 +98,13 @@ function _login($email,$password){
 		$sToken = md5(uniqid(mt_rand(), true));
 		$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
+		_db_close();
 		return $sToken;	
 	}
-	else return 0;
+	else{
+	       _db_close();
+	       return 0;
+	}
 	
 
 }
@@ -166,10 +120,14 @@ function _loginFB($email){
 		$sToken = md5(uniqid(mt_rand(), true));
 		$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
+		_db_close();
 		return $sToken;		
 		
 	}
-	else return 0;
+	else{
+	       _db_close();
+	       return 0;
+	}
 	
 
 }
@@ -183,6 +141,7 @@ function _insertUserFB($email){
 	$sToken = md5(uniqid(mt_rand(), true));
 	$query = "Call insertToken('{$email}','{$sToken}')";
 	_db_query($query);
+	_db_close();
 	return $sToken;		
 }
 
