@@ -204,6 +204,22 @@ null, null)";
 	}
 }
 
+function _setPartierData($idProfile,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about){
+	_db_connect();
+	$query = "call setPartierData('{$idProfile}','{$picture}','{$name}','{$surnames}','{$birthdate}','{$genderbool}','{$music}','{$civil_state}','{$city}','{$drink}','{$about}')";
+	_db_query($query);
+	_db_close();
+}
+
+function _getPartierData($email){  // Deberá cambiarse para pedir la información por id
+	_db_connect();
+	$query = "Call getPartierData('{$email}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	_db_close();
+	return $campo;
+	
+}
 ?>
 
 
