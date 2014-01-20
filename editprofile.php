@@ -27,16 +27,17 @@
 				$about = $_POST["about"]; 
 				_setPartierData($idProfile,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about);
 				
-			}
-			if (isset($_POST["email"])){	
-					$email = $_POST["email"];
-					$data = _getPartierData($email);
+			}else{
+				if (isset($_POST["email"])){	
+						$email = $_POST["email"];
+						$data = _getPartierData($email);
+						
+						if ($data['gender'] == "1") $data['gender'] = "male";
+						else $data['gender'] = "female";
+						echo json_encode($data);
 					
-					if ($data['gender'] == "1") $data['gender'] = "male";
-					else $data['gender'] = "female";
-					echo json_encode($data);
-				
-			}			
+				}		
+			}
 			break;	
 		case 'GET':
 		/*	**** Futura manera de pedir los datos ****
