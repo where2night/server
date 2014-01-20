@@ -132,14 +132,26 @@ function _loginFB($email){
 
 }
 
-function _insertUserFB($email){
-	
+function _insertUserFB($email,$name,$surnames,$birthday,$gender){
+	_db_connect();
 	$query = "Call insertFacebookUser('{$email}')";
 	_db_query($query);
  
 	
 	$sToken = md5(uniqid(mt_rand(), true));
 	$query = "Call insertToken('{$email}','{$sToken}')";
+	_db_query($query);
+	
+	$query = "Select getIdProfile('{$email}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$id = current($campo);
+	
+	
+	$query =  "call setPartierData('{$id}' ,NULL, '{$name}',
+	'{$surnames}', '{$birthday}' ,
+	'{$gender}', null, null, null, 
+null, null)";
 	_db_query($query);
 	_db_close();
 	return $sToken;		
