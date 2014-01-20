@@ -18,14 +18,14 @@
 			if($succeed == '0'){
 			$name = $_POST["name"]; 
 			$surname = $_POST["surnames"]; 
-			$birthday = $_POST["birthday"]; 
-			$birthday=_formato_fechasFB($birthday);
+			$birthdate = $_POST["birthdate"]; 
+			$birthdate=_formato_fechasFB($birthdate);
 			
 			$gender = $_POST["gender"]; 
 			$genderbool=false;
 			if($gender == 'male')$genderbool= true;
 			$newuser = true;
-			$succeed = _insertUserFB($email,$name,$surname,$birthday,$genderbool);
+			$succeed = _insertUserFB($email,$name,$surname,$birthdate,$genderbool);
 			}
 			$arr = array('Token' => $succeed,
 						'New' => $newuser	);

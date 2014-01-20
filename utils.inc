@@ -80,7 +80,7 @@ function _formato_fechas($fecha)
 function _formato_fechasFB($date)
 {
 
-	$part = explode("\/", $date);
+	$part = explode("/", $date);
 	$year= "$part[2]";
 	$month ="$part[1]";
 	$day ="$part[0]";
