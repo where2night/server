@@ -77,7 +77,15 @@ function _formato_fechas($fecha)
 	return str_replace("-","/",$fecha);
 }
 
+function _formato_fechasFB($date)
+{
 
+	$part = explode("\/", $date);
+	$year= "$part[2]";
+	$month ="$part[1]";
+	$day ="$part[0]";
+	return "$year-$month-$day";
+}
 
 function _session_destroy ()
 {
