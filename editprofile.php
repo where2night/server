@@ -31,6 +31,9 @@
 			if (isset($_POST["email"])){	
 					$email = $_POST["email"];
 					$data = _getPartierData($email);
+					
+					if ($data['gender'] == "1") $data['gender'] = "male";
+					else $data['gender'] = "female";
 					echo json_encode($data);
 				
 			}			
@@ -41,6 +44,8 @@
 			$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 			$idPartier = $request[0];
 			$data = _getPartierData($idPartier)
+			$data['gender'] = female;
+			if ($data['gender'] == 1) $data['gender'] = male;
 			echo json_encode($data);
 		*/
 			break;	
