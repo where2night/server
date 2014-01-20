@@ -165,6 +165,45 @@ null, null)";
 	return $sToken;		
 }
 
+function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
+	_db_connect();
+	$query = "Select userExists('{$email}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$existe = current($campo);	
+	if ($existe == 0){
+	
+	
+	$passEncriptada = sha1($pass);
+	
+	$query = "Call insertNormalUser('{$email}','{$passEncriptada}')" ;
+	_db_query($query);
+ 
+	
+	$sToken = md5(uniqid(mt_rand(), true));
+	$query = "Call insertToken('{$email}','{$sToken}')";
+	_db_query($query);
+	
+	$query = "Select getIdProfile('{$email}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$id = current($campo);
+	
+	
+	$query =  "call setPartierData('{$id}' ,NULL, '{$name}',
+	'{$surnames}', '{$birthday}' ,
+	'{$gender}', null, null, null, 
+null, null)";
+	_db_query($query);
+	_db_close();
+	return $sToken;	
+	}	
+	else {
+		_db_close();
+		return 0;	
+	}
+}
+
 ?>
 
 
