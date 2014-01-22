@@ -87,6 +87,16 @@ function _formato_fechasFB($date)
 	return "$year-$month-$day";
 }
 
+function _conversion_fecha_mysql_api($date)
+{
+	$part = explode("-", $date);
+	$year= "$part[0]";
+	$month ="$part[1]";
+	$day ="$part[2]";
+	return "$day/$month/$year";
+}
+
+
 function _session_destroy ()
 {
 		session_destroy();
