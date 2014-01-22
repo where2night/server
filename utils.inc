@@ -158,8 +158,7 @@ function _insertUserFB($email,$name,$surnames,$birthday,$gender){
 	
 	$query =  "call setPartierData('{$id}' ,NULL, '{$name}',
 	'{$surnames}', '{$birthday}' ,
-	'{$gender}', null, null, null, 
-null, null)";
+	'{$gender}', \"\", \"\", \"\",\"\", \"\")";
 	_db_query($query);
 	_db_close();
 	return $sToken;		
@@ -190,10 +189,8 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 	$id = current($campo);
 	
 	
-	$query =  "call setPartierData('{$id}' ,NULL, '{$name}',
-	'{$surnames}', '{$birthday}' ,
-	'{$gender}', null, null, null, 
-null, null)";
+	$query =  "call setPartierData('{$id}' ,\"\", '{$name}',
+	'{$surnames}', '{$birthday}' ,'{$gender}', \"\", \"\", \"\",\"\",\"\")";
 	_db_query($query);
 	_db_close();
 	return $sToken;	
@@ -221,16 +218,6 @@ function _getPartierData($email){  // DeberÃ¡ cambiarse para pedir la informaciÃ
 	
 }
 ?>
-
-
-
-
-
-
-
-
-
-
 
 
 
