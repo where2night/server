@@ -98,7 +98,7 @@ function _login($email,$password){
 	_db_connect();
 	
 	$passEncriptada = sha1($password);
-	$query = "Select loginSucceed('{$email}',\"{$passEncriptada}\")";
+	$query = "Select loginSucceed('{$email}','{$passEncriptada}')";
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
