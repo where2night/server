@@ -34,6 +34,7 @@
 						
 						if ($data['gender'] == "1") $data['gender'] = "male";
 						else $data['gender'] = "female";
+						$data['birthdate'] = _conversion_fecha_mysql_api($data['birthdate']);
 						echo json_encode($data);
 					
 				}		
