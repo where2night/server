@@ -8,11 +8,10 @@
 		switch ($method) {
 		  case 'POST':
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
-			$email = $_POST["email"]; 
-			$password = $_POST["password"]; 
-			$succeed = _login($email,$password); 
-			$arr = array('Token' => $succeed);
-			echo json_encode($arr);
+				$email = $_POST["email"]; 
+				$password = $_POST["password"]; 
+				$succeed = _login($email,$password); 
+				echo json_encode($succeed);
 			}
 			break;		
 		  default:

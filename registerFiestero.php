@@ -9,22 +9,22 @@
 		  case 'POST':
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			
-			$email = $_POST["email"]; 
-			$pass = $_POST["pass"];
-			$name = $_POST["name"]; 
-			$surname = $_POST["surnames"]; 
-			$birthdate = $_POST["birthdate"]; 
-			$birthdate=_formato_fechasFB($birthdate);
-			
-			$gender = $_POST["gender"]; 
-			$genderbool=false;
-			if($gender == 'male')$genderbool= true;
-			
-			$succeed = _insertUser($email,$pass,$name,$surname,$birthdate,$genderbool);
+				$email = $_POST["email"]; 
+				$pass = $_POST["pass"];
+				$name = $_POST["name"]; 
+				$surname = $_POST["surnames"]; 
+				$birthdate = $_POST["birthdate"]; 
+				$birthdate=_formato_fechasFB($birthdate);
+				
+				$gender = $_POST["gender"]; 
+				$genderbool=false;
+				if($gender == 'male')$genderbool= true;
+				
+				$arr = _insertUser($email,$pass,$name,$surname,$birthdate,$genderbool);
+				$arr['New'] = true;
+				echo json_encode($arr);
 			}
-			$arr = array('Token' => $succeed,
-						'New' => true	);
-			echo json_encode($arr);
+			
 			
 			break;		
 		  default:

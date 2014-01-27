@@ -112,16 +112,18 @@ function _login($email,$password){
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
-	if ($existe == 1){
+	if ($existe != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
 		$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
 		_db_close();
-		return $sToken;	
+		$arr = array('Token' => $sToken, 'id' => $existe);
+		return $arr;	
 	}
 	else{
 	       _db_close();
-	       return 0;
+		   $arr = array('Token' => 0, 'id' => 0);
+	       return $arr;
 	}
 	
 
@@ -132,25 +134,26 @@ function _loginFB($email){
 	$query = "Select loginSuccessFB('{$email}')";
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
-	$existe = current($campo);
+	$id = current($campo);
   
-	if ($existe == 1){
+	if ($id != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
 		$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
 		_db_close();
-		return $sToken;		
-		
+		$arr = array('Token' => $sToken, 'id' => $id);
+		return $arr;
 	}
 	else{
-	       _db_close();
-	       return 0;
+	    _db_close();
+	    $arr = array('Token' => 0, 'id' => 0);
+		return $arr;
 	}
 	
 
 }
 
-function _insertUserFB($email,$name,$surnames,$birthday,$gender){
+function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
 	_db_connect();
 	$query = "Call insertFacebookUser('{$email}')";
 	_db_query($query);
@@ -166,12 +169,13 @@ function _insertUserFB($email,$name,$surnames,$birthday,$gender){
 	$id = current($campo);
 	
 	
-	$query =  "call setPartierData('{$id}' ,NULL, '{$name}',
+	$query =  "call setPartierData('{$id}' ,'{$picture}', '{$name}',
 	'{$surnames}', '{$birthday}' ,
 	'{$gender}', \"\", \"\", \"\",\"\", \"\")";
 	_db_query($query);
 	_db_close();
-	return $sToken;		
+	$arr = array('Token' => $sToken, 'id' => $id);
+	return $arr;	
 }
 
 function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
@@ -180,38 +184,35 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
+	
 	if ($existe == 0){
-	
-	
-	$passEncriptada = sha1($pass);
-	
-	$query = "Call insertNormalUser('{$email}','{$passEncriptada}')" ;
-	_db_query($query);
- 
-	
-	$sToken = md5(uniqid(mt_rand(), true));
-	$query = "Call insertToken('{$email}','{$sToken}')";
-	_db_query($query);
-	
-	$query = "Select getIdProfile('{$email}')";
-	$resultado = _db_query($query);
-	$campo = _db_fetch_array($resultado);
-	$id = current($campo);
-	
-	
-	$query =  "call setPartierData('{$id}' ,\"\", '{$name}',
-	'{$surnames}', '{$birthday}' ,'{$gender}', \"\", \"\", \"\",\"\",\"\")";
-	_db_query($query);
-	_db_close();
-	return $sToken;	
+		$passEncriptada = sha1($pass);
+		$query = "Call insertNormalUser('{$email}','{$passEncriptada}')" ;
+		_db_query($query);	
+		$sToken = md5(uniqid(mt_rand(), true));
+		$query = "Call insertToken('{$email}','{$sToken}')";
+		_db_query($query);
+		
+		$query = "Select getIdProfile('{$email}')";
+		$resultado = _db_query($query);
+		$campo = _db_fetch_array($resultado);
+		$id = current($campo);
+				
+		$query =  "call setPartierData('{$id}' ,\"\", '{$name}',
+		'{$surnames}', '{$birthday}' ,'{$gender}', \"\", \"\", \"\",\"\",\"\")";
+		_db_query($query);
+		_db_close();
+		$arr = array('Token' => $sToken, 'id' => $id);
+		return $arr;	
 	}	
 	else {
 		_db_close();
-		return 0;	
+		$arr = array('Token' => 0, 'id' => 0);
+		return $arr;	
 	}
 }
 
-function _setPartierData($idProfile,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about){
+function _setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about){
 	_db_connect();
 	$query = "call setPartierData('{$idProfile}','{$picture}','{$name}','{$surnames}','{$birthdate}','{$genderbool}','{$music}','{$civil_state}','{$city}','{$drink}','{$about}')";
 	_db_query($query);

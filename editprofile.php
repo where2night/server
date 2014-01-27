@@ -25,7 +25,7 @@
 				$city = $_POST['city'];
 				$drink = $_POST["drink"]; 
 				$about = $_POST["about"]; 
-				_setPartierData($idProfile,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about);
+				_setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about);
 				
 			}else{
 				if (isset($_POST["email"])){	

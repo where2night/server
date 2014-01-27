@@ -1,10 +1,14 @@
 DELIMITER //
  
- CREATE FUNCTION loginSucceed(usr VARCHAR(50), pass VARCHAR(25)) RETURNS BOOLEAN
+ CREATE FUNCTION loginSucceed(usr VARCHAR(50), pass VARCHAR(80)) RETURNS BOOLEAN
     BEGIN
-		RETURN ((SELECT Count(*)
+		RETURN (CASE 0 WHEN ((SELECT Count(*)
 				FROM `User` u
-				WHERE (u.email = usr) AND u.`password` = pass) = 1);
+				WHERE (u.email = usr) AND u.`password` = pass AND u.`type` = -1)) 
+			THEN 0 		
+			ELSE (SELECT idProfile 
+					FROM `Profile` p 
+					WHERE p.email = usr) END);
 	END//
     
 DELIMITER ;
