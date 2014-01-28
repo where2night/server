@@ -153,9 +153,61 @@ function _loginFB($email){
 
 }
 
+function _loginGP($email){
+	
+	_db_connect();
+	$query = "Select loginSuccessGP('{$email}')";
+	$resultado = _db_query($query);
+	
+	$campo = _db_fetch_array($resultado);
+	$id = current($campo);
+  
+	if ($id != 0){
+		$sToken = md5(uniqid(mt_rand(), true));
+		$query = "Call insertToken('{$email}','{$sToken}')";
+		_db_query($query);
+		_db_close();
+		$arr = array('Token' => $sToken, 'id' => $id);
+		return $arr;
+	}
+	else{
+	    _db_close();
+	    $arr = array('Token' => 0, 'id' => 0);
+		return $arr;
+	}
+	
+
+}
+
 function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
 	_db_connect();
 	$query = "Call insertFacebookUser('{$email}')";
+	_db_query($query);
+ 
+	
+	$sToken = md5(uniqid(mt_rand(), true));
+	$query = "Call insertToken('{$email}','{$sToken}')";
+	_db_query($query);
+	
+	$query = "Select getIdProfile('{$email}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$id = current($campo);
+	
+	
+	$query =  "call setPartierData('{$id}' ,'{$picture}', '{$name}',
+	'{$surnames}', '{$birthday}' ,
+	'{$gender}', \"\", \"\", \"\",\"\", \"\")";
+	_db_query($query);
+	_db_close();
+	$arr = array('Token' => $sToken, 'id' => $id);
+	return $arr;	
+}
+
+
+function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender){
+	_db_connect();
+	$query = "Call insertGoogleUser('{$email}')";
 	_db_query($query);
  
 	
