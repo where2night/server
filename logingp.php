@@ -20,7 +20,7 @@
 				$name = $_POST["name"]; 
 				$surname = $_POST["surnames"]; 
 				$birthdate = $_POST["birthdate"]; 
-				$birthdate=_formato_fechasFB($birthdate);
+			
 				
 				$gender = $_POST["gender"]; 
 				$genderbool=false;
