@@ -85,6 +85,33 @@ DROP TABLE IF EXISTS `Where2Night`.`Pub` ;
 CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `idPub` INT NOT NULL AUTO_INCREMENT,
   `idProfile` INT NOT NULL,
+  `companyNameLocal` VARCHAR(50) NOT NULL, 
+  `localName` VARCHAR(20) NOT NULL,
+  `cif` VARCHAR(9) NOT NULL,
+  `poblationLocal` VARCHAR(20) NOT NULL,
+  `cpLocal` INT (5) NOT NULL,
+  `telephoneLocal` INT NOT NULL,
+  `street` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0-Calle \n1-Avda \n2-Plaza ',
+  `streetNameLocal` VARCHAR(50) NOT NULL,
+  `streetNumberLocal` VARCHAR(50) NOT NULL,
+  ---- COMPLEMENTS ----
+  `music` VARCHAR(20) NULL,
+  `entryPrice` INT NULL,
+  `drinkPrice` INT NULL,
+  `openingHours` TIME(2) NULL,
+  `closeHours` TIME(2) NULL,
+  `picture` VARCHAR(100) NULL,
+  `about` VARCHAR(200) NULL,
+  ---- PRIVACY ----
+  `music_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
+  `entryPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `drinkPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `openingHours_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `closeHours_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `picture_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+
+
   PRIMARY KEY (`idPub`),
   INDEX `fk_Pub_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_Pub_Profile1`
@@ -103,6 +130,23 @@ DROP TABLE IF EXISTS `Where2Night`.`DJ` ;
 CREATE TABLE IF NOT EXISTS `Where2Night`.`DJ` (
   `idDJ` INT NOT NULL AUTO_INCREMENT,
   `idProfile` INT NOT NULL,
+
+  `nameDJ`VARCHAR (30) NOT NULL,
+  `name` VARCHAR(20) NOT NULL,
+  `surname` VARCHAR(45) NOT NULL,
+  `telephoneDJ` INT NOT NULL,
+  `gender` TINYINT(1) NULL,
+  `birthdate` DATE NULL,
+  `picture` VARCHAR(100) NULL,
+  `music` VARCHAR(20) NULL,
+  `about` VARCHAR(200) NULL,
+  
+  --PRIVACY--
+  `birthdate_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
+  `gender_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `music_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+
   PRIMARY KEY (`idDJ`),
   INDEX `fk_DJ_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_DJ_Profile1`
