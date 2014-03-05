@@ -10,17 +10,17 @@
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			
 				$email = $_POST["email"]; 
-				$pass = $_POST["pass"];
-				$name = $_POST["name"]; 
-				$surname = $_POST["surnames"]; 
-				$birthdate = $_POST["birthdate"]; 
-				$birthdate=_formato_fechasFB($birthdate);
+				$companyName = $_POST["companyName"];
+				$nameLocal = $_POST["nameLocal"]; 
+				$cif = $_POST["cif"]; 
+				$poblationLocal = $_POST["poblationLocal"]; 
+				$cpLocal= $_POST["cpLocal"];
+				$telephone= $_POST["telephone"];
+				$street= $_POST["street"];
+				$streetName= $_POST["streetName"];
+				$streetNumber= $_POST["streetNumber"];
 				
-				$gender = $_POST["gender"]; 
-				$genderbool=false;
-				if($gender == 'male')$genderbool= true;
-				
-				$arr = _insertUser($email,$pass,$name,$surname,$birthdate,$genderbool);
+				$arr = _insertLocalUser($email,$companyName,$nameLocal, $cif, $poblationLocal, $cpLocal, $telephone, $street, $streetName,$streetNumber);
 				$arr['New'] = true;
 				echo json_encode($arr);
 			}
