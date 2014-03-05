@@ -264,6 +264,7 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 	}
 }
 
+
 function _setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about){
 	_db_connect();
 	$query = "call setPartierData('{$idProfile}','{$picture}','{$name}','{$surnames}','{$birthdate}','{$genderbool}','{$music}','{$civil_state}','{$city}','{$drink}','{$about}')";
