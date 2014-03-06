@@ -16,16 +16,16 @@ DELIMITER //
  			P.poblationLocal= poblationLocal,
  			P.cpLocal= cpLocal,
  			P.telephoneLocal= telephoneLocal,
-  			P.street= street,
-  			P.streetNameLocal= streetNameLocal,
-  			P.streetNumberLocal= streetNumberLocal,
-  			P.music= music,
-  			P.entryPrice= entryPrice,
-  			P.drinkPrice= drinkPrice,
-  			P.openingHours= openingHours,
-  			P.closeHours=  closeHours,
-  			P.picture= picture,
-  			P.about= about	
+  		P.street= street,
+  		P.streetNameLocal= streetNameLocal,
+  		P.streetNumberLocal= streetNumberLocal,
+  		P.music= music,
+  		P.entryPrice= entryPrice,
+  		P.drinkPrice= drinkPrice,
+  		P.openingHours= openingHours,
+  		P.closeHours=  closeHours,
+  		P.picture= picture,
+  		P.about= about	
 		
 		WHERE (p.idProfile = idProfile);
 	END//
