@@ -85,6 +85,33 @@ DROP TABLE IF EXISTS `Where2Night`.`Pub` ;
 CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `idPub` INT NOT NULL AUTO_INCREMENT,
   `idProfile` INT NOT NULL,
+  `companyNameLocal` VARCHAR(50) NOT NULL, 
+  `localName` VARCHAR(20) NOT NULL,
+  `cif` VARCHAR(9) NOT NULL,
+  `poblationLocal` VARCHAR(20) NOT NULL,
+  `cpLocal` INT (5) NOT NULL,
+  `telephoneLocal` INT NOT NULL,
+  `street` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0-Calle \n1-Avda \n2-Plaza ',
+  `streetNameLocal` VARCHAR(50) NOT NULL,
+  `streetNumberLocal` VARCHAR(50) NOT NULL,
+  ---- COMPLEMENTS ----
+  `music` VARCHAR(20) NULL,
+  `entryPrice` INT NULL,
+  `drinkPrice` INT NULL,
+  `openingHours` TIME(2) NULL,
+  `closeHours` TIME(2) NULL,
+  `picture` VARCHAR(100) NULL,
+  `about` VARCHAR(200) NULL,
+  ---- PRIVACY ----
+  `music_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
+  `entryPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `drinkPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `openingHours_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `closeHours_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `picture_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+
+
   PRIMARY KEY (`idPub`),
   INDEX `fk_Pub_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_Pub_Profile1`
@@ -103,6 +130,23 @@ DROP TABLE IF EXISTS `Where2Night`.`DJ` ;
 CREATE TABLE IF NOT EXISTS `Where2Night`.`DJ` (
   `idDJ` INT NOT NULL AUTO_INCREMENT,
   `idProfile` INT NOT NULL,
+
+  `nameDJ`VARCHAR (30) NOT NULL,
+  `name` VARCHAR(20) NOT NULL,
+  `surname` VARCHAR(45) NOT NULL,
+  `telephoneDJ` INT NOT NULL,
+  `gender` TINYINT(1) NULL,
+  `birthdate` DATE NULL,
+  `picture` VARCHAR(100) NULL,
+  `music` VARCHAR(20) NULL,
+  `about` VARCHAR(200) NULL,
+  
+  --PRIVACY--
+  `birthdate_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
+  `gender_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `music_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+
   PRIMARY KEY (`idDJ`),
   INDEX `fk_DJ_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_DJ_Profile1`
@@ -353,6 +397,17 @@ DELIMITER ;
 
 DELIMITER //
  
+ CREATE FUNCTION getTypeProfile(idProfile INT) RETURNS INT
+    BEGIN
+    RETURN (SELECT p.type
+        FROM `Profile` p
+        WHERE (p.idProfile = idProfile));
+  END//
+    
+DELIMITER ;
+
+DELIMITER //
+ 
  CREATE PROCEDURE getPartierData(IN idProfile INT)
     BEGIN
 		SELECT p.picture, p.`name`, p.surnames, p.birthdate, p.gender, p.music, p.civil_state, p.city, p.drink, p.about 
@@ -361,6 +416,25 @@ DELIMITER //
 	END//
     
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE insertDJUser(email VARCHAR(50), pass VARCHAR(25))
+    BEGIN
+    INSERT INTO `User`
+    VALUES (email,pass,-1,NULL);
+
+    INSERT INTO `Profile` (`type`,`email`)
+    VALUES (-1,email);
+
+    INSERT INTO `DJ` (`idProfile`)
+          SELECT p.idProfile
+          FROM `Profile` p
+          WHERE p.email = email;
+
+  END//
+    
+    DELIMITER ;
 
 DELIMITER //
 
@@ -381,22 +455,23 @@ CREATE PROCEDURE insertNormalUser(email VARCHAR(50), pass VARCHAR(25))
     
 DELIMITER ;
 
+
 DELIMITER //
 
 CREATE PROCEDURE insertFacebookUser(email VARCHAR(50))
     BEGIN
-		INSERT INTO `User`
-		VALUES (email,NULL,0,NULL);
+    INSERT INTO `User`
+    VALUES (email,0,0,NULL);
 
-		INSERT INTO `Profile` (`type`,`email`)
-		VALUES (0,email);
+    INSERT INTO `Profile` (`type`,`email`)
+    VALUES (0,email);
 
-		INSERT INTO `Partier` (`idProfile`)
-					SELECT p.idProfile
-					FROM `Profile` p
-					WHERE p.email = email;
+    INSERT INTO `Partier` (`idProfile`)
+          SELECT p.idProfile
+          FROM `Profile` p
+          WHERE p.email = email;
 
-	END//
+  END//
     
 DELIMITER ;
 
@@ -418,6 +493,87 @@ CREATE PROCEDURE insertGoogleUser(email VARCHAR(50))
 	END//
     
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE insertPubUser(email VARCHAR(50), pass VARCHAR(25))
+    BEGIN
+    INSERT INTO `User`
+    VALUES (email,pass,-1,NULL);
+
+    INSERT INTO `Profile` (`type`,`email`)
+    VALUES (1,email);
+
+    INSERT INTO `Pub` (`idProfile`)
+          SELECT p.idProfile
+          FROM `Profile` p
+          WHERE p.email = email;
+
+  END//
+    
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE insertToken(IN email VARCHAR(50), IN tkn VARCHAR(45))
+BEGIN
+    UPDATE `User` u
+    SET u.token= tkn
+    WHERE u.email = email;
+
+  END//
+
+DELIMITER ;
+
+DELIMITER //
+ 
+ CREATE FUNCTION loginSucceed(usr VARCHAR(50), pass VARCHAR(80)) RETURNS BOOLEAN
+    BEGIN
+    RETURN (CASE 0 WHEN ((SELECT Count(*)
+        FROM `User` u
+        WHERE (u.email = usr) AND u.`password` = pass AND u.`type` = -1)) 
+      THEN 0    
+      ELSE (SELECT idProfile 
+          FROM `Profile` p 
+          WHERE p.email = usr) END);
+  END//
+    
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE FUNCTION loginSuccessFB(email VARCHAR(50)) RETURNS BOOLEAN
+BEGIN
+    RETURN (CASE 0 WHEN ((SELECT Count(*)
+        FROM `User` u
+        WHERE (u.email = usr) AND u.`type` = 0)) 
+      THEN 0    
+      ELSE (SELECT idProfile 
+          FROM `Profile` p 
+          WHERE p.email = usr) END);
+  END//
+
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE FUNCTION loginSuccessGP(email VARCHAR(50)) RETURNS BOOLEAN
+BEGIN
+    RETURN (CASE 0 WHEN ((SELECT Count(*)
+        FROM `User` u
+        WHERE (u.email = usr) AND u.`type` = 1)) 
+      THEN 0    
+      ELSE (SELECT idProfile 
+          FROM `Profile` p 
+          WHERE p.email = usr) END);
+  END//
+
+
+DELIMITER ;
+
 	
 DELIMITER //
  
@@ -427,6 +583,70 @@ DELIMITER //
 				FROM `User` u
 				WHERE (u.email = usr) AND u.`password` = pass AND u.`type` = -1) = 1);
 	END//
+    
+DELIMITER ;
+
+ DELIMITER //
+ 
+ CREATE PROCEDURE setLocalData(IN idProfile INT, IN nameDJ VARCHAR (30) ,IN name VARCHAR(20) ,IN surname VARCHAR(45),
+  IN telephoneDJ INT ,IN gender TINYINT(1) ,IN birthdate DATE ,
+  IN picture VARCHAR(100) ,IN music VARCHAR(20) ,IN about VARCHAR(200),
+  IN birthdate_p TINYINT(1) ,IN gender_p TINYINT(1),IN music_p TINYINT(1),IN about_p TINYINT(1))
+
+    BEGIN
+    UPDATE DJ p
+    SET 
+      p.nameDJ = nameDJ,  
+      p.name = name ,
+      p.surname = surname ,
+      p.telephoneDJ = telephoneDJ ,
+      p.gender = gender ,
+      p.birthdate = birthdate ,
+      p.picture = picture ,
+      p.music = music ,
+      p.about = about ,
+      p.birthdate_p = birthdate_p ,
+      p.gender_p = gender_p , 
+      p.music_p = music_p ,
+      p.about_p =about_p
+      
+    
+    WHERE (p.idProfile = idProfile);
+  END//
+    
+DELIMITER ;
+
+DELIMITER //
+ 
+ CREATE PROCEDURE setLocalData(IN idProfile INT,IN companyNameLocal VARCHAR(50), 
+  IN localName VARCHAR(20),IN cif VARCHAR(9),IN poblationLocal VARCHAR(20),
+  IN cpLocal INT (5),IN telephoneLocal INT,IN street TINYINT(1),
+  IN streetNameLocal VARCHAR(50),IN streetNumberLocal VARCHAR(50),
+    IN music VARCHAR(20),IN entryPrice INT,IN drinkPrice INT,IN openingHours TIME(2),
+    IN closeHours TIME(2),IN picture VARCHAR(100),IN about VARCHAR(200))
+
+    BEGIN
+    UPDATE Pub p
+    SET 
+      P.companyNameLocal = companyNameLocal, 
+      P.localName= localName,
+      P.cif= cif,
+      P.poblationLocal= poblationLocal,
+      P.cpLocal= cpLocal,
+      P.telephoneLocal= telephoneLocal,
+      P.street= street,
+      P.streetNameLocal= streetNameLocal,
+      P.streetNumberLocal= streetNumberLocal,
+      P.music= music,
+      P.entryPrice= entryPrice,
+      P.drinkPrice= drinkPrice,
+      P.openingHours= openingHours,
+      P.closeHours=  closeHours,
+      P.picture= picture,
+      P.about= about  
+    
+    WHERE (p.idProfile = idProfile);
+  END//
     
 DELIMITER ;
 
@@ -449,6 +669,17 @@ DELIMITER //
 				FROM `User` u
 				WHERE (u.email = usr) AND u.token = tkn) = 1);
 	END//
+    
+DELIMITER ;
+
+ DELIMITER //
+ 
+ CREATE FUNCTION tokenOK(idUsr INT, tkn VARCHAR(45)) RETURNS BOOLEAN
+    BEGIN
+    RETURN ((SELECT Count(*)
+        FROM `User` u, `Profile` p
+        WHERE p.email = u.email AND p.idProfile = idUsr AND u.token = tkn) = 1);
+  END//
     
 DELIMITER ;
 

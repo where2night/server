@@ -264,6 +264,94 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 	}
 }
 
+function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$cpLocal,$telephone,$street,$streetName,$streetNumber){
+
+	_db_connect();
+	$query = "Select userExists('{$email}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$existe = current($campo);	
+	$length = 8;
+	$pass = substr(md5(microtime()),1,$length); //random pass
+	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
+
+	if ($existe == 0){
+		$passEncriptada = sha1($pass);
+		$query = "Call insertPubUser('{$email}','{$passEncriptada}')" ;
+		_db_query($query);
+
+		$sToken = md5(uniqid(mt_rand(), true));
+		$query = "Call insertToken('{$email}','{$sToken}')";
+		_db_query($query);
+
+		$query = "Select getIdProfile('{$email}')";
+		$resultado = _db_query($query);
+		$campo = _db_fetch_array($resultado);
+		$id = current($campo);
+
+		$query =  "call setLocalData('{$id}','{$companyName}' ,'{$nameLocal}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephone}','{$street}','{$streetName}','{$streetNumber}',\"\",\"\",\"\",\"\",\"\",\"\",\"\" )";
+
+		_db_query($query);
+		_db_close();
+		$arr = array('Token' => $sToken, 'id' => $id);
+		return $arr;	
+
+
+	}
+	else {
+		_db_close();
+		$arr = array('Token' => 0, 'id' => 0);
+		return $arr;	
+	}
+
+
+}
+
+function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $gender){
+
+	_db_connect();
+	$query = "Select userExists('{$email}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$existe = current($campo);	
+	$length = 8;
+	$pass = substr(md5(microtime()),1,$length); //random pass
+	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
+
+	if ($existe == 0){
+		$passEncriptada = sha1($pass);
+		$query = "Call insertDJUser('{$email}','{$passEncriptada}')" ;
+		_db_query($query);
+
+		$sToken = md5(uniqid(mt_rand(), true));
+		$query = "Call insertToken('{$email}','{$sToken}')";
+		_db_query($query);
+
+		$query = "Select getIdProfile('{$email}')";
+		$resultado = _db_query($query);
+		$campo = _db_fetch_array($resultado);
+		$id = current($campo);
+
+		$query =  "call setDJData('{$id}',{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}',{$birthdate}',\"\",\"\", \"\", \"\", \"\", \"\", \"\")";
+
+		_db_query($query);
+		_db_close();
+		$arr = array('Token' => $sToken, 'id' => $id);
+		return $arr;	
+
+
+	}
+	else {
+		_db_close();
+		$arr = array('Token' => 0, 'id' => 0);
+		return $arr;	
+	}
+
+
+
+}
+
+
 function _setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about){
 	_db_connect();
 	$query = "call setPartierData('{$idProfile}','{$picture}','{$name}','{$surnames}','{$birthdate}','{$genderbool}','{$music}','{$civil_state}','{$city}','{$drink}','{$about}')";
@@ -280,6 +368,25 @@ function _getPartierData($email){  // DeberÃ¡ cambiarse para pedir la informaciÃ
 	return $campo;
 	
 }
+
+function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$music,$entryPrice ,$drinkPrice,$openingHours,$closeHours,$picture,$about){
+	
+	_db_connect();
+	$query = "call setLocalData('{$idProfile}','{$companyNameLocal}' ,'{$localName}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephoneLocal}','{$street}','{$streetNameLocal}','{$streetNumberLocal}','{$music}','{$entryPrice}' ,'{$drinkPrice}','{$openingHours}','{$closeHours}','{$picture}','{$about}')";
+	_db_query($query);
+	_db_close();
+}
+
+function _setDJData($idProfile,$nameDJ,$name,$surname,$telephoneDJ,$gender,$birthdate,$picture, $music, $about, $birthdate_p, $gender_p, $music_p, $about_p){
+
+	_db_connect();
+	$query = "call setDJData('{$idProfile}',{$nameDJ}','{$name}','{$surname}','{$telephoneDJ}','{$gender}',{$birthdate}','{$picture}' ,'{$music}' ,'{$about}' ,'{$birthdate_p}' ,'{$gender_p}' ,'{$music_p}' ,'{$about_p}' )";
+	_db_query($query);
+	_db_close();
+
+}
+
+
 ?>
 
 
