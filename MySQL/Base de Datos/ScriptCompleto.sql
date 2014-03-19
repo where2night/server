@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `street` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0-Calle \n1-Avda \n2-Plaza ',
   `streetNameLocal` VARCHAR(50) NOT NULL,
   `streetNumberLocal` VARCHAR(50) NOT NULL,
-  ---- COMPLEMENTS ----
+  
   `music` VARCHAR(20) NULL,
   `entryPrice` INT NULL,
   `drinkPrice` INT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `closeHours` TIME(2) NULL,
   `picture` VARCHAR(100) NULL,
   `about` VARCHAR(200) NULL,
-  ---- PRIVACY ----
+  
   `music_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `entryPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
   `drinkPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`DJ` (
   `music` VARCHAR(20) NULL,
   `about` VARCHAR(200) NULL,
   
-  --PRIVACY--
+  
   `birthdate_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `gender_p` TINYINT(1) NOT NULL DEFAULT 1,
   `music_p` TINYINT(1) NOT NULL DEFAULT 1,
@@ -376,13 +376,36 @@ DELIMITER //
 
 CREATE PROCEDURE deleteToken(IN email VARCHAR(50))
 BEGIN
-		UPDATE `User` u
-		SET u.token= NULL
-		WHERE u.email = email;
+    UPDATE `User` u
+    SET u.token= NULL
+    WHERE u.email = email;
 
-	END//
+  END//
 
 DELIMITER ;
+
+DELIMITER //
+ 
+ CREATE PROCEDURE getDJData(IN idProfile INT)
+    BEGIN
+    SELECT p.nameDJ, p.name, p.surname, p.telephoneDJ, p.gender, p.birthdate,p.picture, p.music,p.about 
+    FROM `Profile` pr, `DJ` p
+    WHERE (pr.idProfile = idProfile);
+  END//
+    
+DELIMITER ;
+
+DELIMITER //
+ 
+ CREATE PROCEDURE getLocalData(IN idProfile INT)
+    BEGIN
+    SELECT p.companyNameLocal, p.localName, p.cif, p.poblationLocal, p.cpLocal, p.telephoneLocal, p.street, p.streetNameLocal, p.streetNumberLocal, p.music, p.entryPrice , p.drinkPrice, p.openingHours, p.closeHours, p.picture, p.about 
+    FROM `Profile` pr, `Pub` p
+    WHERE (pr.idProfile = idProfile);
+  END//
+    
+DELIMITER ;
+
 
 DELIMITER //
  
@@ -588,29 +611,23 @@ DELIMITER ;
 
  DELIMITER //
  
- CREATE PROCEDURE setLocalData(IN idProfile INT, IN nameDJ VARCHAR (30) ,IN name VARCHAR(20) ,IN surname VARCHAR(45),
+ CREATE PROCEDURE setDJData(IN idProfile INT, IN nameDJ VARCHAR (30) ,IN name VARCHAR(20) ,IN surname VARCHAR(45),
   IN telephoneDJ INT ,IN gender TINYINT(1) ,IN birthdate DATE ,
-  IN picture VARCHAR(100) ,IN music VARCHAR(20) ,IN about VARCHAR(200),
-  IN birthdate_p TINYINT(1) ,IN gender_p TINYINT(1),IN music_p TINYINT(1),IN about_p TINYINT(1))
+  IN picture VARCHAR(100) ,IN music VARCHAR(20) ,IN about VARCHAR(200))
 
     BEGIN
     UPDATE DJ p
     SET 
       p.nameDJ = nameDJ,  
-      p.name = name ,
-      p.surname = surname ,
-      p.telephoneDJ = telephoneDJ ,
-      p.gender = gender ,
-      p.birthdate = birthdate ,
-      p.picture = picture ,
-      p.music = music ,
-      p.about = about ,
-      p.birthdate_p = birthdate_p ,
-      p.gender_p = gender_p , 
-      p.music_p = music_p ,
-      p.about_p =about_p
+      p.name = name,
+      p.surname = surname,
+      p.telephoneDJ = telephoneDJ,
+      p.gender = gender,
+      p.birthdate = birthdate,
+      p.picture = picture,
+      p.music = music,
+      p.about = about
       
-    
     WHERE (p.idProfile = idProfile);
   END//
     
@@ -655,7 +672,7 @@ DELIMITER //
  CREATE PROCEDURE setPartierData(IN idProfile INT, IN picture VARCHAR(100), IN `name`VARCHAR(20), IN surnames VARCHAR(45), IN birthdate DATE, IN gender BOOL, IN music VARCHAR(20), IN civil_state VARCHAR(20), IN city VARCHAR(20), IN drink VARCHAR(20), IN about VARCHAR(200))
     BEGIN
 		UPDATE Partier p
-		SET p.picture = picture, p.`name` = `name`, p.surnames = surnames, p.birthdate = birthdate, p.gender = gender, p.music = music, p.civil_state = civil_state, p.city = city, p.drink = drink, p.about = about 
+		SET p.picture = picture, p.name = name, p.surnames = surnames, p.birthdate = birthdate, p.gender = gender, p.music = music, p.civil_state = civil_state, p.city = city, p.drink = drink, p.about = about 
 		WHERE (p.idProfile = idProfile);
 	END//
     

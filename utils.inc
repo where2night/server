@@ -332,7 +332,7 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 		$campo = _db_fetch_array($resultado);
 		$id = current($campo);
 
-		$query =  "call setDJData('{$id}',{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}',{$birthdate}',\"\",\"\", \"\", \"\", \"\", \"\", \"\")";
+		$query =  "call setDJData('{$id}',{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}',{$birthdate}',\"\",\"\",\"\")";
 
 		_db_query($query);
 		_db_close();
@@ -358,17 +358,41 @@ function _setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderb
 	_db_query($query);
 	_db_close();
 }
-
-function _getPartierData($email){  // Deberá cambiarse para pedir la información por id
+function _tokenOk($id,$token){//devuelve 1 si corresponden
 	_db_connect();
-	$query = "Call getPartierData('{$email}')";
+	$query = "Call tokenOK('{$id}','{$token}')";
+	$res=_db_query($query);
+	_db_close();
+	return $res;
+
+}
+function _getPartierData($id){  
+	_db_connect();
+	$query = "Call getPartierData('{$id}')";
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	_db_close();
 	return $campo;
 	
 }
-
+function _getDJData($id){  
+	_db_connect();
+	$query = "Call getDJData('{$id}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	_db_close();
+	return $campo;
+	
+}
+function _getLocalData($id){  
+	_db_connect();
+	$query = "Call getLocalData('{$id}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	_db_close();
+	return $campo;
+	
+}
 function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$music,$entryPrice ,$drinkPrice,$openingHours,$closeHours,$picture,$about){
 	
 	_db_connect();
@@ -377,15 +401,14 @@ function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationL
 	_db_close();
 }
 
-function _setDJData($idProfile,$nameDJ,$name,$surname,$telephoneDJ,$gender,$birthdate,$picture, $music, $about, $birthdate_p, $gender_p, $music_p, $about_p){
+function _setDJData($idProfile,$nameDJ,$name,$surname,$telephoneDJ,$gender,$birthdate,$picture, $music, $about){
 
 	_db_connect();
-	$query = "call setDJData('{$idProfile}',{$nameDJ}','{$name}','{$surname}','{$telephoneDJ}','{$gender}',{$birthdate}','{$picture}' ,'{$music}' ,'{$about}' ,'{$birthdate_p}' ,'{$gender_p}' ,'{$music_p}' ,'{$about_p}' )";
+	$query = "call setDJData('{$idProfile}',{$nameDJ}','{$name}','{$surname}','{$telephoneDJ}','{$gender}',{$birthdate}','{$picture}' ,'{$music}' ,'{$about}')";
 	_db_query($query);
 	_db_close();
 
 }
-
 
 ?>
 
