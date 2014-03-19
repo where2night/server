@@ -384,6 +384,15 @@ function _getDJData($id){
 	return $campo;
 	
 }
+function _getLocalData($id){  
+	_db_connect();
+	$query = "Call getLocalData('{$id}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	_db_close();
+	return $campo;
+	
+}
 function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$music,$entryPrice ,$drinkPrice,$openingHours,$closeHours,$picture,$about){
 	
 	_db_connect();
@@ -400,7 +409,6 @@ function _setDJData($idProfile,$nameDJ,$name,$surname,$telephoneDJ,$gender,$birt
 	_db_close();
 
 }
-
 
 ?>
 
