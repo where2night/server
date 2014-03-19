@@ -15,7 +15,7 @@
       p.birthdate = birthdate ,
       p.picture = picture ,
       p.music = music ,
-      p.about = about ,
+      p.about = about
       
     WHERE (p.idProfile = idProfile);
   END//
