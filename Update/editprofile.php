@@ -1,7 +1,7 @@
 <?php
 
-	require_once ("db.inc");
-	require_once ("utils.inc");
+	require_once ("../db.inc");
+	require_once ("../utils.inc");
 	if (isset($_SERVER['REQUEST_METHOD'])){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
