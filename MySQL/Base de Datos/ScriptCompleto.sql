@@ -2,17 +2,17 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `Where2Night` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `Where2Night` ;
+CREATE SCHEMA IF NOT EXISTS `Where2NightDev` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `Where2NightDev` ;
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`User`
+-- Table `Where2NightDev`.`User`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`User` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`User` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`User` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`User` (
   `email` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(25) NOT NULL,
+  `password` VARCHAR(80) NOT NULL,
   `type` INT NULL COMMENT '0 - facebook\n1 - google\n-1 - registrado',
   `token` VARCHAR(45) NULL,
   PRIMARY KEY (`email`),
@@ -21,11 +21,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Profile`
+-- Table `Where2NightDev`.`Profile`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Profile` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Profile` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Profile` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Profile` (
   `idProfile` INT NOT NULL AUTO_INCREMENT,
   `type` INT NULL COMMENT 'type: \n0 - partier\n1 - pub\n-1 - dj',
   `email` VARCHAR(50) NOT NULL,
@@ -33,18 +33,18 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Profile` (
   INDEX `fk_Profile_User_idx` (`email` ASC),
   CONSTRAINT `fk_Profile_User`
     FOREIGN KEY (`email`)
-    REFERENCES `Where2Night`.`User` (`email`)
+    REFERENCES `Where2NightDev`.`User` (`email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Partier`
+-- Table `Where2NightDev`.`Partier`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Partier` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Partier` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Partier` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Partier` (
   `idPartier` INT NOT NULL AUTO_INCREMENT,
   `idProfile` INT NOT NULL,
   `picture` VARCHAR(100) NULL,
@@ -71,18 +71,18 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Partier` (
   INDEX `fk_Partier_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_Partier_Profile1`
     FOREIGN KEY (`idProfile`)
-    REFERENCES `Where2Night`.`Profile` (`idProfile`)
+    REFERENCES `Where2NightDev`.`Profile` (`idProfile`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Pub`
+-- Table `Where2NightDev`.`Pub`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Pub` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Pub` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Pub` (
   `idPub` INT NOT NULL AUTO_INCREMENT,
   `idProfile` INT NOT NULL,
   `companyNameLocal` VARCHAR(50) NOT NULL, 
@@ -98,8 +98,8 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `music` VARCHAR(20) NULL,
   `entryPrice` INT NULL,
   `drinkPrice` INT NULL,
-  `openingHours` TIME(2) NULL,
-  `closeHours` TIME(2) NULL,
+  `openingHours` TIME NULL,
+  `closeHours` TIME NULL,
   `picture` VARCHAR(100) NULL,
   `about` VARCHAR(200) NULL,
   
@@ -116,18 +116,18 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   INDEX `fk_Pub_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_Pub_Profile1`
     FOREIGN KEY (`idProfile`)
-    REFERENCES `Where2Night`.`Profile` (`idProfile`)
+    REFERENCES `Where2NightDev`.`Profile` (`idProfile`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`DJ`
+-- Table `Where2NightDev`.`DJ`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`DJ` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`DJ` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`DJ` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`DJ` (
   `idDJ` INT NOT NULL AUTO_INCREMENT,
   `idProfile` INT NOT NULL,
 
@@ -151,18 +151,18 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`DJ` (
   INDEX `fk_DJ_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_DJ_Profile1`
     FOREIGN KEY (`idProfile`)
-    REFERENCES `Where2Night`.`Profile` (`idProfile`)
+    REFERENCES `Where2NightDev`.`Profile` (`idProfile`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Fotos`
+-- Table `Where2NightDev`.`Fotos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Fotos` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Fotos` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Fotos` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Fotos` (
   `idFoto` INT NOT NULL AUTO_INCREMENT,
   `address` VARCHAR(45) NULL,
   `idProfile` INT NOT NULL,
@@ -170,18 +170,18 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Fotos` (
   INDEX `fk_Fotos_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_Fotos_Profile1`
     FOREIGN KEY (`idProfile`)
-    REFERENCES `Where2Night`.`Profile` (`idProfile`)
+    REFERENCES `Where2NightDev`.`Profile` (`idProfile`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Event`
+-- Table `Where2NightDev`.`Event`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Event` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Event` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Event` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Event` (
   `idEvent` INT NOT NULL AUTO_INCREMENT,
   `text` VARCHAR(200) NULL,
   `idDJ` INT NULL,
@@ -191,23 +191,23 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Event` (
   INDEX `fk_Event_Pub1_idx` (`idPub` ASC),
   CONSTRAINT `fk_Event_DJ1`
     FOREIGN KEY (`idDJ`)
-    REFERENCES `Where2Night`.`DJ` (`idDJ`)
+    REFERENCES `Where2NightDev`.`DJ` (`idDJ`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Event_Pub1`
     FOREIGN KEY (`idPub`)
-    REFERENCES `Where2Night`.`Pub` (`idPub`)
+    REFERENCES `Where2NightDev`.`Pub` (`idPub`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Friends`
+-- Table `Where2NightDev`.`Friends`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Friends` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Friends` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Friends` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Friends` (
   `idPartier1` INT NOT NULL,
   `idPartier2` INT NOT NULL,
   PRIMARY KEY (`idPartier1`, `idPartier2`),
@@ -215,23 +215,23 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Friends` (
   INDEX `fk_Partier_has_Partier_Partier1_idx` (`idPartier1` ASC),
   CONSTRAINT `fk_Partier_has_Partier_Partier1`
     FOREIGN KEY (`idPartier1`)
-    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    REFERENCES `Where2NightDev`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Partier_has_Partier_Partier2`
     FOREIGN KEY (`idPartier2`)
-    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    REFERENCES `Where2NightDev`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`PartierFollowsDJ`
+-- Table `Where2NightDev`.`PartierFollowsDJ`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`PartierFollowsDJ` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`PartierFollowsDJ` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierFollowsDJ` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`PartierFollowsDJ` (
   `idPartier` INT NOT NULL,
   `idDJ` INT NOT NULL,
   PRIMARY KEY (`idPartier`, `idDJ`),
@@ -239,23 +239,23 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierFollowsDJ` (
   INDEX `fk_Partier_has_DJ_Partier1_idx` (`idPartier` ASC),
   CONSTRAINT `fk_Partier_has_DJ_Partier1`
     FOREIGN KEY (`idPartier`)
-    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    REFERENCES `Where2NightDev`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Partier_has_DJ_DJ1`
     FOREIGN KEY (`idDJ`)
-    REFERENCES `Where2Night`.`DJ` (`idDJ`)
+    REFERENCES `Where2NightDev`.`DJ` (`idDJ`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`PartierFollowsPub`
+-- Table `Where2NightDev`.`PartierFollowsPub`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`PartierFollowsPub` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`PartierFollowsPub` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierFollowsPub` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`PartierFollowsPub` (
   `idPartier` INT NOT NULL,
   `idPub` INT NOT NULL,
   PRIMARY KEY (`idPartier`, `idPub`),
@@ -263,23 +263,23 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierFollowsPub` (
   INDEX `fk_Partier_has_Pub_Partier1_idx` (`idPartier` ASC),
   CONSTRAINT `fk_Partier_has_Pub_Partier1`
     FOREIGN KEY (`idPartier`)
-    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    REFERENCES `Where2NightDev`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Partier_has_Pub_Pub1`
     FOREIGN KEY (`idPub`)
-    REFERENCES `Where2Night`.`Pub` (`idPub`)
+    REFERENCES `Where2NightDev`.`Pub` (`idPub`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Works`
+-- Table `Where2NightDev`.`Works`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Works` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Works` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Works` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Works` (
   `idDJ` INT NOT NULL,
   `idPub` INT NOT NULL,
   PRIMARY KEY (`idDJ`, `idPub`),
@@ -287,23 +287,23 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Works` (
   INDEX `fk_DJ_has_Pub_DJ1_idx` (`idDJ` ASC),
   CONSTRAINT `fk_DJ_has_Pub_DJ1`
     FOREIGN KEY (`idDJ`)
-    REFERENCES `Where2Night`.`DJ` (`idDJ`)
+    REFERENCES `Where2NightDev`.`DJ` (`idDJ`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_DJ_has_Pub_Pub1`
     FOREIGN KEY (`idPub`)
-    REFERENCES `Where2Night`.`Pub` (`idPub`)
+    REFERENCES `Where2NightDev`.`Pub` (`idPub`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`PartierIsInPub`
+-- Table `Where2NightDev`.`PartierIsInPub`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`PartierIsInPub` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`PartierIsInPub` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInPub` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`PartierIsInPub` (
   `idPartier` INT NOT NULL,
   `idPub` INT NOT NULL,
   `inside` TINYINT(1) NOT NULL DEFAULT 0,
@@ -312,41 +312,41 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInPub` (
   INDEX `fk_Partier_has_Pub_Partier2_idx` (`idPartier` ASC),
   CONSTRAINT `fk_Partier_has_Pub_Partier2`
     FOREIGN KEY (`idPartier`)
-    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    REFERENCES `Where2NightDev`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Partier_has_Pub_Pub2`
     FOREIGN KEY (`idPub`)
-    REFERENCES `Where2Night`.`Pub` (`idPub`)
+    REFERENCES `Where2NightDev`.`Pub` (`idPub`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Lists`
+-- Table `Where2NightDev`.`Lists`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Lists` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`Lists` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Lists` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Lists` (
   `idLists` INT NOT NULL,
   `idPub` INT NOT NULL,
   PRIMARY KEY (`idLists`),
   INDEX `fk_Lists_Pub1_idx` (`idPub` ASC),
   CONSTRAINT `fk_Lists_Pub1`
     FOREIGN KEY (`idPub`)
-    REFERENCES `Where2Night`.`Pub` (`idPub`)
+    REFERENCES `Where2NightDev`.`Pub` (`idPub`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`PartierIsInLists`
+-- Table `Where2NightDev`.`PartierIsInLists`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`PartierIsInLists` ;
+DROP TABLE IF EXISTS `Where2NightDev`.`PartierIsInLists` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInLists` (
+CREATE TABLE IF NOT EXISTS `Where2NightDev`.`PartierIsInLists` (
   `idPartier` INT NOT NULL,
   `idLists` INT NOT NULL,
   PRIMARY KEY (`idPartier`, `idLists`),
@@ -354,12 +354,12 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInLists` (
   INDEX `fk_Partier_has_Lists_Partier1_idx` (`idPartier` ASC),
   CONSTRAINT `fk_Partier_has_Lists_Partier1`
     FOREIGN KEY (`idPartier`)
-    REFERENCES `Where2Night`.`Partier` (`idPartier`)
+    REFERENCES `Where2NightDev`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Partier_has_Lists_Lists1`
     FOREIGN KEY (`idLists`)
-    REFERENCES `Where2Night`.`Lists` (`idLists`)
+    REFERENCES `Where2NightDev`.`Lists` (`idLists`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -461,7 +461,7 @@ CREATE PROCEDURE insertDJUser(email VARCHAR(50), pass VARCHAR(25))
 
 DELIMITER //
 
-CREATE PROCEDURE insertNormalUser(email VARCHAR(50), pass VARCHAR(25))
+CREATE PROCEDURE insertNormalUser(email VARCHAR(50), pass VARCHAR(80))
     BEGIN
 		INSERT INTO `User`
 		VALUES (email,pass,-1,NULL);
@@ -639,8 +639,8 @@ DELIMITER //
   IN localName VARCHAR(20),IN cif VARCHAR(9),IN poblationLocal VARCHAR(20),
   IN cpLocal INT (5),IN telephoneLocal INT,IN street TINYINT(1),
   IN streetNameLocal VARCHAR(50),IN streetNumberLocal VARCHAR(50),
-    IN music VARCHAR(20),IN entryPrice INT,IN drinkPrice INT,IN openingHours TIME(2),
-    IN closeHours TIME(2),IN picture VARCHAR(100),IN about VARCHAR(200))
+    IN music VARCHAR(20),IN entryPrice INT,IN drinkPrice INT,IN openingHours TIME,
+    IN closeHours TIME,IN picture VARCHAR(100),IN about VARCHAR(200))
 
     BEGIN
     UPDATE Pub p
