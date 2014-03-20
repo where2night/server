@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `Where2NightDev`.`User` ;
 
 CREATE TABLE IF NOT EXISTS `Where2NightDev`.`User` (
   `email` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(80) NOT NULL,
+  `password` VARCHAR(80) NULL,
   `type` INT NULL COMMENT '0 - facebook\n1 - google\n-1 - registrado',
   `token` VARCHAR(45) NULL,
   PRIMARY KEY (`email`),
