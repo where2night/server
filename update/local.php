@@ -2,7 +2,15 @@
 
 	require_once ("../db.inc");
 	require_once ("../utils.inc");
-	if (isset($_SERVER['REQUEST_METHOD'])){
+	
+	//Checking credentials
+	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
+	$idPartier = $request[0];
+	$token = $request[1];
+	$tokenT= _tokenOK($idPartier,$token);
+	//If $tokenT is 1 access granted if it is 0 access not granted
+	
+	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT==1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		case 'POST':
@@ -33,19 +41,10 @@
 			break;	
 
 		case 'GET':
-		
-			$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
-			$idLocal = $request[0];
-			$token = $request[1];
-			$tokenT= _tokenOK($idLocal,$token);
-
-			if($tokenT==1){
 				$data = _getLocalData($idLocal);
 				if ($data['gender'] == 1) $data['gender'] = male;
 				else $data['gender'] = female;
 				echo json_encode($data);
-			}
-
 			break;	
 		  default:
 		//	rest_error($request);  
