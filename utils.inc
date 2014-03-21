@@ -276,7 +276,7 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
 
 	//Send email to confirmate user later
-	$to = "where2night@where2night.es";
+	$to = "leyamcir@gmail.com";
 	$subject = "Solicitud de where2night";
 	$headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 	$message = _generateLocalRequest($email, $companyName, $nameLocal, $cif, $poblationLocal, $cpLocal, $telephone, $street, $streetName, $streetNumber, $pass);
@@ -326,7 +326,7 @@ function _insertDJUser($email, $nameDJ, $name, $surname,$telephone, $birthdate, 
 	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
 
 	//Send email to confirmate user later
-	$to = "where2night@where2night.es";
+	$to = "leyamcir@gmail.com";
 	$subject = "Solicitud de where2night";
 	$headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 	$message = _generateDJRequest($email,$nameDJ,$name, $surname,$telephone, $birthdate, $gender, $pass);
@@ -346,7 +346,7 @@ function _insertDJUser($email, $nameDJ, $name, $surname,$telephone, $birthdate, 
 		$campo = _db_fetch_array($resultado);
 		$id = current($campo);
 
-		$query =  "call setDJData('{$id}',{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}',{$birthdate}',\"\",\"\",\"\")";
+		$query =  "call setDJData('{$id}','{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}','{$birthdate}',\"\",\"\",\"\")";
 
 		_db_query($query);
 		_db_close();
