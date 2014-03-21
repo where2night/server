@@ -1,9 +1,0 @@
-BackEnd Where2Night
-ADRIAN DIAZ JIMENEZ
-FOLDERS:
-	CREATE --> Registers...
-	READ --> _GET (Editprofile, editDJ, editLocal...) $id/$token, logins
-	UPDATE --> _POST (Editprofile, editDJ, editLocal...)
-	DELETE -->
-	MYSQL --> BBDD
-

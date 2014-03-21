@@ -1,7 +1,7 @@
 <?php
 
-	require_once ("db.inc");
-	require_once ("utils.inc");
+	require_once ("../db.inc");
+	require_once ("../utils.inc");
 
 	if (isset($_SERVER['REQUEST_METHOD'])){
 		$method = $_SERVER['REQUEST_METHOD'];
@@ -10,9 +10,9 @@
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			$email = $_POST["email"]; 
 
-		
+			
 			$newuser= false;
-			$arr = _loginFB($email); 
+			$arr = _loginGP($email); 
 			
 			
 			if($arr['id'] == '0'){
@@ -20,13 +20,14 @@
 				$name = $_POST["name"]; 
 				$surname = $_POST["surnames"]; 
 				$birthdate = $_POST["birthdate"]; 
-				$birthdate=_formato_fechasFB($birthdate);
+			
 				
 				$gender = $_POST["gender"]; 
 				$genderbool=false;
 				if($gender == 'male')$genderbool= true;
 				$newuser = true;
-				$arr = _insertUserFB($picture,$email,$name,$surname,$birthdate,$genderbool);
+				
+				$arr = _insertUserGP($picture,$email,$name,$surname,$birthdate,$genderbool);
 			}
 			$arr['New'] = $newuser;
 			echo json_encode($arr);

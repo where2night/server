@@ -360,8 +360,10 @@ function _setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderb
 }
 function _tokenOk($id,$token){//devuelve 1 si corresponden
 	_db_connect();
-	$query = "Call tokenOK('{$id}','{$token}')";
-	$res=_db_query($query);
+	$query = "Select tokenOK('{$id}','{$token}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$res = current($campo);
 	_db_close();
 	return $res;
 
