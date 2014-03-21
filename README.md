@@ -20,13 +20,20 @@
 
 
 ##<a name='User'></a>User Section
-###Login
+* [Register](#RegisterUser)
+* [Login](#LoginUser)
+* [Edit Profile](#EditUser)
+
+###<a name='RegisterUser'></a>Register
+
+
+###<a name='LoginUser'></a>Login
 There are three ways to login in our application:
 * [Facebook Login](#Facebook)
 * [Google Plus Login](#Google)
-* [Email Login](#Email)
+* [Email Login](#EmailUser)
 
-####Facebook Login
+####<a name='Facebook'></a>Facebook Login
 	* <baseUrl> + /login/loginfb.php
 	* Method: POST
 	* Data Sent:
@@ -44,6 +51,42 @@ There are three ways to login in our application:
 			"id"	: <Profile ID>
 			"New"	: <true if is a new user> or <false if is not a new user>
 		}
+
+
+####<a name='Google'></a>Google Plus Login
+	* <baseUrl> + /login/logingp.php
+	* Method: POST
+	* Data Sent:
+		{
+			"email": <email gotten from Facebook>
+			"picture": <Picture url from Facebook>
+			"name": <name gotten from Facebook>
+			"surnames": <surname gotten from Facebook> // We must fix this and change it to surname
+			"birthdate": <birthdate gotten from Facebook>
+			"gender": <male> or <female>
+		}
+	* Response:
+		{
+			"Token"	: <Access Token>
+			"id"	: <Profile ID>
+			"New"	: <true if is a new user> or <false if is not a new user>
+		}
+
+####<a name='EmailUser'></a>Email Login
+	* <baseUrl> + /login/login.php
+	* Method: POST
+	* Data Sent:
+		{
+			"email": <email gotten from Facebook>
+			"password": <user's password>
+		}
+	* Response:
+		{
+			"Token"	: <Access Token>
+			"id"	: <Profile ID>
+			"type"	: -1 //Not Added Yet (21/03/14)
+		}
+
 
 
 
