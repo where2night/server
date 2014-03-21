@@ -108,16 +108,23 @@ function _login($email,$password){
 	_db_connect();
 	
 	$passEncriptada = sha1($password);
+
 	$query = "Select loginSucceed('{$email}','{$passEncriptada}')";
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
 	if ($existe != 0){
+		
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
+		
+		
+ 
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $existe);
+		$arr = array('Token' => $sToken, 'id' => $existe, 'type'=> $usertype);
 		return $arr;	
 	}
 	else{
@@ -138,10 +145,15 @@ function _loginFB($email){
   
 	if ($id != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
+		/*$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
+		_db_close();*/
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);		
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
 		return $arr;
 	}
 	else{
@@ -157,17 +169,26 @@ function _loginGP($email){
 	
 	_db_connect();
 	$query = "Select loginSuccessGP('{$email}')";
+
 	$resultado = _db_query($query);
 	
 	$campo = _db_fetch_array($resultado);
+			
 	$id = current($campo);
-  
+  		
 	if ($id != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
+		/*$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id);*/
+	
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);		
+		_db_close();
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
 		return $arr;
 	}
 	else{
@@ -186,8 +207,14 @@ function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
  
 	
 	$sToken = md5(uniqid(mt_rand(), true));
-	$query = "Call insertToken('{$email}','{$sToken}')";
-	_db_query($query);
+	/*$query = "Call insertToken('{$email}','{$sToken}')";
+	_db_query($query);*/
+	$query = "SELECT insertToken('{$email}','{$sToken}')";
+	$resultado=_db_query($query);
+	$campo1 = _db_fetch_array($resultado);
+	$usertype = current($campo1);		
+	
+
 	
 	$query = "Select getIdProfile('{$email}')";
 	$resultado = _db_query($query);
@@ -200,7 +227,8 @@ function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
 	'{$gender}', \"\", \"\", \"\",\"\", \"\")";
 	_db_query($query);
 	_db_close();
-	$arr = array('Token' => $sToken, 'id' => $id);
+	//$arr = array('Token' => $sToken, 'id' => $id);
+	$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
 	return $arr;	
 }
 
@@ -212,8 +240,13 @@ function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender){
  
 	
 	$sToken = md5(uniqid(mt_rand(), true));
-	$query = "Call insertToken('{$email}','{$sToken}')";
-	_db_query($query);
+	//$query = "Call insertToken('{$email}','{$sToken}')";
+	//_db_query($query);
+	
+	$query = "SELECT insertToken('{$email}','{$sToken}')";
+	$resultado=_db_query($query);
+	$campo1 = _db_fetch_array($resultado);
+	$usertype = current($campo1);	
 	
 	$query = "Select getIdProfile('{$email}')";
 	$resultado = _db_query($query);
@@ -226,7 +259,8 @@ function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender){
 	'{$gender}', \"\", \"\", \"\",\"\", \"\")";
 	_db_query($query);
 	_db_close();
-	$arr = array('Token' => $sToken, 'id' => $id);
+	$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
+	//$arr = array('Token' => $sToken, 'id' => $id);
 	return $arr;	
 }
 
@@ -242,8 +276,11 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 		$query = "Call insertNormalUser('{$email}','{$passEncriptada}')" ;
 		_db_query($query);	
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
 		
 		$query = "Select getIdProfile('{$email}')";
 		$resultado = _db_query($query);
@@ -254,7 +291,7 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 		'{$surnames}', '{$birthday}' ,'{$gender}', \"\", \"\", \"\",\"\",\"\")";
 		_db_query($query);
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=>$usertype);
 		return $arr;	
 	}	
 	else {
@@ -277,12 +314,17 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 
 	if ($existe == 0){
 		$passEncriptada = sha1($pass);
+	
 		$query = "Call insertPubUser('{$email}','{$passEncriptada}')" ;
 		_db_query($query);
 
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		//$query = "Call insertToken('{$email}','{$sToken}')";
+		//_db_query($query);
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
 
 		$query = "Select getIdProfile('{$email}')";
 		$resultado = _db_query($query);
@@ -293,7 +335,8 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 
 		_db_query($query);
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		//$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype, 'pass'=> $pass);
 		return $arr;	
 
 
@@ -308,7 +351,7 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 }
 
 function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $gender){
-
+	
 	_db_connect();
 	$query = "Select userExists('{$email}')";
 	$resultado = _db_query($query);
@@ -324,19 +367,24 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 		_db_query($query);
 
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		//$query = "Call insertToken('{$email}','{$sToken}')";
+		//_db_query($query);
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
 
 		$query = "Select getIdProfile('{$email}')";
 		$resultado = _db_query($query);
 		$campo = _db_fetch_array($resultado);
 		$id = current($campo);
-
-		$query =  "call setDJData('{$id}',{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}',{$birthdate}',\"\",\"\",\"\")";
+		
+		$query =  "call setDJData('{$id}','{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}','{$birthdate}',null,null,null)";
 
 		_db_query($query);
+		
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype, 'pass'=> $pass);
 		return $arr;	
 
 
