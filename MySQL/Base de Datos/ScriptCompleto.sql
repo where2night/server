@@ -188,6 +188,7 @@ CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Event` (
   `title`VARCHAR (50) NULL,
   `text` VARCHAR(200) NULL,
   `date`DATE NULL,
+  `type` INT NULL COMMENT 'type:\n1 - pub\n-1 - dj',
   `startHour` TIME NULL,
   `closeHour`TIME NULL,
   `idDJ` INT NULL,
@@ -733,20 +734,20 @@ DELIMITER ;
 
 DELIMITER //
  
- CREATE FUNCTION setEvent(type INT,title VARCHAR (50),about VARCHAR(200),dateEv DATE,startHour TIME,closeHour TIME,id INT) RETURNS INT
+ CREATE FUNCTION setEvent(typePL INT,title VARCHAR (50),about VARCHAR(200),dateEv DATE,startHour TIME,closeHour TIME,id INT) RETURNS INT
     BEGIN
-      INSERT INTO `Event` (`title`, `text`, `date`, `startHour`, `closeHour`)
-    VALUES (title,about,dateEv,startHour,closeHour);
+      INSERT INTO `Event` (`title`, `text`, `date`,`type`, `startHour`, `closeHour`)
+    VALUES (title,about,dateEv,typePL,startHour,closeHour);
 
         UPDATE Event e
         SET
             e.idDJ = id
-        WHERE(type = -1);
+        WHERE(e.type = -1);
 
         UPDATE Event e
         SET
             e.idPub = id
-        WHERE (type = 1);
+        WHERE (e.type = 1);
 
             
 
