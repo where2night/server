@@ -1,6 +1,6 @@
 DELIMITER //
  
- CREATE FUNCTION getTypeProfile(IN idProfile INT) RETURNS INT
+ CREATE FUNCTION getTypeProfile(idProfile INT) RETURNS INT
     BEGIN
     RETURN (SELECT p.type
         FROM `Profile` p

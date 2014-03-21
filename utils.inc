@@ -411,6 +411,43 @@ function _setDJData($idProfile,$nameDJ,$name,$surname,$telephoneDJ,$gender,$birt
 	_db_close();
 
 }
+function _getTypeProfile($idProfile){
+	_db_connect();
+	$query = "call getTypeProfile('{$idProfile}')";
+	$campo= _db_query($query);
+	$res=_db_fetch_array($campo);
+	$type=current($res);
+	_db_close();
+	return $type;
+}
+function _getDjId($idProfile,$type){
+	_db_connect();
+	$query = "call getDjId('{$idProfile}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$id = current($res);
+	_db_close();
+	return $id;
+}
+function _getPubId($idProfile,$type){
+	_db_connect();
+	$query = "call getPubId('{$idProfile}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$id = current($res);
+	_db_close();
+	return $id;
+}
+
+function _insertEvent($type,$title,$text,$date,$startHour,$closeHour,$id){
+	_db_connect();
+	$query = "call setEvent({$type}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$id}')";
+	$res=_db_query($query);
+	$id=_db_fetch_array($res);
+	_db_close();
+	$arr = array('idEvent' => $id);
+	return $arr;
+}
 
 ?>
 
