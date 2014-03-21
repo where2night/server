@@ -94,6 +94,8 @@ CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Pub` (
   `street` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0-Calle \n1-Avda \n2-Plaza ',
   `streetNameLocal` VARCHAR(50) NOT NULL,
   `streetNumberLocal` VARCHAR(50) NOT NULL,
+  `latitude` INT NULL,
+  `longitude` INT NULL,
   
   `music` VARCHAR(20) NULL,
   `entryPrice` INT NULL,
@@ -183,9 +185,15 @@ DROP TABLE IF EXISTS `Where2NightDev`.`Event` ;
 
 CREATE TABLE IF NOT EXISTS `Where2NightDev`.`Event` (
   `idEvent` INT NOT NULL AUTO_INCREMENT,
+  `title`VARCHAR (50) NULL,
   `text` VARCHAR(200) NULL,
+  `date`DATE NULL,
+  `startHour` TIME NULL,
+  `closeHour`TIME NULL,
   `idDJ` INT NULL,
   `idPub` INT NULL,
+  `picture`VARCHAR(100) NULL,
+
   PRIMARY KEY (`idEvent`),
   INDEX `fk_Event_DJ1_idx` (`idDJ` ASC),
   INDEX `fk_Event_Pub1_idx` (`idPub` ASC),
@@ -720,5 +728,51 @@ DELIMITER ;
 				FROM `User` u
 				WHERE u.email = usr) = 1);
 	END//
+    
+DELIMITER ;
+
+DELIMITER //
+ 
+ CREATE FUNCTION setEvent(type INT,title VARCHAR (50),about VARCHAR(200),dateEv DATE,startHour TIME,closeHour TIME,id INT) RETURNS INT
+    BEGIN
+      INSERT INTO `Event` (`title`, `text`, `date`, `startHour`, `closeHour`)
+    VALUES (title,about,dateEv,startHour,closeHour);
+
+        UPDATE Event e
+        SET
+            e.idDJ = id
+        WHERE(type = -1);
+
+        UPDATE Event e
+        SET
+            e.idPub = id
+        WHERE (type = 1);
+
+            
+
+  RETURN (SELECT p.idEvent
+    FROM `Event`p);
+  END//
+    
+DELIMITER ;
+
+DELIMITER //
+ 
+ CREATE FUNCTION getPubId(idProfile INT) RETURNS INT
+    BEGIN
+    RETURN (SELECT p.idPub
+        FROM `Pub` p
+        WHERE (p.idProfile = idProfile));
+  END//
+    
+DELIMITER ;
+DELIMITER //
+ 
+ CREATE FUNCTION getDjId(idProfile INT) RETURNS INT
+    BEGIN
+    RETURN (SELECT p.idDj
+        FROM `DJ` p
+        WHERE (p.idProfile = idProfile));
+  END//
     
 DELIMITER ;
