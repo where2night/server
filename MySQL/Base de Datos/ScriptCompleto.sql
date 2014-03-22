@@ -410,7 +410,7 @@ DELIMITER //
     BEGIN
     SELECT p.companyNameLocal, p.localName, p.cif, p.poblationLocal, p.cpLocal, p.telephoneLocal, p.street, p.streetNameLocal, p.streetNumberLocal, p.music, p.entryPrice , p.drinkPrice, p.openingHours, p.closeHours, p.picture, p.about 
     FROM `Profile` pr, `Pub` p
-    WHERE (pr.idProfile = idProfile);
+    WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
   END//
     
 DELIMITER ;
@@ -444,7 +444,7 @@ DELIMITER //
     BEGIN
 		SELECT p.picture, p.`name`, p.surnames, p.birthdate, p.gender, p.music, p.civil_state, p.city, p.drink, p.about 
 		FROM `Profile` pr, `Partier` p
-		WHERE (pr.idProfile = idProfile);
+		WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
 	END//
     
 DELIMITER ;
