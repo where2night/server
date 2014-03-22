@@ -76,11 +76,11 @@ There are three ways to login in our application:
 	* Method: POST
 	* Data Sent:
 		{
-			"email"		: <email gotten from Facebook>
+			"email"		: <email gotten from Google Plus>
 			"picture"	: <user's picture url Max 100 characters>
-			"name"		: <name gotten from Facebook>
-			"surnames"	: <surname gotten from Facebook> // We must fix this and change it to surname
-			"birthdate"	: <birthdate gotten from Facebook>
+			"name"		: <name gotten from Google Plus>
+			"surnames"	: <surname gotten from Google Plus> // We must fix this and change it to surname
+			"birthdate"	: <birthdate gotten from Google Plus>
 			"gender"	: <male> or <female>
 		}
 	* Response:
@@ -276,7 +276,7 @@ There are three ways to login in our application:
 		}
 
 ###<a name='EditDj'></a>Edit Profile
-	* <baseUrl> + /update/user.php/<idProfile>/<Token>/<idDj>
+	* <baseUrl> + /update/dj.php/<idProfile>/<Token>/<idDj>
 	* Method: GET
 	* Response:
 		{
