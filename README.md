@@ -40,6 +40,7 @@
 		{
 			"Token"	: <Access Token>
 			"id"	: <Profile ID>
+			"type"	: 0
 			"New"	: True
 		}
 
@@ -65,6 +66,7 @@ There are three ways to login in our application:
 		{
 			"Token"	: <Access Token>
 			"id"	: <Profile ID>
+			"type"	: 0
 			"New"	: <true if is a new user> or <false if is not a new user>
 		}
 
@@ -85,6 +87,7 @@ There are three ways to login in our application:
 		{
 			"Token"	: <Access Token>
 			"id"	: <Profile ID>
+			"type"	: 0
 			"New"	: <true if is a new user> or <false if is not a new user>
 		}
 
@@ -100,7 +103,7 @@ There are three ways to login in our application:
 		{
 			"Token"	: <Access Token>
 			"id"	: <Profile ID>
-			"type"	: -1 //Not Added Yet (21/03/14)
+			"type"	: 0
 		}
 
 
@@ -252,6 +255,7 @@ There are three ways to login in our application:
 		{
 			"Token"	: <Access Token>
 			"id"	: <Profile ID>
+			"type"	: -1
 			"New"	: True
 		}
 
@@ -268,7 +272,7 @@ There are three ways to login in our application:
 		{
 			"Token"	: <Access Token>
 			"id"	: <Profile ID>
-			"type"	: 1 //Not Added Yet (21/03/14)
+			"type"	: -1 
 		}
 
 ###<a name='EditDj'></a>Edit Profile
