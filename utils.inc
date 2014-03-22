@@ -538,15 +538,15 @@ function _insertEvent($type,$title,$text,$date,$startHour,$closeHour,$id){
 
 	$res=_db_query($query);
 
-	$campo=_db_fetch_array($res);
+	//$campo=_db_fetch_array($res);
 	
 	//$id1=current($campo);
 	_db_close();
 			
 	
-		
+	$arr = array();
 	  
-	$arr = array('idEvent' => $campo);
+	//$arr = array('idEvent' => $campo);
 	return $arr;
 }
 

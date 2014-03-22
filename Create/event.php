@@ -24,7 +24,7 @@
   						$id = _getPubId($idProfile,$type);
   						break;
   					case '-1':
-					echo "DJ";
+					
   						$id = _getDjId($idProfile,$type);
   						break;
   					
