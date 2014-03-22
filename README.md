@@ -228,6 +228,7 @@ There are three ways to login in our application:
 			"about"		: <Max 100 characters>
 		}
 
+
 ##<a name='Dj'></a>Dj Section
 * [Register](#RegisterDj)
 * [Login](#LoginDj)
@@ -255,7 +256,7 @@ There are three ways to login in our application:
 		}
 
 
-###<a name='LoginDj></a>Login
+###<a name='LoginDj'></a>Login
 	* <baseUrl> + /login/login.php
 	* Method: POST
 	* Data Sent:
@@ -267,7 +268,7 @@ There are three ways to login in our application:
 		{
 			"Token"	: <Access Token>
 			"id"	: <Profile ID>
-			"type"	: 0 //Not Added Yet (21/03/14)
+			"type"	: 1 //Not Added Yet (21/03/14)
 		}
 
 ###<a name='EditDj'></a>Edit Profile
