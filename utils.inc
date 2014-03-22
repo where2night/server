@@ -397,7 +397,7 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 	$message .= '<tr><td><strong>Nombre:</strong> </td><td>' . $name . '</td></tr>';
 	$message .= '<tr><td><strong>Apellidos:</strong> </td><td>' . $surname . '</td></tr>';
 	$message .= '<tr><td><strong>Teléfono:</strong> </td><td>' . $telephone . '</td></tr>';
-	$message .= '<tr><td><strong>Fecha de nacimiento:</strong> </td><td>' . $birhtdate . '</td></tr>';
+	$message .= '<tr><td><strong>Fecha de nacimiento:</strong> </td><td>' . $birthdate . '</td></tr>';
 	$message .= '<tr><td><strong>Género:</strong> </td><td>' . $gender . '</td></tr>';
 	$message .= '<tr style="background: #ddd;"><td><strong>Contraseña generada:</strong> </td><td align="center"><strong><span style="color:ff0000;">'.$pass.'</span></strong></td></tr>';
 	$message .= '</table>';
