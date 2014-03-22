@@ -7,7 +7,9 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idPartier = $request[0];
 	$token = $request[1];
+	$idDJ= $request[2];
 	$tokenT= _tokenOK($idPartier,$token);
+	
 	//If $tokenT is 1 access granted if it is 0 access not granted
 	
 	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT==1){
@@ -36,9 +38,10 @@
 			break;	
 
 		case 'GET':
+				
 				$data = _getDJData($idDJ);
-				if ($data['gender'] == 1) $data['gender'] = male;
-				else $data['gender'] = female;
+				if ($data['gender'] == 1) $data['gender'] = 'male';
+				else $data['gender'] = 'female';
 				echo json_encode($data);
 			break;	
 		  default:
