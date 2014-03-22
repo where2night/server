@@ -451,7 +451,7 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE insertDJUser(email VARCHAR(50), pass VARCHAR(25))
+CREATE PROCEDURE insertDJUser(email VARCHAR(50), pass VARCHAR(80))
     BEGIN
     INSERT INTO `User`
     VALUES (email,pass,-1,NULL);
@@ -528,7 +528,7 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE insertPubUser(email VARCHAR(50), pass VARCHAR(25))
+CREATE PROCEDURE insertPubUser(email VARCHAR(50), pass VARCHAR(80))
     BEGIN
     INSERT INTO `User`
     VALUES (email,pass,-1,NULL);
