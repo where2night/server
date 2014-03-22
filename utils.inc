@@ -318,7 +318,7 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 	$headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 	$message = '<html><body>';
-	$message .= "<h1>El local ".$nameLocal." ha solicitado registrarse</h1>";
+	$message .= "<h1>El local '.$nameLocal.' ha solicitado registrarse</h1>";
 	$message .= '<table style="border-color: #666;" cellpadding="10">';
 	$message .= "<tr style='background: #eee;'><td><strong>Nombre local:</strong> </td><td>" . $nameLocal . "</td></tr>";
 	$message .= "<tr><td><strong>Nombre compañía:</strong> </td><td>" . $companyName . "</td></tr>";
@@ -390,7 +390,7 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 	$headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 	$message = '<html><body>';
-	$message .= '<h1>El DJ ".$nameDJ." ha solicitado registrarse</h1>';
+	$message .= '<h1>El DJ '.$nameDJ.' ha solicitado registrarse</h1>';
 	$message .= '<table style="border-color: #666;" cellpadding="10">';
 	$message .= '<tr style="background: #eee;"><td><strong>Nombre artístico:</strong> </td><td>'.$nameDJ.'</td></tr>';
 	$message .= '<tr><td><strong>Email:</strong> </td><td>' . $email . '</td></tr>';
