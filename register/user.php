@@ -15,8 +15,7 @@
 				$surname = $_POST["surnames"]; 
 				$birthdate = $_POST["birthdate"]; 
 				$birthdate=_formato_fechasFB($birthdate);
-				
-				$gender = $_POST["gender"]; 
+			$gender = $_POST["gender"]; 
 				$genderbool=false;
 				if($gender == 'male')$genderbool= true;
 				
