@@ -11,7 +11,7 @@
 			
 				$email = $_POST["email"]; 
 				$companyName = $_POST["companyName"];
-				$nameLocal = $_POST["nameLocal"]; 
+				$localName = $_POST["localName"]; 
 				$cif = $_POST["cif"]; 
 				$poblationLocal = $_POST["poblationLocal"]; 
 				$cpLocal= $_POST["cpLocal"];
