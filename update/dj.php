@@ -21,7 +21,7 @@
 				$nameDJ = $_POST["nameDJ"];
   				$name = $_POST["name"];
   				$surname = $_POST["surname"];
-  				$telephoneDJ = $_POST["telephoneDJ"];
+  				$telephoneDJ = $_POST["telephone"];
   				$gender = $_POST["gender"];
   				$genderbool=false;
 				if($gender == 'male')$genderbool= true;	
