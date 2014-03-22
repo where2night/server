@@ -75,7 +75,7 @@ There are three ways to login in our application:
 	* Data Sent:
 		{
 			"email"		: <email gotten from Facebook>
-			"picture"	: <Picture url from Facebook>
+			"picture"	: <user's picture url Max 100 characters>
 			"name"		: <name gotten from Facebook>
 			"surnames"	: <surname gotten from Facebook> // We must fix this and change it to surname
 			"birthdate"	: <birthdate gotten from Facebook>
@@ -93,7 +93,7 @@ There are three ways to login in our application:
 	* Method: POST
 	* Data Sent:
 		{
-			"email": <email gotten from Facebook>
+			"email"	  : <email gotten from Facebook>
 			"password": <user's password>
 		}
 	* Response:
@@ -110,33 +110,195 @@ There are three ways to login in our application:
 	* Response:
 		{
 			"idProfile"	: <User's idProfile>
-			"picture"	: <user's picture url>
-			"name"		: <name>
-			"surnames"	: <surname> // We must fix this and change it to surname
+			"picture"	: <user's picture url Max 100 characters>
+			"name"		: <Max 20 characters>
+			"surnames"	: <Max 45 characters> // We must fix this and change it to surname
 			"birthdate"	: <birthdate dd/mm/yyyy>
 			"gender"	: <male> or <female>
-			"music"		: <Favourite music style>
-			"civil_sate"	: <>
-			"city"		: <City where user is>
-			"drink"		: <Favourite drink>
-			"about"		: <Some info user wants to share>
+			"music"		: <Max 20 characters>
+			"civil_sate"	: <Max 20 characters>
+			"city"		: <Max 20 characters>
+			"drink"		: <Max 20 characters>
+			"about"		: <Max 200 characters>
 		}
 	* Method: POST
 	* Every slot has to be text
 	* Data Sent:
 		{
 			"idProfile"	: <User's idProfile>
-			"picture"	: <user's picture url>
-			"name"		: <name>
-			"surnames"	: <surname> // We must fix this and change it to surname
+			"picture"	: <user's picture url Max 100 characters>
+			"name"		: <Max 20 characters>
+			"surnames"	: <Max 45 characters> // We must fix this and change it to surname
 			"birthdate"	: <birthdate dd/mm/yyyy>
 			"gender"	: <male> or <female>
-			"music"		: <Favourite music style>
-			"civil_sate"	: <>
-			"city"		: <City where user is>
-			"drink"		: <Favourite drink>
-			"about"		: <Some info user wants to share>
+			"music"		: <Max 20 characters>
+			"civil_sate"	: <Max 20 characters>
+			"city"		: <Max 20 characters>
+			"drink"		: <Max 20 characters>
+			"about"		: <Max 200 characters>
 		}
 
 
+##<a name='Premises'></a>Premises Section
+* [Register](#RegisterPremises)
+* [Login](#LoginPremises)
+* [Edit Profile](#EditPremises)
 
+###<a name='RegisterPremises'></a>Register
+	* <baseUrl> + /register/local.php // We must change to the English word Premises
+	* Method: POST
+	* Data Sent:
+		{
+			"email"		: <Max 50 characters>
+			"companyName"	: <Max 50 characters>
+			"localName"	: <Max 20 characters>
+			"cif"		: <Max 9 characters>
+			"poblationLocal": <Max 20 characters>
+			"cpLocal"	: <This must be a numer>
+			"telephone"	: <This must be a numer>
+			"street"	: <0 street> or <1 Avda> or <2 Plaza>
+			"streetName"	: <Max 50 characters>
+			"streetNumber"	: <Max 50 characters>
+		}
+	* Response:
+		{
+			"Token"	: <Access Token>
+			"id"	: <Profile ID>
+			"New"	: True
+		}
+
+
+###<a name='LoginPremises'></a>Login
+	* <baseUrl> + /login/login.php
+	* Method: POST
+	* Data Sent:
+		{
+			"email": <email gotten from Facebook>
+			"password": <user's password>
+		}
+	* Response:
+		{
+			"Token"	: <Access Token>
+			"id"	: <Profile ID>
+			"type"	: 0 //Not Added Yet (21/03/14)
+		}
+
+###<a name='EditPremises'></a>Edit Profile
+	* <baseUrl> + /update/local.php/<idProfile>/<Token>/<idLocal> // We must change to the English word Premises
+	* Method: GET
+	* Response:
+		{
+			"companyName"	: <Max 50 characters>
+			"localName"	: <Max 20 characters>
+			"cif"		: <Max 9 characters>
+			"poblationLocal": <Max 20 characters>
+			"cpLocal"	: <This must be a numer>
+			"telephone"	: <This must be a numer>
+			"street"	: <0 street> or <1 Avda> or <2 Plaza>
+			"streetName"	: <Max 50 characters>
+			"streetNumber"	: <Max 50 characters>
+			"music"		: <Max 20 characters>
+			"entryPrice"	: <This must be a numer>
+			"drinkPrice"	: <This must be a numer>
+			"openingHours"	: <This must be a time>
+			"closeHours"	: <This must be a time>
+			"picture"	: <Profile's picture url>
+			"about"		: <Max 100 characters>
+		}
+	* <baseUrl> + /update/local.php/<idProfile>/<Token> // We must change to the English word Premises
+	* Method: POST
+	* Data Sent:
+		{
+			"idProfile"	: <Premises's idProfile>
+			"companyName"	: <Max 50 characters>
+			"localName"	: <Max 20 characters>
+			"cif"		: <Max 9 characters>
+			"poblationLocal": <Max 20 characters>
+			"cpLocal"	: <This must be a numer>
+			"telephone"	: <This must be a numer>
+			"street"	: <0 street> or <1 Avda> or <2 Plaza>
+			"streetName"	: <Max 50 characters>
+			"streetNumber"	: <Max 50 characters>
+			"music"		: <Max 20 characters>
+			"entryPrice"	: <This must be a numer>
+			"drinkPrice"	: <This must be a numer>
+			"openingHours"	: <This must be a time>
+			"closeHours"	: <This must be a time>
+			"picture"	: <Profile's picture url>
+			"about"		: <Max 100 characters>
+		}
+
+##<a name='Dj'></a>Dj Section
+* [Register](#RegisterDj)
+* [Login](#LoginDj)
+* [Edit Profile](#EditDj)
+
+###<a name='RegisterDj'></a>Register
+	* <baseUrl> + /register/dj.php 
+	* Method: POST
+	* Data Sent:
+		{
+			"email"		: <Max 50 characters>
+			"nameDJ"	: <Max 30 characters>
+			"name"		: <Max 20 characters>
+			"surname"	: <Max 45 characters>
+			"telephone"	: <This must be a number>
+			"birthdate"	: <birthdate dd/mm/yyyy>
+			"telephone"	: <This must be a numer>
+			"gender"	: <male> or <female>
+		}
+	* Response:
+		{
+			"Token"	: <Access Token>
+			"id"	: <Profile ID>
+			"New"	: True
+		}
+
+
+###<a name='LoginDj></a>Login
+	* <baseUrl> + /login/login.php
+	* Method: POST
+	* Data Sent:
+		{
+			"email"		: <email gotten from Facebook>
+			"password"	: <user's password>
+		}
+	* Response:
+		{
+			"Token"	: <Access Token>
+			"id"	: <Profile ID>
+			"type"	: 0 //Not Added Yet (21/03/14)
+		}
+
+###<a name='EditDj'></a>Edit Profile
+	* <baseUrl> + /update/user.php/<idProfile>/<Token>/<idDj>
+	* Method: GET
+	* Response:
+		{
+			"nameDJ"	: <Max 30 characters>
+			"name"		: <Max 20 characters>
+			"surname"	: <Max 45 characters>
+			"telephone"	: <This must be a number>
+			"birthdate"	: <birthdate dd/mm/yyyy>
+			"telephone"	: <This must be a numer>
+			"gender"	: <male> or <female>
+			"music"		: <Max 20 characters>
+			"picture"	: <Profile's picture url>
+			"about"		: <Max 100 characters>
+		}
+	* <baseUrl> + /update/user.php/<idProfile>/<Token>
+	* Method: POST
+	* Data Sent:
+		{
+			"idProfile"	: <Premises's idProfile>
+			"nameDJ"	: <Max 30 characters>
+			"name"		: <Max 20 characters>
+			"surname"	: <Max 45 characters>
+			"telephone"	: <This must be a number>
+			"birthdate"	: <birthdate dd/mm/yyyy>
+			"telephone"	: <This must be a numer>
+			"gender"	: <male> or <female>
+			"music"		: <Max 20 characters>
+			"picture"	: <Profile's picture url>
+			"about"		: <Max 100 characters>
+		}
