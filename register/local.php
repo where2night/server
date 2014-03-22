@@ -20,7 +20,7 @@
 				$streetName= $_POST["streetName"];
 				$streetNumber= $_POST["streetNumber"];
 				
-				$arr = _insertLocalUser($email,$companyName,$nameLocal, $cif, $poblationLocal, $cpLocal, $telephone, $street, $streetName,$streetNumber);
+				$arr = _insertLocalUser($email,$companyName,$localName, $cif, $poblationLocal, $cpLocal, $telephone, $street, $streetName,$streetNumber);
 				$arr['New'] = true;
 				echo json_encode($arr);
 			}
