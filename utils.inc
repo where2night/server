@@ -318,21 +318,21 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 	$headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 	$message = '<html><body>';
-	$message .= "<h1>El local '.$nameLocal.' ha solicitado registrarse</h1>";
+	$message .= '<h1>El local '.$nameLocal.' ha solicitado registrarse</h1>';
 	$message .= '<table style="border-color: #666;" cellpadding="10">';
-	$message .= "<tr style='background: #eee;'><td><strong>Nombre local:</strong> </td><td>" . $nameLocal . "</td></tr>";
-	$message .= "<tr><td><strong>Nombre compañía:</strong> </td><td>" . $companyName . "</td></tr>";
-	$message .= "<tr><td><strong>Email:</strong> </td><td>" . $email . "</td></tr>";
-	$message .= "<tr><td><strong>CIF:</strong> </td><td>" . $cif . "</td></tr>";
-	$message .= "<tr><td><strong>Población:</strong> </td><td>" . $poblationLocal . "</td></tr>";
-	$message .= "<tr><td><strong>C.P.:</strong> </td><td>" . $cpLocal . "</td></tr>";
-	$message .= "<tr><td><strong>Teléfono:</strong> </td><td>" . $telephone . "</td></tr>";
-	$message .= "<tr><td><strong>Tipo calle:</strong> </td><td>" . $street . "</td></tr>";
-	$message .= "<tr><td><strong>Nombre calle:</strong> </td><td>" . $streetName . "</td></tr>";
-	$message .= "<tr><td><strong>Número calle:</strong> </td><td>" . $streetNumber . "</td></tr>";
-	$message .= "<tr style='background: #ddd;'><td><strong>Contraseña generada:</strong> </td><td>" . $pass . "</td></tr>";
-	$message .= "</table>";
-	$message .= "</body></html>";
+	$message .= '<tr style="background: #eee;"><td><strong>Nombre local:</strong> </td><td>' . $nameLocal . '</td></tr>';
+	$message .= '<tr><td><strong>Nombre compañía:</strong> </td><td>' . $companyName . '</td></tr>';
+	$message .= '<tr><td><strong>Email:</strong> </td><td>' . $email . '</td></tr>';
+	$message .= '<tr><td><strong>CIF:</strong> </td><td>' . $cif . '</td></tr>';
+	$message .= '<tr><td><strong>Población:</strong> </td><td>' . $poblationLocal . '</td></tr>';
+	$message .= '<tr><td><strong>C.P.:</strong> </td><td>' . $cpLocal . '</td></tr>';
+	$message .= '<tr><td><strong>Teléfono:</strong> </td><td>' . $telephone . '</td></tr>';
+	$message .= '<tr><td><strong>Tipo calle:</strong> </td><td>' . $street . '</td></tr>';
+	$message .= '<tr><td><strong>Nombre calle:</strong> </td><td>' . $streetName . '</td></tr>';
+	$message .= '<tr><td><strong>Número calle:</strong> </td><td>' . $streetNumber . '</td></tr>';
+	$message .= '<tr style="background: #ddd;"><td><strong>Contraseña generada:</strong> </td><td align="center"><strong><span style="color:ff0000;">'.$pass.'</span></strong></td></tr>';
+	$message .= '</table>';
+	$message .= '</body></html>';
 	$sent = mail($to, $subject, $message, $headers);
 
 	if ($existe == 0 && $sent){
@@ -394,14 +394,14 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 	$message .= '<table style="border-color: #666;" cellpadding="10">';
 	$message .= '<tr style="background: #eee;"><td><strong>Nombre artístico:</strong> </td><td>'.$nameDJ.'</td></tr>';
 	$message .= '<tr><td><strong>Email:</strong> </td><td>' . $email . '</td></tr>';
-	$message .= "<tr><td><strong>Nombre:</strong> </td><td>" . $name . '</td></tr>';
-	$message .= "<tr><td><strong>Apellidos:</strong> </td><td>" . $surname . "</td></tr>";
-	$message .= "<tr><td><strong>Teléfono:</strong> </td><td>" . $telephone . "</td></tr>";
-	$message .= "<tr><td><strong>Fecha de nacimiento:</strong> </td><td>" . $birhtdate . "</td></tr>";
-	$message .= "<tr><td><strong>Género:</strong> </td><td>" . $gender . "</td></tr>";
-	$message .= "<tr style='background: #ddd;'><td><strong>Contraseña generada:</strong> </td><td>" . $pass . "</td></tr>";
-	$message .= "</table>";
-	$message .= "</body></html>";
+	$message .= '<tr><td><strong>Nombre:</strong> </td><td>' . $name . '</td></tr>';
+	$message .= '<tr><td><strong>Apellidos:</strong> </td><td>' . $surname . '</td></tr>';
+	$message .= '<tr><td><strong>Teléfono:</strong> </td><td>' . $telephone . '</td></tr>';
+	$message .= '<tr><td><strong>Fecha de nacimiento:</strong> </td><td>' . $birhtdate . '</td></tr>';
+	$message .= '<tr><td><strong>Género:</strong> </td><td>' . $gender . '</td></tr>';
+	$message .= '<tr style="background: #ddd;"><td><strong>Contraseña generada:</strong> </td><td align="center"><strong><span style="color:ff0000;">'.$pass.'</span></strong></td></tr>';
+	$message .= '</table>';
+	$message .= '</body></html>';
 	$sent = mail($to, $subject, $message, $headers);
 
 	if ($existe == 0 && $sent){
