@@ -7,11 +7,9 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idPartier = $request[0];
 	$token = $request[1];
-<<<<<<< HEAD
-	$idDj = $request[2];
-=======
-	$idDJ= $request[2];
->>>>>>> origin/Luis
+
+	$idDJ = $request[2];
+
 	$tokenT= _tokenOK($idPartier,$token);
 	
 	//If $tokenT is 1 access granted if it is 0 access not granted
