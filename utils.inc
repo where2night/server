@@ -497,7 +497,7 @@ function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationL
 function _setDJData($idProfile,$nameDJ,$name,$surname,$telephoneDJ,$gender,$birthdate,$picture, $music, $about){
 
 	_db_connect();
-	$query = "call setDJData('{$idProfile}',{$nameDJ}','{$name}','{$surname}','{$telephoneDJ}','{$gender}',{$birthdate}','{$picture}' ,'{$music}' ,'{$about}')";
+	$query = "call setDJData('{$idProfile}','{$nameDJ}','{$name}','{$surname}',{$telephoneDJ},'{$gender}','{$birthdate}','{$picture}' ,'{$music}' ,'{$about}')";
 	_db_query($query);
 	_db_close();
 
