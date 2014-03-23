@@ -200,6 +200,8 @@ There are three ways to login in our application:
 			"street"	: <0 street> or <1 Avda> or <2 Plaza>
 			"streetName"	: <Max 50 characters>
 			"streetNumber"	: <Max 50 characters>
+			"latitude"	: <Max 11 characters>
+			"longitude"	: <Max 11 characters>
 			"music"		: <Max 20 characters>
 			"entryPrice"	: <This must be a numer>
 			"drinkPrice"	: <This must be a numer>
@@ -222,6 +224,8 @@ There are three ways to login in our application:
 			"street"	: <0 street> or <1 Avda> or <2 Plaza>
 			"streetName"	: <Max 50 characters>
 			"streetNumber"	: <Max 50 characters>
+			"latitude"	: <Max 11 characters>
+			"longitude"	: <Max 11 characters>
 			"music"		: <Max 20 characters>
 			"entryPrice"	: <This must be a numer>
 			"drinkPrice"	: <This must be a numer>
@@ -285,7 +289,6 @@ There are three ways to login in our application:
 			"surname"	: <Max 45 characters>
 			"telephone"	: <This must be a number>
 			"birthdate"	: <birthdate dd/mm/yyyy>
-			"telephone"	: <This must be a numer>
 			"gender"	: <male> or <female>
 			"music"		: <Max 20 characters>
 			"picture"	: <Profile's picture url>
@@ -301,7 +304,6 @@ There are three ways to login in our application:
 			"surname"	: <Max 45 characters>
 			"telephone"	: <This must be a number>
 			"birthdate"	: <birthdate dd/mm/yyyy>
-			"telephone"	: <This must be a numer>
 			"gender"	: <male> or <female>
 			"music"		: <Max 20 characters>
 			"picture"	: <Profile's picture url>
