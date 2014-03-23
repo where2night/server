@@ -169,7 +169,7 @@ BEGIN
   END$$
 
 DROP PROCEDURE IF EXISTS `setLocalData`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `setLocalData`(IN `idProfile` INT, IN `companyNameLocal` VARCHAR(50), IN `localName` VARCHAR(20), IN `cif` VARCHAR(9), IN `poblationLocal` VARCHAR(20), IN `cpLocal` INT(5), IN `telephoneLocal` INT, IN `street` TINYINT(1), IN `streetNameLocal` VARCHAR(50), IN `streetNumberLocal` VARCHAR(50), IN `music` VARCHAR(20), IN `entryPrice` INT, IN `drinkPrice` INT, IN `openingHours` TIME, IN `closeHours` TIME, IN `picture` VARCHAR(100), IN `about` VARCHAR(200))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setLocalData`(IN `idProfile` INT, IN `companyNameLocal` VARCHAR(50), IN `localName` VARCHAR(20), IN `cif` VARCHAR(9), IN `poblationLocal` VARCHAR(20), IN `cpLocal` INT(5), IN `telephoneLocal` INT, IN `street` TINYINT(1), IN `streetNameLocal` VARCHAR(50), IN `streetNumberLocal` VARCHAR(50), IN `latitude` VARCHAR(11), IN `longitude` VARCHAR(11), IN `music` VARCHAR(20), IN `entryPrice` INT, IN `drinkPrice` INT, IN `openingHours` TIME, IN `closeHours` TIME, IN `picture` VARCHAR(100), IN `about` VARCHAR(200))
 BEGIN
     UPDATE Pub p
     SET 
@@ -182,6 +182,8 @@ BEGIN
       p.street= street,
       p.streetNameLocal= streetNameLocal,
       p.streetNumberLocal= streetNumberLocal,
+	  p.latitude = latitude,
+	  p.longitude = longitude,
       p.music= music,
       p.entryPrice= entryPrice,
       p.drinkPrice= drinkPrice,

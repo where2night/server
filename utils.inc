@@ -301,7 +301,7 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 	}
 }
 
-function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$cpLocal,$telephone,$street,$streetName,$streetNumber){
+function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$cpLocal,$telephone,$street,$streetName,$streetNumber,$lat,$lng){
 
 	_db_connect();
 	$query = "Select userExists('{$email}')";
@@ -354,7 +354,7 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 		$campo = _db_fetch_array($resultado);
 		$id = current($campo);
 
-		$query =  "call setLocalData('{$id}','{$companyName}' ,'{$nameLocal}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephone}','{$street}','{$streetName}','{$streetNumber}',\"\",\"\",\"\",\"\",\"\",\"\",\"\" )";
+		$query =  "call setLocalData('{$id}','{$companyName}' ,'{$nameLocal}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephone}','{$street}','{$streetName}','{$streetNumber}','{$lat}','{$lng}',\"\",\"\",\"\",\"\",\"\",\"\",\"\" )";
 
 		_db_query($query);
 		_db_close();
