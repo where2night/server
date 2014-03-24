@@ -399,7 +399,7 @@ DELIMITER //
     BEGIN
     SELECT p.nameDJ, p.name, p.surname, p.telephoneDJ, p.gender, p.birthdate,p.picture, p.music,p.about 
     FROM `Profile` pr, `DJ` p
-    WHERE (pr.idProfile = idProfile);
+    WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
   END//
     
 DELIMITER ;
@@ -410,7 +410,7 @@ DELIMITER //
     BEGIN
     SELECT p.companyNameLocal, p.localName, p.cif, p.poblationLocal, p.cpLocal, p.telephoneLocal, p.street, p.streetNameLocal, p.streetNumberLocal, p.music, p.entryPrice , p.drinkPrice, p.openingHours, p.closeHours, p.picture, p.about 
     FROM `Profile` pr, `Pub` p
-    WHERE (pr.idProfile = idProfile);
+    WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
   END//
     
 DELIMITER ;
@@ -444,14 +444,14 @@ DELIMITER //
     BEGIN
 		SELECT p.picture, p.`name`, p.surnames, p.birthdate, p.gender, p.music, p.civil_state, p.city, p.drink, p.about 
 		FROM `Profile` pr, `Partier` p
-		WHERE (pr.idProfile = idProfile);
+		WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
 	END//
     
 DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE insertDJUser(email VARCHAR(50), pass VARCHAR(25))
+CREATE PROCEDURE insertDJUser(email VARCHAR(50), pass VARCHAR(80))
     BEGIN
     INSERT INTO `User`
     VALUES (email,pass,-1,NULL);
@@ -528,7 +528,7 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE insertPubUser(email VARCHAR(50), pass VARCHAR(25))
+CREATE PROCEDURE insertPubUser(email VARCHAR(50), pass VARCHAR(80))
     BEGIN
     INSERT INTO `User`
     VALUES (email,pass,-1,NULL);

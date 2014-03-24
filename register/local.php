@@ -11,7 +11,7 @@
 			
 				$email = $_POST["email"]; 
 				$companyName = $_POST["companyName"];
-				$nameLocal = $_POST["nameLocal"]; 
+				$localName = $_POST["localName"]; 
 				$cif = $_POST["cif"]; 
 				$poblationLocal = $_POST["poblationLocal"]; 
 				$cpLocal= $_POST["cpLocal"];
@@ -20,7 +20,17 @@
 				$streetName= $_POST["streetName"];
 				$streetNumber= $_POST["streetNumber"];
 				
-				$arr = _insertLocalUser($email,$companyName,$nameLocal, $cif, $poblationLocal, $cpLocal, $telephone, $street, $streetName,$streetNumber);
+				$address = $streetName . " " . $streetNumber . " " . $cpLocal . " " . $poblationLocal;
+				
+				$address = urlencode($address);
+				$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=" . $address;
+				$response = file_get_contents($url);
+				$json = json_decode($response,true);
+				$lat = $json['results'][0]['geometry']['location']['lat'];
+				$lng = $json['results'][0]['geometry']['location']['lng'];
+				
+				
+				$arr = _insertLocalUser($email,$companyName,$localName, $cif, $poblationLocal, $cpLocal, $telephone, $street, $streetName,$streetNumber, $lat , $lng);
 				$arr['New'] = true;
 				echo json_encode($arr);
 			}

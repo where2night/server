@@ -7,21 +7,25 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		  case 'POST':
+	
 			if (isset($_POST["idProfile"]) && $_POST["idProfile"] != ""){ 
 				$idProfile=$_POST["idProfile"];
+			
 				$type = _getTypeProfile($idProfile); 
 				$title = $_POST["title"];
   				$text = $_POST["text"];
   				$date = $_POST["date"];
   				$startHour = $_POST["startHour"];
   				$closeHour = $_POST["closeHour"];
-  				
+  			
   				switch ($type) {
   					case '1': //pub
-  						$id = _getPubId($idProfile);
+					echo "Pub";
+  						$id = _getPubId($idProfile,$type);
   						break;
   					case '-1':
-  						$id = _getDjId($idProfile);
+					
+  						$id = _getDjId($idProfile,$type);
   						break;
   					
   					default:

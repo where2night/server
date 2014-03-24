@@ -7,6 +7,7 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		  case 'POST':
+		 
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			
 				$email = $_POST["email"]; 
@@ -20,7 +21,7 @@
 				$gender = $_POST["gender"]; 
 				$genderbool=false;
 				if($gender == 'male')$genderbool= true;
-				
+			
 				$arr = _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $gender);
 				$arr['New'] = true;
 				echo json_encode($arr);

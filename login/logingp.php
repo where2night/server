@@ -16,6 +16,7 @@
 			
 			
 			if($arr['id'] == '0'){
+			
 				$picture = $_POST['picture'];
 				$name = $_POST["name"]; 
 				$surname = $_POST["surnames"]; 

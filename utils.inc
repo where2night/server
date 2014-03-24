@@ -108,16 +108,23 @@ function _login($email,$password){
 	_db_connect();
 	
 	$passEncriptada = sha1($password);
+
 	$query = "Select loginSucceed('{$email}','{$passEncriptada}')";
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
 	if ($existe != 0){
+		
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
+		
+		
+ 
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $existe);
+		$arr = array('Token' => $sToken, 'id' => $existe, 'type'=> $usertype);
 		return $arr;	
 	}
 	else{
@@ -138,10 +145,15 @@ function _loginFB($email){
   
 	if ($id != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
+		/*$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
+		_db_close();*/
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);		
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
 		return $arr;
 	}
 	else{
@@ -157,17 +169,26 @@ function _loginGP($email){
 	
 	_db_connect();
 	$query = "Select loginSuccessGP('{$email}')";
+
 	$resultado = _db_query($query);
 	
 	$campo = _db_fetch_array($resultado);
+			
 	$id = current($campo);
-  
+  		
 	if ($id != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
+		/*$query = "Call insertToken('{$email}','{$sToken}')";
 		_db_query($query);
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id);*/
+	
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);		
+		_db_close();
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
 		return $arr;
 	}
 	else{
@@ -186,8 +207,14 @@ function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
  
 	
 	$sToken = md5(uniqid(mt_rand(), true));
-	$query = "Call insertToken('{$email}','{$sToken}')";
-	_db_query($query);
+	/*$query = "Call insertToken('{$email}','{$sToken}')";
+	_db_query($query);*/
+	$query = "SELECT insertToken('{$email}','{$sToken}')";
+	$resultado=_db_query($query);
+	$campo1 = _db_fetch_array($resultado);
+	$usertype = current($campo1);		
+	
+
 	
 	$query = "Select getIdProfile('{$email}')";
 	$resultado = _db_query($query);
@@ -200,7 +227,8 @@ function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
 	'{$gender}', \"\", \"\", \"\",\"\", \"\")";
 	_db_query($query);
 	_db_close();
-	$arr = array('Token' => $sToken, 'id' => $id);
+	//$arr = array('Token' => $sToken, 'id' => $id);
+	$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
 	return $arr;	
 }
 
@@ -212,8 +240,13 @@ function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender){
  
 	
 	$sToken = md5(uniqid(mt_rand(), true));
-	$query = "Call insertToken('{$email}','{$sToken}')";
-	_db_query($query);
+	//$query = "Call insertToken('{$email}','{$sToken}')";
+	//_db_query($query);
+	
+	$query = "SELECT insertToken('{$email}','{$sToken}')";
+	$resultado=_db_query($query);
+	$campo1 = _db_fetch_array($resultado);
+	$usertype = current($campo1);	
 	
 	$query = "Select getIdProfile('{$email}')";
 	$resultado = _db_query($query);
@@ -226,7 +259,8 @@ function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender){
 	'{$gender}', \"\", \"\", \"\",\"\", \"\")";
 	_db_query($query);
 	_db_close();
-	$arr = array('Token' => $sToken, 'id' => $id);
+	$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype);
+	//$arr = array('Token' => $sToken, 'id' => $id);
 	return $arr;	
 }
 
@@ -242,8 +276,11 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 		$query = "Call insertNormalUser('{$email}','{$passEncriptada}')" ;
 		_db_query($query);	
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
 		
 		$query = "Select getIdProfile('{$email}')";
 		$resultado = _db_query($query);
@@ -254,7 +291,7 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 		'{$surnames}', '{$birthday}' ,'{$gender}', \"\", \"\", \"\",\"\",\"\")";
 		_db_query($query);
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=>$usertype);
 		return $arr;	
 	}	
 	else {
@@ -264,7 +301,7 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
 	}
 }
 
-function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$cpLocal,$telephone,$street,$streetName,$streetNumber){
+function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$cpLocal,$telephone,$street,$streetName,$streetNumber,$lat,$lng){
 
 	_db_connect();
 	$query = "Select userExists('{$email}')";
@@ -275,25 +312,54 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 	$pass = substr(md5(microtime()),1,$length); //random pass
 	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
 
-	if ($existe == 0){
+	//Send email to confirmate user later
+	$to = "where2night@where2night.es";
+	$subject = "Solicitud de where2night";
+	$headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+	$message = '<html><body>';
+	$message .= '<h1>El local '.$nameLocal.' ha solicitado registrarse</h1>';
+	$message .= '<table style="border-color: #666;" cellpadding="10">';
+	$message .= '<tr style="background: #eee;"><td><strong>Nombre local:</strong> </td><td>' . $nameLocal . '</td></tr>';
+	$message .= '<tr><td><strong>Nombre compañía:</strong> </td><td>' . $companyName . '</td></tr>';
+	$message .= '<tr><td><strong>Email:</strong> </td><td>' . $email . '</td></tr>';
+	$message .= '<tr><td><strong>CIF:</strong> </td><td>' . $cif . '</td></tr>';
+	$message .= '<tr><td><strong>Población:</strong> </td><td>' . $poblationLocal . '</td></tr>';
+	$message .= '<tr><td><strong>C.P.:</strong> </td><td>' . $cpLocal . '</td></tr>';
+	$message .= '<tr><td><strong>Teléfono:</strong> </td><td>' . $telephone . '</td></tr>';
+	$message .= '<tr><td><strong>Tipo calle:</strong> </td><td>' . $street . '</td></tr>';
+	$message .= '<tr><td><strong>Nombre calle:</strong> </td><td>' . $streetName . '</td></tr>';
+	$message .= '<tr><td><strong>Número calle:</strong> </td><td>' . $streetNumber . '</td></tr>';
+	$message .= '<tr style="background: #ddd;"><td><strong>Contraseña generada:</strong> </td><td align="center"><strong><span style="color:ff0000;">'.$pass.'</span></strong></td></tr>';
+	$message .= '</table>';
+	$message .= '</body></html>';
+	$sent = mail($to, $subject, $message, $headers);
+
+	if ($existe == 0 && $sent){
 		$passEncriptada = sha1($pass);
+	
 		$query = "Call insertPubUser('{$email}','{$passEncriptada}')" ;
 		_db_query($query);
 
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		//$query = "Call insertToken('{$email}','{$sToken}')";
+		//_db_query($query);
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
 
 		$query = "Select getIdProfile('{$email}')";
 		$resultado = _db_query($query);
 		$campo = _db_fetch_array($resultado);
 		$id = current($campo);
 
-		$query =  "call setLocalData('{$id}','{$companyName}' ,'{$nameLocal}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephone}','{$street}','{$streetName}','{$streetNumber}',\"\",\"\",\"\",\"\",\"\",\"\",\"\" )";
+		$query =  "call setLocalData('{$id}','{$companyName}' ,'{$nameLocal}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephone}','{$street}','{$streetName}','{$streetNumber}','{$lat}','{$lng}',\"\",\"\",\"\",\"\",\"\",\"\",\"\" )";
 
 		_db_query($query);
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		//$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype, 'pass'=> $pass);
 		return $arr;	
 
 
@@ -308,7 +374,7 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 }
 
 function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $gender){
-
+	
 	_db_connect();
 	$query = "Select userExists('{$email}')";
 	$resultado = _db_query($query);
@@ -318,25 +384,50 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 	$pass = substr(md5(microtime()),1,$length); //random pass
 	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
 
-	if ($existe == 0){
+	//Send email to confirmate user later
+	$to = "where2night@where2night.es";
+	$subject = "Solicitud de where2night";
+	$headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+	$message = '<html><body>';
+	$message .= '<h1>El DJ '.$nameDJ.' ha solicitado registrarse</h1>';
+	$message .= '<table style="border-color: #666;" cellpadding="10">';
+	$message .= '<tr style="background: #eee;"><td><strong>Nombre artístico:</strong> </td><td>'.$nameDJ.'</td></tr>';
+	$message .= '<tr><td><strong>Email:</strong> </td><td>' . $email . '</td></tr>';
+	$message .= '<tr><td><strong>Nombre:</strong> </td><td>' . $name . '</td></tr>';
+	$message .= '<tr><td><strong>Apellidos:</strong> </td><td>' . $surname . '</td></tr>';
+	$message .= '<tr><td><strong>Teléfono:</strong> </td><td>' . $telephone . '</td></tr>';
+	$message .= '<tr><td><strong>Fecha de nacimiento:</strong> </td><td>' . $birthdate . '</td></tr>';
+	$message .= '<tr><td><strong>Género:</strong> </td><td>' . $gender . '</td></tr>';
+	$message .= '<tr style="background: #ddd;"><td><strong>Contraseña generada:</strong> </td><td align="center"><strong><span style="color:ff0000;">'.$pass.'</span></strong></td></tr>';
+	$message .= '</table>';
+	$message .= '</body></html>';
+	$sent = mail($to, $subject, $message, $headers);
+
+	if ($existe == 0 && $sent){
 		$passEncriptada = sha1($pass);
 		$query = "Call insertDJUser('{$email}','{$passEncriptada}')" ;
 		_db_query($query);
 
 		$sToken = md5(uniqid(mt_rand(), true));
-		$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
+		//$query = "Call insertToken('{$email}','{$sToken}')";
+		//_db_query($query);
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		$resultado=_db_query($query);
+		$campo1 = _db_fetch_array($resultado);
+	    $usertype = current($campo1);
 
 		$query = "Select getIdProfile('{$email}')";
 		$resultado = _db_query($query);
 		$campo = _db_fetch_array($resultado);
 		$id = current($campo);
-
-		$query =  "call setDJData('{$id}',{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}',{$birthdate}',\"\",\"\",\"\")";
+		
+		$query =  "call setDJData('{$id}','{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}','{$birthdate}',null,null,null)";
 
 		_db_query($query);
+		
 		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);
+		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype, 'pass'=> $pass);
 		return $arr;	
 
 
@@ -395,10 +486,10 @@ function _getLocalData($id){
 	return $campo;
 	
 }
-function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$music,$entryPrice ,$drinkPrice,$openingHours,$closeHours,$picture,$about){
+function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$lat,$lng,$music,$entryPrice ,$drinkPrice,$openingHours,$closeHours,$picture,$about){
 	
 	_db_connect();
-	$query = "call setLocalData('{$idProfile}','{$companyNameLocal}' ,'{$localName}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephoneLocal}','{$street}','{$streetNameLocal}','{$streetNumberLocal}','{$music}','{$entryPrice}' ,'{$drinkPrice}','{$openingHours}','{$closeHours}','{$picture}','{$about}')";
+	$query = "call setLocalData('{$idProfile}','{$companyNameLocal}' ,'{$localName}','{$cif}','{$poblationLocal}','{$cpLocal}','{$telephoneLocal}','{$street}','{$streetNameLocal}','{$streetNumberLocal}','{$lat}','{$lng}','{$music}','{$entryPrice}' ,'{$drinkPrice}','{$openingHours}','{$closeHours}','{$picture}','{$about}')";
 	_db_query($query);
 	_db_close();
 }
@@ -406,14 +497,15 @@ function _setLocalData($idProfile,$companyNameLocal,$localName,$cif, $poblationL
 function _setDJData($idProfile,$nameDJ,$name,$surname,$telephoneDJ,$gender,$birthdate,$picture, $music, $about){
 
 	_db_connect();
-	$query = "call setDJData('{$idProfile}',{$nameDJ}','{$name}','{$surname}','{$telephoneDJ}','{$gender}',{$birthdate}','{$picture}' ,'{$music}' ,'{$about}')";
+	$query = "call setDJData('{$idProfile}','{$nameDJ}','{$name}','{$surname}',{$telephoneDJ},'{$gender}','{$birthdate}','{$picture}' ,'{$music}' ,'{$about}')";
 	_db_query($query);
 	_db_close();
 
 }
 function _getTypeProfile($idProfile){
+
 	_db_connect();
-	$query = "call getTypeProfile('{$idProfile}')";
+	$query = "Select getTypeProfile('{$idProfile}')";
 	$campo= _db_query($query);
 	$res=_db_fetch_array($campo);
 	$type=current($res);
@@ -422,7 +514,7 @@ function _getTypeProfile($idProfile){
 }
 function _getDjId($idProfile,$type){
 	_db_connect();
-	$query = "call getDjId('{$idProfile}')";
+	$query = "Select getDjId('{$idProfile}')";
 	$campo = _db_query($query);
 	$res = _db_fetch_array($campo);
 	$id = current($res);
@@ -431,7 +523,7 @@ function _getDjId($idProfile,$type){
 }
 function _getPubId($idProfile,$type){
 	_db_connect();
-	$query = "call getPubId('{$idProfile}')";
+	$query = "Select getPubId('{$idProfile}')";
 	$campo = _db_query($query);
 	$res = _db_fetch_array($campo);
 	$id = current($res);
@@ -440,12 +532,21 @@ function _getPubId($idProfile,$type){
 }
 
 function _insertEvent($type,$title,$text,$date,$startHour,$closeHour,$id){
+
 	_db_connect();
-	$query = "call setEvent({$type}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$id}')";
+	$query = "Select setEvent('{$type}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$id}')";
+
 	$res=_db_query($query);
-	$id=_db_fetch_array($res);
+
+	//$campo=_db_fetch_array($res);
+	
+	//$id1=current($campo);
 	_db_close();
-	$arr = array('idEvent' => $id);
+			
+	
+	$arr = array();
+	  
+	//$arr = array('idEvent' => $campo);
 	return $arr;
 }
 
