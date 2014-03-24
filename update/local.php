@@ -27,6 +27,8 @@
 				$street = $_POST["street"];
 				$streetNameLocal = $_POST["streetName"];
 				$streetNumberLocal = $_POST["streetNumber"];
+				$lat = $_POST["latitude"];
+				$lng = $_POST["longitude"];
 				$music = $_POST["music"];
 				$entryPrice = $_POST["entryPrice"];
 				$drinkPrice = $_POST["drinkPrice"];
@@ -35,7 +37,7 @@
 				$picture = $_POST["picture"];				
 				$about = $_POST["about"];
 
-				_setLocalData($idProfile,$companyNameLocal,$localName,$cif,$poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$music,$entryPrice,$drinkPrice,$openingHours,$closeHours,$picture,$about);
+				_setLocalData($idProfile,$companyNameLocal,$localName,$cif,$poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$lat,$lng,$music,$entryPrice,$drinkPrice,$openingHours,$closeHours,$picture,$about);
 				
 			}	
 				
