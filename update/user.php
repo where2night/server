@@ -39,6 +39,7 @@
 				$data = _getPartierData($idPartier);
 				if ($data['gender'] == 1) $data['gender'] = male;
 				else $data['gender'] = female;
+				$data['birthdate'] = _formato_fechas($data['birthdate']);
 				echo json_encode($data);
 			break;	
 		  default:
