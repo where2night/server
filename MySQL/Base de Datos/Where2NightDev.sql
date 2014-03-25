@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-03-2014 a las 13:36:33
+-- Tiempo de generación: 25-03-2014 a las 20:41:33
 -- Versión del servidor: 5.1.70-cll
 -- Versión de PHP: 5.3.17
 
@@ -467,7 +467,7 @@ CREATE TABLE IF NOT EXISTS `DJ` (
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idDJ`),
   KEY `fk_DJ_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 -- --------------------------------------------------------
 
@@ -565,7 +565,7 @@ CREATE TABLE IF NOT EXISTS `Partier` (
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idPartier`),
   KEY `fk_Partier_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 -- --------------------------------------------------------
 
@@ -656,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `Profile` (
   `email` varchar(50) NOT NULL,
   PRIMARY KEY (`idProfile`),
   KEY `fk_Profile_User_idx` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=76 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=80 ;
 
 -- --------------------------------------------------------
 
@@ -695,7 +695,7 @@ CREATE TABLE IF NOT EXISTS `Pub` (
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idPub`),
   KEY `fk_Pub_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 -- --------------------------------------------------------
 
