@@ -19,22 +19,16 @@
   				$closeHour = $_POST["closeHour"];
   			
   				switch ($type) {
-  					case '1': //pub
-					echo "Pub";
-  						$id = _getPubId($idProfile,$type);
-  						break;
-  					case '-1':
-					
-  						$id = _getDjId($idProfile,$type);
-  						break;
-  					
+  					case '0': //partier
+						echo "No tiene permisos para crear eventos NO DJ//NO LOCAL";
+						$arr['New'] = false;
+					break;
+ 
   					default:
-  						echo "No tiene permisos para crear eventos NO DJ//NO LOCAL";
-  						break;
+  						$arr = _insertEvent($idProfile,$title,$text,$date,$startHour,$closeHour);
+						$arr['New'] = true;
+  					break;
   				}
-
-  				$arr = _insertEvent($type,$title,$text,$date,$startHour,$closeHour,$id);
-				$arr['New'] = true;
 				echo json_encode($arr);
 			}
 			

@@ -536,22 +536,18 @@ function _getPubId($idProfile,$type){
 	return $id;
 }
 
-function _insertEvent($type,$title,$text,$date,$startHour,$closeHour,$id){
+function _insertEvent($idProfile,$title,$text,$date,$startHour,$closeHour){
 
 	_db_connect();
-	$query = "Select setEvent('{$type}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$id}')";
+	$query = "call setEvent('{$idProfile}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
 
 	$res=_db_query($query);
 
-	//$campo=_db_fetch_array($res);
-	
-	//$id1=current($campo);
 	_db_close();
 			
 	
 	$arr = array();
-	  
-	//$arr = array('idEvent' => $campo);
+
 	return $arr;
 }
 
@@ -595,6 +591,29 @@ function _userFollowsPub($idLocal,$idPartier){
 	$followers = current($res);
 	_db_close();
 	return $followers;
+ }
+ function _setEventData($idProfile,$idEvent,$title,$text,$date,$startHour,$closeHour){
+ 	_db_connect();
+ 	$query = "call setEventData('{$idProfile}','{$idEvent}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+ }
+ function _getEventData($idEvent,$idProfile){
+ 	_db_connect();
+ 	$query = "select getEventData('{$idEvent}','{idProfile}')";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+ }
+ function _getEvents($idProfile){
+ 	_db_connect();
+ 	$query = "select getEvents('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+
  }
 ?>
 
