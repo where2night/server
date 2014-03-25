@@ -77,6 +77,11 @@ function _formato_fechas($fecha)
 	return str_replace("-","/",$fecha);
 }
 
+function _formato_fechasP($fecha)
+{
+	return str_replace("/","-",$fecha);
+}
+
 function _formato_fechasFB($date)
 {
 
