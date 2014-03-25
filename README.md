@@ -287,7 +287,7 @@ There are three ways to login in our application:
 			"nameDJ"	: <Max 30 characters>
 			"name"		: <Max 20 characters>
 			"surname"	: <Max 45 characters>
-			"telephone"	: <This must be a number>
+			"telephoneDJ"	: <This must be a number>
 			"birthdate"	: <birthdate dd/mm/yyyy>
 			"gender"	: <male> or <female>
 			"music"		: <Max 20 characters>
@@ -302,7 +302,7 @@ There are three ways to login in our application:
 			"nameDJ"	: <Max 30 characters>
 			"name"		: <Max 20 characters>
 			"surname"	: <Max 45 characters>
-			"telephone"	: <This must be a number>
+			"telephoneDJ"	: <This must be a number>
 			"birthdate"	: <birthdate dd/mm/yyyy>
 			"gender"	: <male> or <female>
 			"music"		: <Max 20 characters>
