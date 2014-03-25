@@ -45,6 +45,10 @@
 				if ($data['gender'] == 1) $data['gender'] = 'male';
 				else $data['gender'] = 'female';
 				$data['birthdate'] = _formato_fechas($data['birthdate']);
+				$follow = _userFollowsDJ($idDJ,$idPartier);
+				$followers = _howManyFollowsDJ($idDJ);
+				$data['follow'] = $follow;
+				$data['followers'] = $followers;
 				echo json_encode($data);
 			break;	
 		  default:

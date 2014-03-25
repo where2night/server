@@ -555,6 +555,47 @@ function _insertEvent($type,$title,$text,$date,$startHour,$closeHour,$id){
 	return $arr;
 }
 
+
+function _userFollowsPub($idLocal,$idPartier){
+	_db_connect();
+	$query = "Select userFollowsPub('{$idLocal}','{$idPartier}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$follows = current($res);
+	_db_close();
+	return $follows;
+}
+
+ function _howManyFollowsPub($idLocal){
+	_db_connect();
+	$query = "Select howManyFollowsPub('{$idLocal}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$followers = current($res);
+	_db_close();
+	return $followers;
+ }
+ 
+ 
+ function _userFollowsDJ($idDJ,$idPartier){
+	_db_connect();
+	$query = "Select userFollowsDJ('{$idDJ}','{$idPartier}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$follows = current($res);
+	_db_close();
+	return $follows;
+}
+
+ function _howManyFollowsDJ($idDJ){
+	_db_connect();
+	$query = "Select howManyFollowsDJ('{$idDJ}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$followers = current($res);
+	_db_close();
+	return $followers;
+ }
 ?>
 
 

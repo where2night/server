@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-03-2014 a las 04:06:03
+-- Tiempo de generación: 25-03-2014 a las 20:41:33
 -- Versión del servidor: 5.1.70-cll
 -- Versión de PHP: 5.3.17
 
@@ -35,6 +35,57 @@ BEGIN
 
   END$$
 
+DROP PROCEDURE IF EXISTS `DJFollowers`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `DJFollowers`(idProfileDJ INT)
+BEGIN
+		(SELECT p.idProfile
+        FROM `PartierFollowsDJ` pf, `DJ` d, `Partier` p 
+        WHERE (d.idProfile = idProfileDJ) AND (d.idDJ = pf.idDJ) AND (pf.idPartier = p.idPartier));
+  END$$
+
+DROP PROCEDURE IF EXISTS `EventAssistants`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `EventAssistants`(idEvent INT)
+BEGIN
+		(SELECT p.idProfile
+        FROM `PartierGoesToEvent` pg, `Partier` p 
+        WHERE (pg.idPartier = p.idPartier) AND (pg.idEvent = idEvent));
+  END$$
+
+DROP PROCEDURE IF EXISTS `followDJ`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `followDJ`(IN `idProfileDJ` INT, IN `idProfileUser` INT)
+BEGIN
+
+
+		SET @idU = (SELECT p.idPartier
+					FROM `Partier` p
+					WHERE p.idProfile = idProfileUser);
+
+		SET @idD = (SELECT d.idDJ
+					FROM `DJ` d
+					WHERE d.idProfile = idProfileDJ);
+
+		INSERT INTO `PartierFollowsDJ` VALUES (@idU,@idD);
+		
+  END$$
+
+DROP PROCEDURE IF EXISTS `followPub`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `followPub`(IN `idProfilePub` INT, IN `idProfileUser` INT)
+BEGIN
+		
+		
+		SET @idU = (SELECT p.idPartier
+					FROM `Partier` p
+					WHERE p.idProfile = idProfileUser);
+
+		SET @idP = (SELECT pu.idPub
+					FROM `Pub` pu
+					WHERE pu.idProfile = idProfilePub);
+
+		INSERT INTO `PartierFollowsPub` VALUES (@idU,@idP);
+
+		
+  END$$
+
 DROP PROCEDURE IF EXISTS `getDJData`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `getDJData`(IN `idProfile` INT)
 BEGIN
@@ -46,7 +97,7 @@ BEGIN
 DROP PROCEDURE IF EXISTS `getLocalData`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `getLocalData`(IN `idProfile` INT)
 BEGIN
-    SELECT p.companyNameLocal, p.localName, p.cif, p.poblationLocal, p.cpLocal, p.telephoneLocal, p.street, p.streetNameLocal, p.streetNumberLocal, p.music, p.entryPrice , p.drinkPrice, p.openingHours, p.closeHours, p.picture, p.about 
+    SELECT p.companyNameLocal, p.localName, p.cif, p.poblationLocal, p.cpLocal, p.telephoneLocal, p.street, p.streetNameLocal, p.streetNumberLocal, p.latitude, p.longitude, p.music, p.entryPrice , p.drinkPrice, p.openingHours, p.closeHours, p.picture, p.about 
     FROM `Profile` pr, `Pub` p
     WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
   END$$
@@ -58,6 +109,20 @@ BEGIN
 		FROM `Profile` pr, `Partier` p
 		WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
 	END$$
+
+DROP PROCEDURE IF EXISTS `goToEvent`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `goToEvent`(idEvent INT, idProfileUser INT)
+BEGIN
+		
+		
+		SET @idU = (SELECT p.idPartier
+					FROM `Partier` p
+					WHERE p.idProfile = idProfileUser);
+
+		INSERT INTO `PartierGoesToEvent` VALUES (@idU,idEvent);
+
+		
+  END$$
 
 DROP PROCEDURE IF EXISTS `insertDJUser`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertDJUser`(IN `email` VARCHAR(50), IN `pass` VARCHAR(80))
@@ -148,6 +213,14 @@ BEGIN
 
   END$$
 
+DROP PROCEDURE IF EXISTS `PubFollowers`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `PubFollowers`(idProfilePub INT)
+BEGIN
+		(SELECT p.idProfile
+        FROM `PartierFollowsPub` pf, `Pub` d, `Partier` p 
+        WHERE (d.idProfile = idProfilePub) AND (d.idPub = pf.idPub) AND (pf.idPartier = p.idPartier));
+  END$$
+
 DROP PROCEDURE IF EXISTS `setDJData`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `setDJData`(IN idProfile INT, IN nameDJ VARCHAR (30) ,IN name VARCHAR(20) ,IN surname VARCHAR(45),
   IN telephoneDJ INT ,IN gender TINYINT(1) ,IN birthdate DATE ,
@@ -229,6 +302,30 @@ BEGIN
     RETURN (SELECT p.type
         FROM `Profile` p
         WHERE (p.idProfile = idProfile));
+  END$$
+
+DROP FUNCTION IF EXISTS `howManyFollowsDJ`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `howManyFollowsDJ`(idProfileDJ INT) RETURNS int(11)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierFollowsDJ` pf, `DJ` d 
+        WHERE ((idProfileDJ = d.idProfile) AND (d.idDJ = pf.idDJ))) ;
+  END$$
+
+DROP FUNCTION IF EXISTS `howManyFollowsPub`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `howManyFollowsPub`(idProfilePub INT) RETURNS int(11)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierFollowsPub` pf, `Pub` p 
+        WHERE ((idProfilePub = p.idProfile) AND (p.idPub = pf.idPub))) ;
+  END$$
+
+DROP FUNCTION IF EXISTS `howManyGoesToEvent`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `howManyGoesToEvent`(idEvent INT) RETURNS int(11)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierGoesToEvent` pg  
+        WHERE (idEvent = pg.idEvent)) ;
   END$$
 
 DROP FUNCTION IF EXISTS `insertToken`$$
@@ -315,6 +412,34 @@ BEGIN
 				WHERE u.email = usr) = 1);
 	END$$
 
+DROP FUNCTION IF EXISTS `userFollowsDJ`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `userFollowsDJ`(idProfileP INT, idProfileDJ INT) RETURNS tinyint(1)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierFollowsDJ` pf, `Partier` p, `DJ` d 
+        WHERE ((idProfileP = p.idProfile) AND (d.idProfile = idProfileDJ) AND (pf.idPartier = p.idPartier) AND (pf.idDJ = d.idDJ)) = 1);
+  END$$
+
+DROP FUNCTION IF EXISTS `userFollowsPub`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `userFollowsPub`(idProfileP INT, idProfilePub INT) RETURNS tinyint(1)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierFollowsPub` pf, `Partier` p, `Pub` d 
+        WHERE (
+                (idProfileP = p.idProfile) AND 
+                (d.idProfile = idProfilePub) AND 
+                (pf.idPartier = p.idPartier) AND (pf.idPub = d.idPub)
+        		)= 1);
+ END$$
+
+DROP FUNCTION IF EXISTS `userGoesToEvent`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `userGoesToEvent`(idProfileP INT, idEvent INT) RETURNS tinyint(1)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierGoesToEvent` pg, `Partier` p 
+        WHERE ((idProfileP = p.idProfile) AND (pg.idPartier = p.idPartier) AND (pg.idEvent = idEvent)) = 1);
+  END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -342,7 +467,7 @@ CREATE TABLE IF NOT EXISTS `DJ` (
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idDJ`),
   KEY `fk_DJ_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 -- --------------------------------------------------------
 
@@ -353,13 +478,16 @@ CREATE TABLE IF NOT EXISTS `DJ` (
 DROP TABLE IF EXISTS `Event`;
 CREATE TABLE IF NOT EXISTS `Event` (
   `idEvent` int(11) NOT NULL AUTO_INCREMENT,
+  `idProfileCreator` int(11) NOT NULL,
+  `title` varchar(40) NOT NULL,
   `text` varchar(200) DEFAULT NULL,
-  `idDJ` int(11) DEFAULT NULL,
-  `idPub` int(11) DEFAULT NULL,
+  `date` date NOT NULL,
+  `startHour` time NOT NULL,
+  `closeHour` time NOT NULL,
+  `createdTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idEvent`),
-  KEY `fk_Event_DJ1_idx` (`idDJ`),
-  KEY `fk_Event_Pub1_idx` (`idPub`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `fk_Event_idProfile1_idx` (`idProfileCreator`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -437,7 +565,7 @@ CREATE TABLE IF NOT EXISTS `Partier` (
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idPartier`),
   KEY `fk_Partier_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 -- --------------------------------------------------------
 
@@ -468,6 +596,21 @@ CREATE TABLE IF NOT EXISTS `PartierFollowsPub` (
   KEY `fk_Partier_has_Pub_Pub1_idx` (`idPub`),
   KEY `fk_Partier_has_Pub_Partier1_idx` (`idPartier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `PartierGoesToEvent`
+--
+
+DROP TABLE IF EXISTS `PartierGoesToEvent`;
+CREATE TABLE IF NOT EXISTS `PartierGoesToEvent` (
+  `idPartier` int(11) NOT NULL,
+  `idEvent` int(11) NOT NULL,
+  PRIMARY KEY (`idPartier`,`idEvent`),
+  KEY `fk_partier_has_event_event1_idx` (`idEvent`),
+  KEY `fk_partier_has_event_partier1_idx` (`idPartier`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -513,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `Profile` (
   `email` varchar(50) NOT NULL,
   PRIMARY KEY (`idProfile`),
   KEY `fk_Profile_User_idx` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=80 ;
 
 -- --------------------------------------------------------
 
@@ -552,7 +695,7 @@ CREATE TABLE IF NOT EXISTS `Pub` (
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idPub`),
   KEY `fk_Pub_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 -- --------------------------------------------------------
 
@@ -594,13 +737,6 @@ CREATE TABLE IF NOT EXISTS `Works` (
 --
 ALTER TABLE `DJ`
   ADD CONSTRAINT `fk_DJ_Profile1` FOREIGN KEY (`idProfile`) REFERENCES `Profile` (`idProfile`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `Event`
---
-ALTER TABLE `Event`
-  ADD CONSTRAINT `fk_Event_DJ1` FOREIGN KEY (`idDJ`) REFERENCES `DJ` (`idDJ`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Event_Pub1` FOREIGN KEY (`idPub`) REFERENCES `Pub` (`idPub`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `Fotos`

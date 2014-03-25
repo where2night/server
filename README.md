@@ -209,7 +209,10 @@ There are three ways to login in our application:
 			"closeHours"	: <This must be a time>
 			"picture"	: <Profile's picture url>
 			"about"		: <Max 100 characters>
+			"follow:	: <0 not following this local by idProfile> or <1 following this local by idProfile>
+			"followers"	: <total followers of this premise
 		}
+
 	* <baseUrl> + /update/local.php/<idProfile>/<Token> // We must change to the English word Premises
 	* Method: POST
 	* Data Sent:
@@ -293,6 +296,8 @@ There are three ways to login in our application:
 			"music"		: <Max 20 characters>
 			"picture"	: <Profile's picture url>
 			"about"		: <Max 100 characters>
+			"follow:	: <0 not following this local by idProfile> or <1 following this local by idProfile>
+			"followers"	: <total followers of this premise
 		}
 	* <baseUrl> + /update/user.php/<idProfile>/<Token>
 	* Method: POST
