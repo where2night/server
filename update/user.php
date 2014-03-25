@@ -14,6 +14,14 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		case 'POST':
+		if (isset($_POST["uploading"])){
+				$picture = $_POST["picture"];
+				$decoded = base64_decode($picture);
+				$pictureName =  substr(md5(microtime()),1,8) . ".jpg";
+				$pictureUrl = "../../profilesImages/" . $pictureName;
+				file_put_contents($pictureUrl ,$decoded);
+				$_POST["picture"] = "http://www.where2night.es/profilesImages/" . $pictureName;
+			}
 			if (isset($_POST["idProfile"])){			
 				$idProfile = $_POST["idProfile"];
 				$picture = $_POST["picture"]; 
