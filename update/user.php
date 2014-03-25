@@ -20,7 +20,7 @@
 				$name = $_POST["name"]; 
 				$surnames = $_POST["surnames"]; 
 				$birthdate = $_POST["birthdate"]; 
-				$birthdate=_formato_fechasFB($birthdate);			
+				$birthdate=_formato_fechasP($birthdate);			
 				$gender = $_POST["gender"]; 
 				$genderbool=false;
 				if($gender == 'male')$genderbool= true;			
