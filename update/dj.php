@@ -29,7 +29,7 @@
   				$genderbool=false;
 				if($gender == 'male')$genderbool= true;	
   				$birthdate = $_POST["birthdate"];
-  				$birthdate=_formato_fechasFB($birthdate);
+  				$birthdate=_formato_fechasP($birthdate);
   				$picture = $_POST["picture"];
   				$music= $_POST["music"];
   				$about= $_POST["about"];
