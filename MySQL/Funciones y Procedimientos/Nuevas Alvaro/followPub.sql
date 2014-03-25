@@ -7,7 +7,7 @@ BEGIN
 					FROM `Partier` p
 					WHERE p.idProfile = idProfileUser);
 
-		SET @idP = (SELECT p.idPub
+		SET @idP = (SELECT pu.idPub
 					FROM `Pub` pu
 					WHERE pu.idProfile = idProfilePub);
 

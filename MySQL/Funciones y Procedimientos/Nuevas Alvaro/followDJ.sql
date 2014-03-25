@@ -7,7 +7,7 @@ BEGIN
 					FROM `Partier` p
 					WHERE p.idProfile = idProfileUser);
 
-		SET @idD = (SELECT p.idDJ
+		SET @idD = (SELECT d.idDJ
 					FROM `DJ` d
 					WHERE d.idProfile = idProfileDJ);
 
