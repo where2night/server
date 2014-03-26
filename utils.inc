@@ -634,6 +634,34 @@ function _userFollowsPub($idLocal,$idPartier){
  	return $res;
 
  }
+<<<<<<< HEAD
+=======
+ function _deleteEvent($idEvent,$idProfile){
+ 	_db_connect();
+ 	$query = "call deleteEvent('{$idEvent}','{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+ }
+ function _getDjs(){
+ 	_db_connect();
+ 	$query = "select getDjs()";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+ }
+function _getLocals(){
+	_db_connect();
+ 	$query = "select geLocals()";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+}
+
+>>>>>>> 2ba538ce2fd90304678e50e601033cb2eb10018a
 ?>
 
 

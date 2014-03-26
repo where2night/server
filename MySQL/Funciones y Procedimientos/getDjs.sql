@@ -1,0 +1,9 @@
+DELIMITER //
+ 
+ CREATE PROCEDURE getDjs()
+    BEGIN
+				SELECT idDj
+				FROM `DJ` ;
+	END//
+    
+DELIMITER ;
