@@ -619,7 +619,7 @@ function _userFollowsPub($idLocal,$idPartier){
  }
  function _getEventData($idEvent,$idProfile){
  	_db_connect();
- 	$query = "select getEventData('{$idEvent}','{idProfile}')";
+ 	$query = "call getEventData('{$idEvent}','{idProfile}')";
  	$campo=_db_query($query);
  	$res=_db_fetch_array($campo);
  	_db_close();
@@ -627,15 +627,17 @@ function _userFollowsPub($idLocal,$idPartier){
  }
  function _getEvents($idProfile){
  	_db_connect();
- 	$query = "select getEvents('{$idProfile}')";
+ 	$query = "call getEvents('{$idProfile}')";
  	$campo=_db_query($query);
- 	$res=_db_fetch_array($campo);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
  	_db_close();
  	return $res;
 
  }
-<<<<<<< HEAD
-=======
+
  function _deleteEvent($idEvent,$idProfile){
  	_db_connect();
  	$query = "call deleteEvent('{$idEvent}','{$idProfile}')";
@@ -646,22 +648,27 @@ function _userFollowsPub($idLocal,$idPartier){
  }
  function _getDjs(){
  	_db_connect();
- 	$query = "select getDjs()";
+ 	$query = "call getDjs()";
  	$campo=_db_query($query);
- 	$res=_db_fetch_array($campo);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
  	_db_close();
  	return $res;
  }
 function _getLocals(){
 	_db_connect();
- 	$query = "select geLocals()";
+ 	$query = "call getLocals()";
  	$campo=_db_query($query);
- 	$res=_db_fetch_array($campo);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
  	_db_close();
  	return $res;
 }
 
->>>>>>> 2ba538ce2fd90304678e50e601033cb2eb10018a
 ?>
 
 
