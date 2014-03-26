@@ -19,7 +19,7 @@
 				$title = $_POST["nameDJ"];
   				$text = $_POST["name"];
   				$date = $_POST["surname"];
-  				$date = _formato_fechasP($date);
+  				$date = _formato_fechasFB($date);
   				$startHour = $_POST["telephoneDJ"];
   				$closeHour = $_POST["gender"];
   				
