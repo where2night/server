@@ -29,12 +29,13 @@
 	* Method: POST
 	* Data Sent:
 		{
-			"email": <email>
-			"pass": <password>
-			"name": <name>
-			"surnames": <surname> // We must fix this and change it to surname
-			"birthdate": <birthdate dd/mm/yyyy>
-			"gender": <male> or <female>
+			"email"		: <email>
+			"pass"		: <password>
+			"name"		: <name>
+			"surnames"	: <surname> // We must fix this and change it to surname
+			"birthdate"	: <birthdate dd/mm/yyyy>
+			"gender"	: <male> or <female>
+			"mobile" 	: <if this variable is set, means that the request is from mobile>
 		}
 	* Response:
 		{
@@ -61,6 +62,7 @@ There are three ways to login in our application:
 			"surnames"	: <surname gotten from Facebook> // We must fix this and change it to surname
 			"birthdate"	: <birthdate gotten from Facebook>
 			"gender"	: <male> or <female>
+			"mobile" 	: <if this variable is set, means that the request is from mobile>
 		}
 	* Response:
 		{
@@ -82,6 +84,7 @@ There are three ways to login in our application:
 			"surnames"	: <surname gotten from Google Plus> // We must fix this and change it to surname
 			"birthdate"	: <birthdate gotten from Google Plus>
 			"gender"	: <male> or <female>
+			"mobile" 	: <if this variable is set, means that the request is from mobile>
 		}
 	* Response:
 		{
@@ -98,6 +101,7 @@ There are three ways to login in our application:
 		{
 			"email"	  : <email gotten from Facebook>
 			"password": <user's password>
+			"mobile"  : <if this variable is set, means that the request is from mobile>
 		}
 	* Response:
 		{
@@ -114,6 +118,7 @@ There are three ways to login in our application:
 		{
 			"idProfile"	: <User's idProfile>
 			"picture"	: <user's picture url Max 100 characters>
+			"uploading"	: <if this variable is set means that Android app is uploading profile image>
 			"name"		: <Max 20 characters>
 			"surnames"	: <Max 45 characters> // We must fix this and change it to surname
 			"birthdate"	: <birthdate dd/mm/yyyy>

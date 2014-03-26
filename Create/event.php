@@ -15,6 +15,7 @@
 				$title = $_POST["title"];
   				$text = $_POST["text"];
   				$date = $_POST["date"];
+  				$date = _formato_fechasFB($date);
   				$startHour = $_POST["startHour"];
   				$closeHour = $_POST["closeHour"];
   			
