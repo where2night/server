@@ -7,12 +7,14 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		  case 'POST':
+		    if((isset($_POST["mobile"]) && $_POST["mobile"] == "1")){$mobile=true;}
+			else {$mobile=false;}
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			$email = $_POST["email"]; 
 
 			
 			$newuser= false;
-			$arr = _loginGP($email); 
+			$arr = _loginGP($email,$mobile); 
 			
 			
 			if($arr['id'] == '0'){
@@ -28,7 +30,7 @@
 				if($gender == 'male')$genderbool= true;
 				$newuser = true;
 				
-				$arr = _insertUserGP($picture,$email,$name,$surname,$birthdate,$genderbool);
+				$arr = _insertUserGP($picture,$email,$name,$surname,$birthdate,$genderbool,$mobile);
 			}
 			$arr['New'] = $newuser;
 			echo json_encode($arr);

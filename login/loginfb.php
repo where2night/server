@@ -7,12 +7,14 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		  case 'POST':
+		  	if((isset($_POST["mobile"]) && $_POST["mobile"] == "1")){$mobile=true;}
+			else {$mobile=false;}
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			$email = $_POST["email"]; 
 
 		
 			$newuser= false;
-			$arr = _loginFB($email); 
+			$arr = _loginFB($email,$mobile); 
 			
 			
 			if($arr['id'] == '0'){
@@ -26,7 +28,7 @@
 				$genderbool=false;
 				if($gender == 'male')$genderbool= true;
 				$newuser = true;
-				$arr = _insertUserFB($picture,$email,$name,$surname,$birthdate,$genderbool);
+				$arr = _insertUserFB($picture,$email,$name,$surname,$birthdate,$genderbool,$mobile);
 			}
 			$arr['New'] = $newuser;
 			echo json_encode($arr);

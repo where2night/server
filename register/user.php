@@ -7,6 +7,8 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		  case 'POST':
+		   if((isset($_POST["mobile"]) && $_POST["mobile"] == "1")){$mobile=true;}
+			else {$mobile=false;}
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			
 				$email = $_POST["email"]; 
@@ -19,7 +21,7 @@
 				$genderbool=false;
 				if($gender == 'male')$genderbool= true;
 				
-				$arr = _insertUser($email,$pass,$name,$surname,$birthdate,$genderbool);
+				$arr = _insertUser($email,$pass,$name,$surname,$birthdate,$genderbool,$mobile);
 				$arr['New'] = true;
 				echo json_encode($arr);
 			}

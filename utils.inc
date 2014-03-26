@@ -108,7 +108,7 @@ function _session_destroy ()
 }
 
 
-function _login($email,$password){
+function _login($email,$password,$mobile){
 
 	_db_connect();
 	
@@ -121,7 +121,12 @@ function _login($email,$password){
 	if ($existe != 0){
 		
 		$sToken = md5(uniqid(mt_rand(), true));
+		if ($mobile == 1){
+		$query = "SELECT insertTokenMobile('{$email}','{$sToken}')";
+		}
+		else{
 		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		}
 		$resultado=_db_query($query);
 		$campo1 = _db_fetch_array($resultado);
 	    $usertype = current($campo1);
@@ -140,7 +145,7 @@ function _login($email,$password){
 	
 
 }
-function _loginFB($email){
+function _loginFB($email,$mobile){
 
 	_db_connect();
 	$query = "Select loginSuccessFB('{$email}')";
@@ -150,10 +155,12 @@ function _loginFB($email){
   
 	if ($id != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
-		/*$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
-		_db_close();*/
+		if ($mobile == 1){
+		$query = "SELECT insertTokenMobile('{$email}','{$sToken}')";
+		}
+		else{
 		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		}
 		$resultado=_db_query($query);
 		$campo1 = _db_fetch_array($resultado);
 	    $usertype = current($campo1);		
@@ -170,7 +177,7 @@ function _loginFB($email){
 
 }
 
-function _loginGP($email){
+function _loginGP($email,$mobile){
 	
 	_db_connect();
 	$query = "Select loginSuccessGP('{$email}')";
@@ -183,12 +190,12 @@ function _loginGP($email){
   		
 	if ($id != 0){
 		$sToken = md5(uniqid(mt_rand(), true));
-		/*$query = "Call insertToken('{$email}','{$sToken}')";
-		_db_query($query);
-		_db_close();
-		$arr = array('Token' => $sToken, 'id' => $id);*/
-	
+		if ($mobile == 1){
+		$query = "SELECT insertTokenMobile('{$email}','{$sToken}')";
+		}
+		else{
 		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		}
 		$resultado=_db_query($query);
 		$campo1 = _db_fetch_array($resultado);
 	    $usertype = current($campo1);		
@@ -205,16 +212,19 @@ function _loginGP($email){
 
 }
 
-function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
+function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender,$mobile){
 	_db_connect();
 	$query = "Call insertFacebookUser('{$email}')";
 	_db_query($query);
  
 	
 	$sToken = md5(uniqid(mt_rand(), true));
-	/*$query = "Call insertToken('{$email}','{$sToken}')";
-	_db_query($query);*/
-	$query = "SELECT insertToken('{$email}','{$sToken}')";
+		if ($mobile == 1){
+		$query = "SELECT insertTokenMobile('{$email}','{$sToken}')";
+		}
+		else{
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		}
 	$resultado=_db_query($query);
 	$campo1 = _db_fetch_array($resultado);
 	$usertype = current($campo1);		
@@ -238,17 +248,19 @@ function _insertUserFB($picture,$email,$name,$surnames,$birthday,$gender){
 }
 
 
-function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender){
+function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender,$mobile){
 	_db_connect();
 	$query = "Call insertGoogleUser('{$email}')";
 	_db_query($query);
  
 	
 	$sToken = md5(uniqid(mt_rand(), true));
-	//$query = "Call insertToken('{$email}','{$sToken}')";
-	//_db_query($query);
-	
-	$query = "SELECT insertToken('{$email}','{$sToken}')";
+		if ($mobile == 1){
+		$query = "SELECT insertTokenMobile('{$email}','{$sToken}')";
+		}
+		else{
+		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		}
 	$resultado=_db_query($query);
 	$campo1 = _db_fetch_array($resultado);
 	$usertype = current($campo1);	
@@ -269,20 +281,27 @@ function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender){
 	return $arr;	
 }
 
-function _insertUser($email,$pass,$name,$surnames,$birthday,$gender){
+function _insertUser($email,$pass,$name,$surnames,$birthday,$gender,$mobile){
 	_db_connect();
 	$query = "Select userExists('{$email}')";
+	
 	$resultado = _db_query($query);
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
-	
+
 	if ($existe == 0){
+	
 		$passEncriptada = sha1($pass);
 		$query = "Call insertNormalUser('{$email}','{$passEncriptada}')" ;
 		_db_query($query);	
 		$sToken = md5(uniqid(mt_rand(), true));
+		if ($mobile == 1){
+		$query = "SELECT insertTokenMobile('{$email}','{$sToken}')";
+		}
 		
+		else{
 		$query = "SELECT insertToken('{$email}','{$sToken}')";
+		}
 		$resultado=_db_query($query);
 		$campo1 = _db_fetch_array($resultado);
 	    $usertype = current($campo1);
@@ -600,7 +619,7 @@ function _userFollowsPub($idLocal,$idPartier){
  }
  function _getEventData($idEvent,$idProfile){
  	_db_connect();
- 	$query = "select getEventData('{$idEvent}','{$idProfile}')";
+ 	$query = "select getEventData('{$idEvent}','{idProfile}')";
  	$campo=_db_query($query);
  	$res=_db_fetch_array($campo);
  	_db_close();
@@ -614,14 +633,6 @@ function _userFollowsPub($idLocal,$idPartier){
  	_db_close();
  	return $res;
 
- }
- function _deleteEvent($idEvent,$idProfile){
- 	_db_connect();
- 	$query = "call deleteEvent('{$idEvent}','{$idProfile}')";
- 	$campo=_db_query($query);
- 	$res=_db_fetch_array($campo);
- 	_db_close();
- 	return $res;
  }
 ?>
 
