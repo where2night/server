@@ -14,7 +14,11 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		case 'POST':
+<<<<<<< HEAD
 		if (isset($_POST["uploading"])){
+=======
+			if (isset($_POST["uploading"])){
+>>>>>>> Adrian
 				$picture = $_POST["picture"];
 				$decoded = base64_decode($picture);
 				$pictureName =  substr(md5(microtime()),1,8) . ".jpg";
