@@ -7,9 +7,9 @@ DELIMITER //
 		SET 
 			P.title = title, 
  			P.text = about,
-  		P.date = dateE,
-      p.startHour =startHour,
-      p.closeHour =closeHour	
+  			P.date = dateE,
+      		p.startHour =startHour,
+      		p.closeHour =closeHour	
 		
 		WHERE (p.idEvent = idEvent AND p.idProfileCreator = idProfile);
 	END//

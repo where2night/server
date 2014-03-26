@@ -1,10 +1,10 @@
 DELIMITER //
  
- CREATE FUNCTION getEvents(idProfile INT(11)) RETURN INT
+ CREATE PROCEDURE getEvents(idProfile INT(11))
     BEGIN
-		RETURN (SELECT p.idEvent
-				FROM `Event` p
-				WHERE (p.idProfileCreator = idProfile));
+				SELECT idEvent
+				FROM `Event` 
+				WHERE (idProfileCreator = idProfile);
 	END//
     
 DELIMITER ;
