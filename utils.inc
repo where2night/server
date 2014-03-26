@@ -615,6 +615,14 @@ function _userFollowsPub($idLocal,$idPartier){
  	return $res;
 
  }
+ function _deleteEvent($idEvent,$idProfile){
+ 	_db_connect();
+ 	$query = "call deleteEvent('{$idEvent}','{idProfile}')";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+ }
 ?>
 
 

@@ -34,7 +34,13 @@
 				$data = _getEventData($idEvent,$idProfile);
 				$data['date'] = _formato_fechas($data['date']);	
 				echo json_encode($data);
-			break;	
+			break;
+		
+		case 'DELETE':
+				$data = _deleteEvent($idEvent,$idProfile);
+				$data['Delete'] = true ;
+				echo json_encode($data);
+				break;	
 		  default:
 		//	rest_error($request);  
 			break;
