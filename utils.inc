@@ -634,8 +634,7 @@ function _userFollowsPub($idLocal,$idPartier){
  	return $res;
 
  }
-<<<<<<< HEAD
-=======
+
  function _deleteEvent($idEvent,$idProfile){
  	_db_connect();
  	$query = "call deleteEvent('{$idEvent}','{$idProfile}')";
@@ -661,7 +660,6 @@ function _getLocals(){
  	return $res;
 }
 
->>>>>>> 2ba538ce2fd90304678e50e601033cb2eb10018a
 ?>
 
 
