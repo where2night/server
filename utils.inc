@@ -600,7 +600,7 @@ function _userFollowsPub($idLocal,$idPartier){
  }
  function _getEventData($idEvent,$idProfile){
  	_db_connect();
- 	$query = "select getEventData('{$idEvent}','{idProfile}')";
+ 	$query = "select getEventData('{$idEvent}','{$idProfile}')";
  	$campo=_db_query($query);
  	$res=_db_fetch_array($campo);
  	_db_close();
@@ -617,7 +617,7 @@ function _userFollowsPub($idLocal,$idPartier){
  }
  function _deleteEvent($idEvent,$idProfile){
  	_db_connect();
- 	$query = "call deleteEvent('{$idEvent}','{idProfile}')";
+ 	$query = "call deleteEvent('{$idEvent}','{$idProfile}')";
  	$campo=_db_query($query);
  	$res=_db_fetch_array($campo);
  	_db_close();

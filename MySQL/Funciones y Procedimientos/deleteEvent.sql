@@ -1,9 +1,9 @@
 DELIMITER //
 
-CREATE PROCEDURE deleteEvent(IN idEvent INT(11),IN idProfile INT(11))
+CREATE PROCEDURE deleteEvent(IN idEvent1 INT(11),IN idProfile1 INT(11))
 BEGIN
-		DELETE FROM  `Event` p
-		WHERE (p.idEvent = idEvent AND p.idProfile = idProfile);
+		DELETE FROM  `Event`
+		WHERE (idEvent = idEvent1 AND idProfileCreator = idProfile1);
 
 	END//
 
