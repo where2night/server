@@ -6,7 +6,6 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
-	$idUser = $request[2];
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
@@ -14,18 +13,9 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 			case 'GET':
-				if ($idProfile != "" && $idUser != ""){
-					$type = _getTypeProfile($idUser);
-					if ($type == -1) { //DJ
-						$aux = _followDj($idProfile,$idUser);
-						$aux['follow'] = true;
-					} elseif ($type == 1) { //Local
-						$aux = _followLocal($idProfile,$idUser);
-						$aux['follow'] = true;
-					} else{
-						$aux['follow'] = false;
-						echo "FALLO EN FOLLOWDJ ";
-					}
+				if ($idProfile != ""){
+
+					$aux = _eventsUser($idProfile);
 					echo json_encode($aux);
 
 				}
