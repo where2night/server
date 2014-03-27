@@ -16,12 +16,12 @@
 
 				$idProfile = $_POST["idProfile"];
 				$idEvent = $_POST["idEvent"];
-				$title = $_POST["nameDJ"];
-  				$text = $_POST["name"];
-  				$date = $_POST["surname"];
+				$title = $_POST["title"];
+  				$text = $_POST["text"];
+  				$date = $_POST["date"];
   				$date = _formato_fechasFB($date);
-  				$startHour = $_POST["telephoneDJ"];
-  				$closeHour = $_POST["gender"];
+  				$startHour = $_POST["startHour"];
+  				$closeHour = $_POST["closeHour"];
   				
 				_setEventData($idProfile,$idEvent,$title,$text,$date,$startHour,$closeHour);
 				
