@@ -16,7 +16,19 @@
 		switch ($method) {
 			case 'GET':
 				if ($idProfile != "" && $idUser != ""){
+					$type = _getTypeProfile($idUser);
+					if ($type == -1) { //DJ
+						$aux=_getDJData($idUser);
+						$resaux= array('name'=> $aux['nameDJ'],'pictureC'=> $aux['picture'] );
+					} elseif ($type == 1) { //Local
+						$aux= _getLocalData($idUser);
+						$resaux= array('name'=> $aux['localName'],'pictureC'=> $aux['picture'] );
+					} else{
+						echo "FALLO EN GETEVENTS LOS EVENTOS NO ESTAN CREADOS POR DJ O LOCAL";
+					}
+					
 					$data= _getEvents($idUser);
+					$data=array_merge($resaux,$data);
 					echo json_encode($data);
 
 				}
