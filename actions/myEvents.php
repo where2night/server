@@ -16,7 +16,22 @@
 				if ($idProfile != ""){
 
 					$aux = _eventsUser($idProfile);
-					echo json_encode($aux);
+					for ($i=0; $i < $aux['rows'] ; $i++) {
+						$auxdam=$aux[$i];
+						$type= _getTypeProfile($aux['idProfileCreator']); 
+						if ($type == -1) { //DJ
+							$auxdam=_getDJData($aux['idProfileCreator']);
+							$auxEnd= array('name' => $auxdam['nameDJ'],'pictureC' => $auxdam['picture']);
+						}elseif ($type == 1) { //Pub
+							$auxdam=_getLocalData($aux['idProfileCreator']);
+							$auxEnd= array('name' => $auxdam['localName'],'pictureC' => $auxdam['picture']);
+						}else{
+							echo "ERROR MYEVENTS.PHP";
+						}
+	
+						$aux1[$i]=array_merge($auxEnd,$aux[$i]);
+					}
+					echo json_encode($aux1);
 
 				}
 					
