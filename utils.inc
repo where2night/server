@@ -705,6 +705,7 @@ function _eventsUser($idProfile){
  	for($i= 0 ; $i<$filas ; $i++){
  		$res[$i]=_db_fetch_array($campo);
  	}
+ 	$res['rows']= $filas;
  	_db_close();
  	return $res;
 
