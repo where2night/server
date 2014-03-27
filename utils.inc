@@ -333,9 +333,9 @@ function _insertLocalUser($email,$companyName,$nameLocal,$cif,$poblationLocal,$c
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
 	$length = 8;
-	$pass = substr(md5(microtime()),1,$length); //random pass
+	//$pass = substr(md5(microtime()),1,$length); //random pass
 	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
-
+	$pass="123456Pub";
 	//Send email to confirmate user later
 	$to = "where2night@where2night.es";
 	$subject = "Solicitud de where2night";
@@ -405,9 +405,9 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 	$campo = _db_fetch_array($resultado);
 	$existe = current($campo);	
 	$length = 8;
-	$pass = substr(md5(microtime()),1,$length); //random pass
+	//$pass = substr(md5(microtime()),1,$length); //random pass
 	/*Microtime Use () to give me the expression of complete time there, and I calculate the md5 hash with md5 (), which as you know takes a long chain, which at first sight are numbers and random letters [a-z0-9] and then extract the substr () function the first n (where n is $ length).*/
-
+	$pass= "123456DJ";
 	//Send email to confirmate user later
 	$to = "where2night@where2night.es";
 	$subject = "Solicitud de where2night";
@@ -449,6 +449,7 @@ function _insertDJUser($email,$nameDJ,$name, $surname,$telephone, $birthdate, $g
 		$query =  "call setDJData('{$id}','{$nameDJ}','{$name}','{$surname}','{$telephone}','{$gender}','{$birthdate}',null,null,null)";
 
 		_db_query($query);
+
 		
 		_db_close();
 		$arr = array('Token' => $sToken, 'id' => $id, 'type'=> $usertype, 'pass'=> $pass);
@@ -667,6 +668,46 @@ function _getLocals(){
  	}
  	_db_close();
  	return $res;
+}
+function _followDj($idProfile,$idDJ){
+	_db_connect();
+	$query = "call followDJ('{$idDJ}','{$idProfile}')";
+	$campo=_db_query($query);
+	$res=_db_fetch_array($campo);
+	_db_close();
+	return $res;
+
+}
+
+function _followLocal($idProfile,$idPub){
+	_db_connect();
+	$query = "call followPub('{$idPub}','{$idProfile}')";
+	$campo=_db_query($query);
+	$res=_db_fetch_array($campo);
+	_db_close();
+	return $res;
+
+}
+function _goToEvent($idProfile,$idEvent){
+	_db_connect();
+	$query = "call goToEvent('{$idEvent}','{$idProfile}')";
+	$campo=_db_query($query);
+	$res=_db_fetch_array($campo);
+	_db_close();
+	return $res;
+
+}
+function _eventsUser($idProfile){
+	_db_connect();
+ 	$query = "call eventsUser('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+ 	return $res;
+
 }
 
 ?>
