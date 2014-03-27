@@ -15,7 +15,6 @@
 		switch ($method) {
 		case 'POST':
 
-		if (isset($_POST["uploading"])){
 
 			if (isset($_POST["uploading"])){
 
