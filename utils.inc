@@ -668,6 +668,25 @@ function _getLocals(){
  	_db_close();
  	return $res;
 }
+function _followDj($idProfile,$idDJ){
+	_db_connect();
+	$query = "call followDJ('{$idDJ}','{$idProfile}')";
+	$campo=_db_query($query);
+	$res=_db_fetch_array($campo);
+	_db_close();
+	return $res;
+
+}
+
+function _followLocal($idProfile,$idPub){
+	_db_connect();
+	$query = "call followPub('{$idPub}','{$idProfile}')";
+	$campo=_db_query($query);
+	$res=_db_fetch_array($campo);
+	_db_close();
+	return $res;
+
+}
 
 ?>
 
