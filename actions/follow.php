@@ -17,9 +17,11 @@
 				if ($idProfile != "" && $idUser != ""){
 					$type = _getTypeProfile($idUser);
 					if ($type == -1) { //DJ
+				
 						$aux = _followDj($idProfile,$idUser);
 						$aux['follow'] = true;
 					} elseif ($type == 1) { //Local
+					
 						$aux = _followLocal($idProfile,$idUser);
 						$aux['follow'] = true;
 					} else{
@@ -29,8 +31,27 @@
 					echo json_encode($aux);
 
 				}
-					
-			break;	
+		break;	
+		case 'DELETE':
+					if ($idProfile != "" && $idUser != ""){
+					$type = _getTypeProfile($idUser);
+					if ($type == -1) { //DJ
+				
+						$aux = _unFollowDj($idProfile,$idUser);
+						$aux['follow'] = true;
+					} elseif ($type == 1) { //Local
+										
+						$aux = _unFollowLocal($idProfile,$idUser);
+						$aux['follow'] = true;
+					} else{
+						$aux['follow'] = false;
+						echo "FALLO EN FOLLOWDJ ";
+					}
+					echo json_encode($aux);
+
+				}
+		 		
+		break;		
 		  default:
 		//	rest_error($request);  
 			break;

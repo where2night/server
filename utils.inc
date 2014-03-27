@@ -283,6 +283,7 @@ function _insertUserGP($picture,$email,$name,$surnames,$birthday,$gender,$mobile
 
 function _insertUser($email,$pass,$name,$surnames,$birthday,$gender,$mobile){
 	_db_connect();
+	
 	$query = "Select userExists('{$email}')";
 	
 	$resultado = _db_query($query);
@@ -292,6 +293,7 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender,$mobile){
 	if ($existe == 0){
 	
 		$passEncriptada = sha1($pass);
+		
 		$query = "Call insertNormalUser('{$email}','{$passEncriptada}')" ;
 		_db_query($query);	
 		$sToken = md5(uniqid(mt_rand(), true));
@@ -302,6 +304,7 @@ function _insertUser($email,$pass,$name,$surnames,$birthday,$gender,$mobile){
 		else{
 		$query = "SELECT insertToken('{$email}','{$sToken}')";
 		}
+	
 		$resultado=_db_query($query);
 		$campo1 = _db_fetch_array($resultado);
 	    $usertype = current($campo1);
@@ -681,6 +684,7 @@ function _followDj($idProfile,$idDJ){
 
 function _followLocal($idProfile,$idPub){
 	_db_connect();
+
 	$query = "call followPub('{$idPub}','{$idProfile}')";
 	$campo=_db_query($query);
 	$res=_db_fetch_array($campo);
@@ -688,6 +692,30 @@ function _followLocal($idProfile,$idPub){
 	return $res;
 
 }
+function _unFollowDj($idProfile,$idDJ){
+	_db_connect();
+
+	$query = "call unFollowDJ('{$idDJ}','{$idProfile}')";
+	$campo=_db_query($query);
+	$res=_db_fetch_array($campo);
+	_db_close();
+	return $res;
+
+}
+
+function _unFollowLocal($idProfile,$idPub){
+	_db_connect();
+	$query = "call unFollowPub('{$idPub}','{$idProfile}')";
+	$campo=_db_query($query);
+	$res=_db_fetch_array($campo);
+	_db_close();
+	return $res;
+
+}
+
+
+
+
 function _goToEvent($idProfile,$idEvent){
 	_db_connect();
 	$query = "call goToEvent('{$idEvent}','{$idProfile}')";
