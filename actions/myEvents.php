@@ -14,24 +14,32 @@
 		switch ($method) {
 			case 'GET':
 				if ($idProfile != ""){
-
 					$aux = _eventsUser($idProfile);
-					for ($i=0; $i < $aux['rows'] ; $i++) {
+					$pos= $aux['rows'];
+					for ($i=0; $i < $pos ; $i++) {
 						$auxdam=$aux[$i];
-						$type= _getTypeProfile($aux['idProfileCreator']); 
+						$id=$auxdam['idProfileCreator'];
+						
+						$type= _getTypeProfile($id); 
+						
 						if ($type == -1) { //DJ
-							$auxdam=_getDJData($aux['idProfileCreator']);
-							$auxEnd= array('name' => $auxdam['nameDJ'],'pictureC' => $auxdam['picture']);
+							$auxdam=_getDJData($id);
+							$name= $auxdam['nameDJ'];
+							$picture = $auxdam['picture'];
+							$aux[$i]['name'] = $name;
+							$aux[$i]['pictureC'] = $picture;
 						}elseif ($type == 1) { //Pub
-							$auxdam=_getLocalData($aux['idProfileCreator']);
-							$auxEnd= array('name' => $auxdam['localName'],'pictureC' => $auxdam['picture']);
+							$auxdam=_getLocalData($id);
+							$name= $auxdam['localName'];
+							$picture= $auxdam['picture'];
+							$aux[$i]['name'] = $name;
+							$aux[$i]['pictureC'] = $picture;
 						}else{
 							echo "ERROR MYEVENTS.PHP";
 						}
 	
-						$aux1[$i]=array_merge($auxEnd,$aux[$i]);
 					}
-					echo json_encode($aux1);
+					echo json_encode($aux);
 
 				}
 					
