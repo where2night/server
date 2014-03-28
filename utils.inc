@@ -697,7 +697,11 @@ function _unFollowDj($idProfile,$idDJ){
 
 	$query = "call unFollowDJ('{$idDJ}','{$idProfile}')";
 	$campo=_db_query($query);
+<<<<<<< HEAD
 	$res=_db_fetch_array($campo);
+=======
+	
+>>>>>>> Adrian
 	_db_close();
 	return $res;
 
@@ -707,15 +711,22 @@ function _unFollowLocal($idProfile,$idPub){
 	_db_connect();
 	$query = "call unFollowPub('{$idPub}','{$idProfile}')";
 	$campo=_db_query($query);
+<<<<<<< HEAD
 	$res=_db_fetch_array($campo);
+=======
+	
+>>>>>>> Adrian
 	_db_close();
 	return $res;
 
 }
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> Adrian
 function _goToEvent($idProfile,$idEvent){
 	_db_connect();
 	$query = "call goToEvent('{$idEvent}','{$idProfile}')";
@@ -737,6 +748,32 @@ function _eventsUser($idProfile){
  	_db_close();
  	return $res;
 
+}
+function _goToPub($idProfile,$idPub){
+	_db_connect();
+	$query = "call goToPub('{$idPub}','{$idProfile}')";
+	$campo=_db_query($query);
+	
+	_db_close();
+	return $res;
+
+}
+function _dontGoToPub($idProfile,$idPub){
+	_db_connect();
+	$query = "call dontGoToPub('{$idPub}','{$idProfile}')";
+	$campo=_db_query($query);
+	
+	_db_close();
+	return $res;
+}
+function _goesToPub($idProfile,$idLocal){
+	_db_connect();
+	$query = "select userGoesToPub('{$idProfile}','{$idlocal}')";
+	$campo=_db_query($query);
+	$res= _db_fetch_array($campo);
+	$res=current($res);
+	_db_close();
+	return $res;
 }
 
 ?>

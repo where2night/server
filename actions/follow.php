@@ -31,6 +31,7 @@
 					echo json_encode($aux);
 
 				}
+<<<<<<< HEAD
 		break;	
 		case 'DELETE':
 					if ($idProfile != "" && $idUser != ""){
@@ -41,6 +42,19 @@
 						$aux['follow'] = true;
 					} elseif ($type == 1) { //Local
 										
+=======
+					
+			break;
+				case 'DELETE':
+					if ($idProfile != "" && $idUser != ""){
+					$type = _getTypeProfile($idUser);
+					if ($type == -1) { //DJ
+
+						$aux = _unFollowDj($idProfile,$idUser);
+						$aux['follow'] = true;
+					} elseif ($type == 1) { //Local
+
+>>>>>>> Adrian
 						$aux = _unFollowLocal($idProfile,$idUser);
 						$aux['follow'] = true;
 					} else{
@@ -49,9 +63,15 @@
 					}
 					echo json_encode($aux);
 
+<<<<<<< HEAD
 				}
 		 		
 		break;		
+=======
+}
+
+break;		
+>>>>>>> Adrian
 		  default:
 		//	rest_error($request);  
 			break;
