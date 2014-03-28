@@ -45,10 +45,13 @@
 
 		case 'GET':
 				$data = _getLocalData($idLocal);
+
 				$follow = _userFollowsPub($idLocal,$idPartier);
 				$followers = _howManyFollowsPub($idLocal);
+				$go=_goesToPub($idPartier,$idLocal);
 				$data['follow'] = $follow;
 				$data['followers'] = $followers;
+				$data['goto']= $go;
 				echo json_encode($data);
 			break;	
 		  default:

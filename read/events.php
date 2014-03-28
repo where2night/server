@@ -19,16 +19,24 @@
 					$type = _getTypeProfile($idUser);
 					if ($type == -1) { //DJ
 						$aux=_getDJData($idUser);
-						$resaux= array('name'=> $aux['nameDJ'],'pictureC'=> $aux['picture'] );
+						$resaux= array('name'=> $aux['nameDJ'],'pictureC'=> $aux['picture'],'error'=> false );
 					} elseif ($type == 1) { //Local
 						$aux= _getLocalData($idUser);
-						$resaux= array('name'=> $aux['localName'],'pictureC'=> $aux['picture'] );
+						$resaux= array('name'=> $aux['localName'],'pictureC'=> $aux['picture'],'error'=> false );
 					} else{
 						echo "FALLO EN GETEVENTS LOS EVENTOS NO ESTAN CREADOS POR DJ O LOCAL";
 					}
 					
 					$data= _getEvents($idUser);
-					$data=array_merge($resaux,$data);
+					if($data != null){
+						$data=array_merge($resaux,$data);
+					}else{
+						
+						$data=$resaux;
+						$data['error']= true;
+
+					}
+					
 					echo json_encode($data);
 
 				}
