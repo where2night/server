@@ -22,9 +22,11 @@
 					} elseif ($type == 1) { //Local
 						$aux = _followLocal($idProfile,$idUser);
 						$aux['follow'] = true;
-					} else{
+					} elseif($type == 0){ //Partier
+						$aux = _followPartier($idProfile,$idUser);
+						$aux['follow']=true;
+					}else{
 						$aux['follow'] = false;
-						echo "FALLO EN FOLLOWDJ ";
 					}
 					echo json_encode($aux);
 
@@ -42,7 +44,11 @@
 
 						$aux = _unFollowLocal($idProfile,$idUser);
 						$aux['follow'] = true;
-					} else{
+					} elseif ($type == 0){ //Partier
+						$aux = _unFollowPartier($idProfile,$idUser);
+						$aux['follow'] = true;
+					}
+					else{
 						$aux['follow'] = false;
 						echo "FALLO EN FOLLOWDJ ";
 					}

@@ -21,7 +21,13 @@
 
 				}
 					
-			break;	
+			break;
+			case 'DELETE':
+			if ($idProfile != "" && $idEvent != ""){
+					$aux = _dontGoToEvent($idProfile,$idEvent);
+					$aux['goto'] = false;
+					echo json_encode($aux);
+				}		
 		  default:
 		//	rest_error($request);  
 			break;
