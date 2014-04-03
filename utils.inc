@@ -721,12 +721,33 @@ function _unFollowLocal($idProfile,$idPub){
 
 }
 <<<<<<< HEAD
+function _followPartier($idProfile,$idPartier){
+	_db_connect();
+	$query = "call followPartier('{$idPartier}','{$idProfile}')";
+	$campo=_db_query($query);
+	
+	_db_close();
+	return $res;
+
+}
+function _unFollowPartier($idProfile,$idPartier){
+	_db_connect();
+	$query = "call unFollowPartier('{$idPartier}','{$idProfile}')";
+	$campo=_db_query($query);
+	
+	_db_close();
+	return $res;
+
+}
+=======
+<<<<<<< HEAD
 
 
 
 
 =======
 >>>>>>> Adrian
+>>>>>>> develop
 function _goToEvent($idProfile,$idEvent){
 	_db_connect();
 	$query = "call goToEvent('{$idEvent}','{$idProfile}')";
@@ -736,6 +757,15 @@ function _goToEvent($idProfile,$idEvent){
 	return $res;
 
 }
+function _dontGoToEvent($idProfile,$idPub){
+	_db_connect();
+	$query = "call dontGoToEvent('{$idProfile}','{$idPub}')";
+	$campo=_db_query($query);
+	
+	_db_close();
+	return $res;
+}
+
 function _eventsUser($idProfile){
 	_db_connect();
  	$query = "call eventsUser('{$idProfile}')";
