@@ -51,6 +51,14 @@ BEGIN
         WHERE (pg.idPartier = p.idPartier) AND (pg.idEvent = idEvent));
   END$$
 
+DROP PROCEDURE IF EXISTS `JoinedList`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `JoinedList`(idList INT)
+BEGIN
+    (SELECT p.idProfile
+        FROM `PartierJoinedList` pg, `Partier` p 
+        WHERE (pg.idPartier = p.idPartier) AND (pg.idList = idList));
+  END$$
+
 DROP PROCEDURE IF EXISTS `followDJ`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `followDJ`(IN `idProfileDJ` INT, IN `idProfileUser` INT)
 BEGIN
@@ -123,6 +131,23 @@ BEGIN
 
 		
   END$$
+
+DROP PROCEDURE IF EXISTS `joinList`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `joinList`(idList INT, idProfileUser INT)
+BEGIN
+    
+    
+    SET @idU = (SELECT p.idPartier
+          FROM `Partier` p
+          WHERE p.idProfile = idProfileUser);
+
+    INSERT INTO `PartierJoinedList` VALUES (@idU,idList);
+
+    
+  END$$
+
+
+
 
 DROP PROCEDURE IF EXISTS `insertDJUser`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertDJUser`(IN `email` VARCHAR(50), IN `pass` VARCHAR(80))
@@ -328,6 +353,14 @@ BEGIN
         WHERE (idEvent = pg.idEvent)) ;
   END$$
 
+DROP FUNCTION IF EXISTS `howManyJoinedList`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `howManyJoinedList`(idList INT) RETURNS int(11)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierJoinedList` pg  
+        WHERE (idList = pg.idList)) ;
+  END$$
+
 DROP FUNCTION IF EXISTS `insertToken`$$
 CREATE DEFINER=`where2`@`localhost` FUNCTION `insertToken`(`email` VARCHAR(50), `tkn` VARCHAR(45)) RETURNS int(11)
     NO SQL
@@ -442,6 +475,16 @@ BEGIN
 
 DELIMITER ;
 
+DROP FUNCTION IF EXISTS `userJoinedList`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `userJoinedList`(idProfileP INT, idList INT) RETURNS tinyint(1)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierJoinedList` pg, `Partier` p 
+        WHERE ((idProfileP = p.idProfile) AND (pg.idPartier = p.idPartier) AND (pg.idList = idList)) = 1);
+  END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -522,15 +565,21 @@ CREATE TABLE IF NOT EXISTS `Friends` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Lists`
+-- Estructura de tabla para la tabla `List`
 --
 
-DROP TABLE IF EXISTS `Lists`;
-CREATE TABLE IF NOT EXISTS `Lists` (
-  `idLists` int(11) NOT NULL,
+DROP TABLE IF EXISTS `List`;
+CREATE TABLE IF NOT EXISTS `List` (
+  `idList` int(11) NOT NULL,
   `idPub` int(11) NOT NULL,
-  PRIMARY KEY (`idLists`),
-  KEY `fk_Lists_Pub1_idx` (`idPub`)
+  `title` varchar(40) NOT NULL,
+  `text` varchar(200) DEFAULT NULL,
+  `date` date NOT NULL,
+  `startHour` time NOT NULL,
+  `closeHour` time NOT NULL,
+  `createdTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idList`),
+  KEY `fk_List_Pub1_idx` (`idPub`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -615,16 +664,16 @@ CREATE TABLE IF NOT EXISTS `PartierGoesToEvent` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `PartierIsInLists`
+-- Estructura de tabla para la tabla `PartierJoinedList`
 --
 
-DROP TABLE IF EXISTS `PartierIsInLists`;
-CREATE TABLE IF NOT EXISTS `PartierIsInLists` (
+DROP TABLE IF EXISTS `PartierJoinedList`;
+CREATE TABLE IF NOT EXISTS `PartierJoinedList` (
   `idPartier` int(11) NOT NULL,
-  `idLists` int(11) NOT NULL,
-  PRIMARY KEY (`idPartier`,`idLists`),
-  KEY `fk_Partier_has_Lists_Lists1_idx` (`idLists`),
-  KEY `fk_Partier_has_Lists_Partier1_idx` (`idPartier`)
+  `idList` int(11) NOT NULL,
+  PRIMARY KEY (`idPartier`,`idList`),
+  KEY `fk_Partier_has_List_List1_idx` (`idList`),
+  KEY `fk_Partier_has_List_Partier1_idx` (`idPartier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -752,10 +801,10 @@ ALTER TABLE `Friends`
   ADD CONSTRAINT `fk_Partier_has_Partier_Partier2` FOREIGN KEY (`idPartier2`) REFERENCES `Partier` (`idPartier`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `Lists`
+-- Filtros para la tabla `List`
 --
-ALTER TABLE `Lists`
-  ADD CONSTRAINT `fk_Lists_Pub1` FOREIGN KEY (`idPub`) REFERENCES `Pub` (`idPub`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `List`
+  ADD CONSTRAINT `fk_List_Pub1` FOREIGN KEY (`idPub`) REFERENCES `Pub` (`idPub`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `Partier`
@@ -778,11 +827,11 @@ ALTER TABLE `PartierFollowsPub`
   ADD CONSTRAINT `fk_Partier_has_Pub_Pub1` FOREIGN KEY (`idPub`) REFERENCES `Pub` (`idPub`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `PartierIsInLists`
+-- Filtros para la tabla `PartierJoinedList`
 --
-ALTER TABLE `PartierIsInLists`
-  ADD CONSTRAINT `fk_Partier_has_Lists_Partier1` FOREIGN KEY (`idPartier`) REFERENCES `Partier` (`idPartier`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Partier_has_Lists_Lists1` FOREIGN KEY (`idLists`) REFERENCES `Lists` (`idLists`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `PartierJoinedList`
+  ADD CONSTRAINT `fk_Partier_has_List_Partier1` FOREIGN KEY (`idPartier`) REFERENCES `Partier` (`idPartier`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Partier_has_List_List1` FOREIGN KEY (`idList`) REFERENCES `List` (`idList`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `PartierIsInPub`
