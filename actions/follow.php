@@ -33,20 +33,9 @@
 					echo json_encode($aux);
 
 				}
-<<<<<<< HEAD
+
 		break;	
-		case 'DELETE':
-					if ($idProfile != "" && $idUser != ""){
-					$type = _getTypeProfile($idUser);
-					if ($type == -1) { //DJ
-				
-						$aux = _unFollowDj($idProfile,$idUser);
-						$aux['follow'] = true;
-					} elseif ($type == 1) { //Local
-										
-=======
-					
-			break;
+		
 				case 'DELETE':
 					if ($idProfile != "" && $idUser != ""){
 					$type = _getTypeProfile($idUser);
@@ -55,8 +44,6 @@
 						$aux = _unFollowDj($idProfile,$idUser);
 						$aux['follow'] = true;
 					} elseif ($type == 1) { //Local
-
->>>>>>> Adrian
 						$aux = _unFollowLocal($idProfile,$idUser);
 						$aux['follow'] = true;
 					} elseif ($type == 0){ //Partier
@@ -69,19 +56,16 @@
 					}
 					echo json_encode($aux);
 
-<<<<<<< HEAD
+
 				}
 		 		
-		break;		
-=======
-}
-
-break;		
->>>>>>> Adrian
-		  default:
+		break;
+		default:
 		//	rest_error($request);  
-			break;
+		break;		
+
 		}
+
 	}
 
 ?>
