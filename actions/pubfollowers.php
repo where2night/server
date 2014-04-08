@@ -16,12 +16,14 @@
 			case 'GET':
 				if ($idPub != ""){
 					$type= _getTypeProfile($idPub);
-					if(type == 1){//PUB
-						$aux = _pubfollowers($idPub);
+					if($type == 1){//PUB
+						$aux = _pubFollowers($idPub);
 						$num = $aux['rows'];
+						
 						for ($i=0; $i < $num ; $i++) {
-							$idPartier=$aux[$i]; 
+							$idPartier=$aux[$i]['idPartier'];
 							$aux1[$i]= _getPartierData($idPartier);
+							$aux1[$i]['idPartier']=$idPartier;
 						}
 
 						$aux1['pubfollowers'] = true;

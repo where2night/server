@@ -751,9 +751,9 @@ function _dontGoToEvent($idProfile,$idPub){
 	_db_close();
 	return $res;
 }
-function _pubfollowers($idProfile){
+function _pubFollowers($idProfile){
 	_db_connect();
-	$query = "call pubfollowers('{$idProfile}')";
+	$query = "call pubFollowers('{$idProfile}')";
 	$campo= _db_query($query);
 	$filas= _db_num_rows($campo);
 	for($i= 0 ; $i<$filas ; $i++){
@@ -763,6 +763,7 @@ function _pubfollowers($idProfile){
  	_db_close();
  	return $res;
 }
+
 
 function _eventsUser($idProfile){
 	_db_connect();

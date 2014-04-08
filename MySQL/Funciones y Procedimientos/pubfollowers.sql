@@ -1,10 +1,10 @@
 DELIMITER //
  
- CREATE PROCEDURE pubfollowers(idProfile INT(11))
-    BEGIN
-				SELECT d.idPartier
-				FROM `PartierFollowsPub` d 
-				WHERE (d.idPub = idProfile);
-	END//
+ CREATE PROCEDURE pubFollowers(idProfilePub INT(11))
+  BEGIN
+		SELECT *
+        FROM `PartierFollowsPub` pf, `Pub` d, `Partier` p 
+        WHERE ((d.idProfile = idProfilePub) AND (d.idPub = pf.idPub) AND (pf.idPartier = p.idPartier));
+END
     
 DELIMITER ;
