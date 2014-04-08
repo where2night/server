@@ -6,6 +6,7 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
+	$idPub= $request[2];
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
@@ -13,15 +14,14 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 			case 'GET':
-				if ($idProfile != ""){
-					$type= _getTypeProfile($idProfile);
-					if(type == 1){
-						$aux = _pubfollowers($idProfile);
+				if ($idPub != ""){
+					$type= _getTypeProfile($idPub);
+					if(type == 1){//PUB
+						$aux = _pubfollowers($idPub);
 						$num = $aux['rows'];
 						for ($i=0; $i < $num ; $i++) {
 							$idPartier=$aux[$i]; 
 							$aux1[$i]= _getPartierData($idPartier);
-							$aux1[$i]['idPartier'] = $idPartier;
 						}
 
 						$aux1['pubfollowers'] = true;
