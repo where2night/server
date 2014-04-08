@@ -52,7 +52,6 @@
 					}
 					else{
 						$aux['follow'] = false;
-						echo "FALLO EN FOLLOWDJ ";
 					}
 					echo json_encode($aux);
 
