@@ -21,9 +21,9 @@
 						$num = $aux['rows'];
 						
 						for ($i=0; $i < $num ; $i++) {
-							$idPartier=$aux[$i]['idPartier'];
+							$idPartier=$aux[$i]['idProfile'];
 							$aux1[$i]= _getPartierData($idPartier);
-							$aux1[$i]['idPartier']=$idPartier;
+							$aux1[$i]['idPPartier']=$idPartier;
 						}
 
 						$aux1['pubfollowers'] = true;
