@@ -1,12 +1,14 @@
 <?php
 
-	require_once ("db.inc");
-	require_once ("utils.inc");
+	require_once ("../db.inc");
+	require_once ("../utils.inc");
 
 	if (isset($_SERVER['REQUEST_METHOD'])){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		  case 'POST':
+		   if((isset($_POST["mobile"]) && $_POST["mobile"] == "1")){$mobile=true;}
+			else {$mobile=false;}
 			if (isset($_POST["email"]) && $_POST["email"] != ""){ 
 			
 				$email = $_POST["email"]; 
@@ -15,12 +17,11 @@
 				$surname = $_POST["surnames"]; 
 				$birthdate = $_POST["birthdate"]; 
 				$birthdate=_formato_fechasFB($birthdate);
-				
-				$gender = $_POST["gender"]; 
+			$gender = $_POST["gender"]; 
 				$genderbool=false;
 				if($gender == 'male')$genderbool= true;
 				
-				$arr = _insertUser($email,$pass,$name,$surname,$birthdate,$genderbool);
+				$arr = _insertUser($email,$pass,$name,$surname,$birthdate,$genderbool,$mobile);
 				$arr['New'] = true;
 				echo json_encode($arr);
 			}
