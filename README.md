@@ -23,6 +23,7 @@
 * [Register](#RegisterUser)
 * [Login](#LoginUser)
 * [Edit Profile](#EditUser)
+* [News](#News)
 
 ###<a name='RegisterUser'></a>Register
 	* <baseUrl> + /register/user.php
@@ -145,6 +146,26 @@ There are three ways to login in our application:
 			"drink"		: <Max 20 characters>
 			"about"		: <Max 200 characters>
 		}
+
+
+###<a name='News'></a>News
+	* <baseUrl> + /read/news.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		[	
+		    {
+		        "localName"	: <Max 20 characters>
+		        "picture"	: <Profile's picture url>
+		        "title"		: ""
+		        "text"		: ""
+		        "date"		: < Date >
+		        "startHour"	: < Time >
+		        "closeHour"	: < Time >
+		        "createdTime"	: < DateTime >
+		        "TYPE"		: "1" < That means that is an event >
+		        "GOES"		: < If this filed is not null means that this partier goes to this event >
+		    }
+		]
 
 
 ##<a name='Premises'></a>Premises Section
