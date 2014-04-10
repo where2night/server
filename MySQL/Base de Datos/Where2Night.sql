@@ -324,16 +324,17 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Lists`
+-- Table `Where2Night`.`List`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Lists` ;
+DROP TABLE IF EXISTS `Where2Night`.`List` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Lists` (
-  `idLists` INT NOT NULL,
-  `idPub` INT NOT NULL,
-  PRIMARY KEY (`idLists`),
-  INDEX `fk_Lists_Pub1_idx` (`idPub` ASC),
-  CONSTRAINT `fk_Lists_Pub1`
+CREATE TABLE IF NOT EXISTS `Where2Night`.`List` (
+  `idList` INT NOT NULL AUTO_INCREMENT,
+  `text` VARCHAR(200) NULL,
+  `idPub` INT NULL,
+  PRIMARY KEY (`idList`),
+  INDEX `fk_List_Pub1_idx` (`idPub` ASC),
+  CONSTRAINT `fk_List_Pub1`
     FOREIGN KEY (`idPub`)
     REFERENCES `Where2Night`.`Pub` (`idPub`)
     ON DELETE NO ACTION
@@ -342,24 +343,25 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`PartierIsInLists`
+-- Table `Where2Night`.`PartierJoinedList`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`PartierIsInLists` ;
+DROP TABLE IF EXISTS `Where2Night`.`PartierJoinedList` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInLists` (
+CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierJoinedList` (
   `idPartier` INT NOT NULL,
-  `idLists` INT NOT NULL,
-  PRIMARY KEY (`idPartier`, `idLists`),
-  INDEX `fk_Partier_has_Lists_Lists1_idx` (`idLists` ASC),
-  INDEX `fk_Partier_has_Lists_Partier1_idx` (`idPartier` ASC),
-  CONSTRAINT `fk_Partier_has_Lists_Partier1`
+  `idList` INT NOT NULL,
+  `text` VARCHAR(200) NULL,
+  PRIMARY KEY (`idPartier`, `idList`),
+  INDEX `fk_Partier_has_List_List1_idx` (`idList` ASC),
+  INDEX `fk_Partier_has_List_Partier1_idx` (`idPartier` ASC),
+  CONSTRAINT `fk_Partier_has_List_Partier1`
     FOREIGN KEY (`idPartier`)
     REFERENCES `Where2Night`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Partier_has_Lists_Lists1`
-    FOREIGN KEY (`idLists`)
-    REFERENCES `Where2Night`.`Lists` (`idLists`)
+  CONSTRAINT `fk_Partier_has_List_List1`
+    FOREIGN KEY (`idList`)
+    REFERENCES `Where2Night`.`List` (`idList`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

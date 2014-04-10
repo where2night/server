@@ -574,6 +574,21 @@ function _insertEvent($idProfile,$title,$text,$date,$startHour,$closeHour){
 	return $arr;
 }
 
+function _insertList($idProfile,$title,$text,$date,$startHour,$closeHour){
+
+	_db_connect();
+	$query = "call setList('{$idProfile}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
+
+	$res=_db_query($query);
+
+	_db_close();
+			
+	
+	$arr = array();
+
+	return $arr;
+}
+
 
 function _userFollowsPub($idLocal,$idPartier){
 	_db_connect();
@@ -615,12 +630,14 @@ function _userFollowsPub($idLocal,$idPartier){
 	_db_close();
 	return $followers;
  }
+
  function _setEventData($idProfile,$idEvent,$title,$text,$date,$startHour,$closeHour){
  	_db_connect();
  	$query = "call setEventData('{$idProfile}','{$idEvent}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
  	$campo = _db_query($query);
  	_db_close();
  }
+
  function _getEventData($idEvent,$idProfile){
  	_db_connect();
  	$query = "call getEventData('{$idEvent}','{idProfile}')";
@@ -629,6 +646,7 @@ function _userFollowsPub($idLocal,$idPartier){
  	_db_close();
  	return $res;
  }
+
  function _getEvents($idProfile){
  	_db_connect();
  	$query = "call getEvents('{$idProfile}')";
@@ -650,6 +668,48 @@ function _userFollowsPub($idLocal,$idPartier){
  	_db_close();
  	return $res;
  }
+
+
+
+function _setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour){
+ 	_db_connect();
+ 	$query = "call setListData('{$idProfile}','{$idList}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+ }
+
+ function _getListData($idList,$idProfile){
+ 	_db_connect();
+ 	$query = "call getListData('{$idList}','{idProfile}')";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+ }
+
+ function _getLists($idProfile){
+ 	_db_connect();
+ 	$query = "call getLists('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+ 	return $res;
+
+ }
+
+ function _deleteList($idList,$idProfile){
+ 	_db_connect();
+ 	$query = "call deleteList('{$idList}','{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	
+ 	_db_close();
+ 	return $res;
+ }
+
+
  function _getDjs(){
  	_db_connect();
  	$query = "call getDjs()";
@@ -661,6 +721,8 @@ function _userFollowsPub($idLocal,$idPartier){
  	_db_close();
  	return $res;
  }
+
+
 function _getLocals(){
 	_db_connect();
  	$query = "call getLocals()";
@@ -697,11 +759,8 @@ function _unFollowDj($idProfile,$idDJ){
 
 	$query = "call unFollowDJ('{$idDJ}','{$idProfile}')";
 	$campo=_db_query($query);
-<<<<<<< HEAD
+
 	$res=_db_fetch_array($campo);
-=======
-	
->>>>>>> Adrian
 	_db_close();
 	return $res;
 
@@ -711,16 +770,13 @@ function _unFollowLocal($idProfile,$idPub){
 	_db_connect();
 	$query = "call unFollowPub('{$idPub}','{$idProfile}')";
 	$campo=_db_query($query);
-<<<<<<< HEAD
+
 	$res=_db_fetch_array($campo);
-=======
-	
->>>>>>> Adrian
 	_db_close();
 	return $res;
 
 }
-<<<<<<< HEAD
+
 function _followPartier($idProfile,$idPartier){
 	_db_connect();
 	$query = "call followPartier('{$idPartier}','{$idProfile}')";
@@ -739,15 +795,7 @@ function _unFollowPartier($idProfile,$idPartier){
 	return $res;
 
 }
-=======
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> Adrian
->>>>>>> develop
 function _goToEvent($idProfile,$idEvent){
 	_db_connect();
 	$query = "call goToEvent('{$idEvent}','{$idProfile}')";
@@ -765,6 +813,19 @@ function _dontGoToEvent($idProfile,$idPub){
 	_db_close();
 	return $res;
 }
+function _pubFollowers($idProfile){
+	_db_connect();
+	$query = "call pubFollowers('{$idProfile}')";
+	$campo= _db_query($query);
+	$filas= _db_num_rows($campo);
+	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	$res['rows']= $filas;
+ 	_db_close();
+ 	return $res;
+}
+
 
 function _eventsUser($idProfile){
 	_db_connect();
