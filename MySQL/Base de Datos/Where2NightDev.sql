@@ -697,6 +697,7 @@ DROP TABLE IF EXISTS `Friends`;
 CREATE TABLE IF NOT EXISTS `Friends` (
   `idPartier1` int(11) NOT NULL,
   `idPartier2` int(11) NOT NULL,
+  `mode` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idPartier1`,`idPartier2`),
   KEY `fk_Partier_has_Partier_Partier2_idx` (`idPartier2`),
   KEY `fk_Partier_has_Partier_Partier1_idx` (`idPartier1`)

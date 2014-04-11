@@ -734,6 +734,17 @@ function _getLocals(){
  	_db_close();
  	return $res;
 }
+function _getPartiers(){
+ 	_db_connect();
+ 	$query = "call getPartiers()";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+ 	return $res;
+ }
 function _followDj($idProfile,$idDJ){
 	_db_connect();
 	$query = "call followDJ('{$idDJ}','{$idProfile}')";
@@ -777,9 +788,9 @@ function _unFollowLocal($idProfile,$idPub){
 
 }
 
-function _followPartier($idProfile,$idPartier){
+function _followPartier($idProfile,$idPartier,$mode){
 	_db_connect();
-	$query = "call followPartier('{$idPartier}','{$idProfile}')";
+	$query = "call followPartier('{$idProfile}','{$idPartier}','{$mode}')";
 	$campo=_db_query($query);
 	
 	_db_close();
@@ -866,7 +877,48 @@ function _goesToPub($idProfile,$idLocal){
 	_db_close();
 	return $res;
 }
+function _setModePartier($idPartier,$mode){
+	_db_connect();
+	$query = "call setModePartier('{$idPartier}','{$mode}')";
+	_db_query($query);
+	_db_close();
 
+}
+function _setStatusPartier($idPartier,$status){
+	_db_connect();
+	$query = "call setStatusPartier('{$idPartier}','{$status}')";
+	_db_query($query);
+	_db_close();
+
+}
+function _setModeFollowPartier($idPartier1,$idPartier2,$mode){
+	_db_connect();
+	$query = "call setModeFollowPartier('{$idPartier1}','{$idPartier2}','{$mode}')";
+	_db_query($query);
+	_db_close();
+}
+function _getModeFollow($idPartier1,$idPartier2){
+	_db_connect();
+	$query = "Select getModeFollow('{$idPartier1}','{$idPartier2}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$id = current($res);
+	_db_close();
+	return $id;
+
+
+
+}
+function _getIdPartier($idProfile){
+	_db_connect();
+	$query = "Select getIdPartier('{$idProfile}')";
+	$campo = _db_query($query);
+	$res = _db_fetch_array($campo);
+	$id = current($res);
+	_db_close();
+	return $id;
+
+<<<<<<< HEAD
 function _getNews($idProfile){
 	_db_connect();
  	$query = "call getNews('{$idProfile}')";
@@ -879,6 +931,21 @@ function _getNews($idProfile){
  	return $res;
 }
 
+=======
+}
+function _getMyFriends($idPartier){
+	_db_connect();
+	$query = "call myFriends('{$idPartier}')";
+	$campo= _db_query($query);
+	$filas= _db_num_rows($campo);
+	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	$res['rows']= $filas;
+ 	_db_close();
+ 	return $res;
+}
+>>>>>>> Adrian
 ?>
 
 
