@@ -789,12 +789,16 @@ function _unFollowLocal($idProfile,$idPub){
 }
 
 function _followPartier($idProfile,$idPartier,$mode){
+
 	_db_connect();
+	 
+
+	
 	$query = "call followPartier('{$idProfile}','{$idPartier}','{$mode}')";
 	$campo=_db_query($query);
 	
 	_db_close();
-	return $res;
+	return 0;
 
 }
 function _unFollowPartier($idProfile,$idPartier){
@@ -918,7 +922,7 @@ function _getIdPartier($idProfile){
 	_db_close();
 	return $id;
 
-<<<<<<< HEAD
+
 function _getNews($idProfile){
 	_db_connect();
  	$query = "call getNews('{$idProfile}')";
@@ -931,7 +935,7 @@ function _getNews($idProfile){
  	return $res;
 }
 
-=======
+
 }
 function _getMyFriends($idPartier){
 	_db_connect();
@@ -945,7 +949,7 @@ function _getMyFriends($idPartier){
  	_db_close();
  	return $res;
 }
->>>>>>> Adrian
+
 ?>
 
 
