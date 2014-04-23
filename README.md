@@ -12,6 +12,7 @@
 ##<a name='Members'></a>Team Members
 ######<b>Adrian Diaz Jimenez</b> 
 ######<b>Luis Cubero</b>
+######<b>Sergio Primo</b>
 
 ##<a name='Connection'></a>Connection Urls
 * The API production base url is: <b> http://www.api.where2night.es </b>
@@ -24,6 +25,22 @@
 * [Login](#LoginUser)
 * [Edit Profile](#EditUser)
 * [News](#News)
+* [My Pet Friendship] (#myPetFriendship)
+* [My events] (#myEvents)
+* [Go to pub] (#goToPub)
+* [Go to event] (#goToEvent)
+* [Follow friend] (#followFriend)
+* [Follow] (#follow)
+* [Read Dj] (#ReadDj)
+* [Read Events] (#ReadEvents)
+* [Read Locals] (#ReadLocals)
+* [Read my friends] (#)ReadMyFriends
+* [Read my news] (#ReadMyNews)
+* [Read Partiers] (#ReadPartiers)
+* [Read my pet friendship] (#ReadPetFriendship)
+* [Mode] (#Mode)
+* [Status] (#Status)
+
 
 ###<a name='RegisterUser'></a>Register
 	* <baseUrl> + /register/user.php
@@ -113,7 +130,7 @@ There are three ways to login in our application:
 
 
 ###<a name='EditUser'></a>Edit Profile
-	* <baseUrl> + /update/user.php/<idProfile>/<Token>
+	* <baseUrl> + /update/user.php/<idProfile>/<Token>/<idUser>
 	* Method: GET
 	* Response:
 		{
@@ -129,6 +146,10 @@ There are three ways to login in our application:
 			"city"		: <Max 20 characters>
 			"drink"		: <Max 20 characters>
 			"about"		: <Max 200 characters>
+			"mode"      : <tinyint>
+			"status"    : <Max 140 characters>
+			"modefriend": <0- not friends, 1-he want to be your friend, 2-yourself, 
+			               3-you want to be his friend, 4-friends>
 		}
 	* Method: POST
 	* Every slot has to be text
@@ -145,6 +166,8 @@ There are three ways to login in our application:
 			"city"		: <Max 20 characters>
 			"drink"		: <Max 20 characters>
 			"about"		: <Max 200 characters>
+			"mode"      : <tinyint>
+			"status"    : <Max 140 characters>
 		}
 
 
@@ -167,11 +190,305 @@ There are three ways to login in our application:
 		    }
 		]
 
+		
+###<a name='myPetFriendship'></a>My pet friendship
+    * We get the data to whom we have sent the friendship request and has not answered yet.
+	* <baseUrl> + /action/mypetfriendship.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:		
+		{    
+		   For 0 to "i":{
+		            "idProfile"	: <User's idProfile>
+           		    "picture"	: <user's picture url Max 100 characters>
+			        "name"		: <Max 20 characters>
+			        "surnames"	: <Max 45 characters> // We must fix this and change it to surname
+			        "birthdate"	: <birthdate dd/mm/yyyy>
+			        "gender"   	: <male> or <female>
+			        "music"		: <Max 20 characters>
+			        "civil_sate"	: <Max 20 characters>
+			        "city"		: <Max 20 characters>
+			        "drink"		: <Max 20 characters>
+			        "about"		: <Max 200 characters>
+			        "mode"      : <>
+			        "status"    : <Max 140 characters>
+	                }
+					
+          "numPetitions"   : <value of $i>
+          "myfriendship"   : <true/false>	
+		
+		}		
 
+###<a name='myEvents'></a>My events
+	* <baseUrl> + /action/myevents.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:		
+		{    
+		   For 0 to "i":{
+					"name"      :  <Pub's name>
+					"pictureC"  :  <Pub's picture>
+					"idProfile" :  <Pub's id>
+	                }
+		
+		}	
+		
+		
+###<a name='goToPub'></a>Go to pub
+	* <baseUrl> + /action/goToPub.php/<idProfile>/<Token>/<idLocal>
+	* Method: GET
+	* Response:
+		{
+			"goToPub"   : <True or error>
+		}
+	* Method: DELETE
+	* Data deleted:
+		{
+			"goToPub"   : <False or error>
+		}		
+
+
+		
+###<a name='goToEvent'></a>Go to event
+	* <baseUrl> + /action/goToEvent.php/<idProfile>/<Token>/<idEvent>
+	* Method: GET
+	* Response:
+		{
+			"goto"   : <True>
+		}
+	* Method: DELETE
+	* Data deleted:
+		{
+			"goto"   : <False>
+		}
+
+	
+###<a name='followFriend'></a>Follow Friend
+	* <baseUrl> + /action/followFriend.php/<idProfile>/<Token>/<idUser>
+	* Method: GET
+	* Response:
+		{
+			"follow"   : <true or false>
+		}
+	* Method: POST
+	* Data Sent:
+		{
+			"follow"   : <true or false>
+		}
+    * Method: DELETE
+	* Data deleted:
+		{
+			"delete"   : <true or false>
+		}
+	
+
+###<a name='follow'></a>Follow
+	* <baseUrl> + /action/follow.php/<idProfile>/<Token>/<idUser>
+	* Method: GET
+	* Response:
+		{
+			"follow"   : <true or error>
+		}
+
+    * Method: DELETE
+	* Data deleted:
+		{
+			"delete"   : <false or error>
+		}
+		
+
+
+
+###<a name='ReadDj'></a>Read Djs
+	* <baseUrl> + /read/djs.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		    "idProfile"	: <Dj's idProfile>
+			"nameDJ"	: <Max 30 characters>
+			"music"		: <Max 20 characters>
+			"picture"	: <Profile's picture url>
+		}
+		
+		
+###<a name='ReadEvents'></a>Read Events
+	* <baseUrl> + /read/events.php/<idProfile>/<Token>/<idUser>
+	* Method: GET
+	* Response:
+		{
+			"name"	   : <Max 30 characters>
+			"pictureC" : <Profile's picture url>
+			"error"    : <false or true>
+			"idEvent   : <Event's profile>
+			"title"    : <Max 40 characters>
+			"text"     : <Max 40 characters>
+			"date"     : <dd/mm/yyyy>
+			"startHour": <time>
+			"CloseHour": <time>
+			"CreatedTime": <timeStamp>
+			
+		}
+		
+		
+###<a name='ReadLocals'></a>Read Locals
+	* <baseUrl> + /read/locals.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		    "idProfile"	: <Pub's idProfile>
+			"localName"	: <Max 20 characters>
+			"telephoneLocal"		: <Max 11 characters>
+			"street"	: <0 street> or <1 Avda> or <2 Plaza>
+			"streetNameLocal"	: <Max 50 characters>
+			"streetNumberLocal"	: <Max 50 characters>
+			"latitude"	: <Max 11 characters>
+			"longitude"	: <Max 11 characters>
+			"picture"	: <Profile's picture url>
+		}
+		
+		
+###<a name='ReadMyFriends'></a>Read Locals
+	* <baseUrl> + /read/myFriends.php/<idProfile>/<Token>/<idUser>
+	* Method: GET
+	* Response:
+		{
+		   For to "i":{
+		            "idProfile"	: <User's idProfile>
+           		    "picture"	: <user's picture url Max 100 characters>
+			        "name"		: <Max 20 characters>
+			        "surnames"	: <Max 45 characters> // We must fix this and change it to surname
+			        "birthdate"	: <birthdate dd/mm/yyyy>
+			        "gender"   	: <male> or <female>
+			        "music"		: <Max 20 characters>
+			        "civil_sate"	: <Max 20 characters>
+			        "city"		: <Max 20 characters>
+			        "drink"		: <Max 20 characters>
+			        "about"		: <Max 200 characters>
+			        "mode"      : <tinyint>
+			        "status"    : <Max 140 characters>
+				  
+				  }
+
+
+           "numFriends": $i 
+           "myfriends": <true or false>}
+
+		}
+		
+		
+###<a name='ReadMyNews'></a>Read News
+	* <baseUrl> + /read/news.php/<idProfile>/<Token>/<page>
+	* Method: GET
+	* Response:
+		{
+		   For to "i":{
+		            "idProfile"	: <User's idProfile>
+           		    "picture"	: <user's picture url Max 100 characters>
+			        "name"		: <Max 20 characters>
+			        "surnames"	: <Max 45 characters> // We must fix this and change it to surname
+			        "birthdate"	: <birthdate dd/mm/yyyy>
+			        "gender"   	: <male> or <female>
+			        "music"		: <Max 20 characters>
+			        "civil_sate"	: <Max 20 characters>
+			        "city"		: <Max 20 characters>
+			        "drink"		: <Max 20 characters>
+			        "about"		: <Max 200 characters>
+			        "mode"      : <tinyint>
+			        "status"    : <Max 140 characters>
+				  
+				  }
+
+
+           "numFriends": $i 
+           "myfriends": <true or false>}
+
+		}
+		
+		
+
+###<a name='ReadPartiers'></a>Read Partiers
+	* <baseUrl> + /read/partiers.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		    "idProfile"	: <User's idProfile>
+			"picture"	: <user's picture url Max 100 characters>
+			"name"		: <Max 20 characters>
+			"surnames"	: <Max 45 characters> // We must fix this and change it to surname
+			"birthdate"	: <birthdate dd/mm/yyyy>
+			"gender"	: <male> or <female>
+			"music"		: <Max 20 characters>
+			"civil_sate"	: <Max 20 characters>
+			"city"		: <Max 20 characters>
+			"drink"		: <Max 20 characters>
+			"about"		: <Max 200 characters>
+			"mode"      : <tinyint>
+			"status"    : <Max 140 characters>
+		}		
+		
+		
+###<a name='ReadPetFriendship'></a>Read Pet Friend ship
+	* <baseUrl> + /read/petFriendship.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		       
+		   For 0 to "i":{
+		            "idProfile"	: <User's idProfile>
+           		    "picture"	: <user's picture url Max 100 characters>
+			        "name"		: <Max 20 characters>
+			        "surnames"	: <Max 45 characters> // We must fix this and change it to surname
+			        "birthdate"	: <birthdate dd/mm/yyyy>
+			        "gender"   	: <male> or <female>
+			        "music"		: <Max 20 characters>
+			        "civil_sate"	: <Max 20 characters>
+			        "city"		: <Max 20 characters>
+			        "drink"		: <Max 20 characters>
+			        "about"		: <Max 200 characters>
+			        "mode"      : <tinyint>
+			        "status"    : <Max 140 characters>
+	                }
+					
+          "numPetitions"   : <value of $i>
+          "friendship"   : <true or false>	
+		
+		}	
+				
+
+###<a name='Mode'></a>Mode
+	* <baseUrl> + /update/mode.php/<idProfile>/<Token>
+	* Method: POST
+	* Data Sent:
+		{
+			"mode" : <tinyint>
+		}
+    * Response:
+		{
+			"mode"  : <true or false>
+		}
+
+
+###<a name='Status'></a>Status
+	* <baseUrl> + /update/status.php/<idProfile>/<Token>
+	* Method: POST
+	* Data Sent:
+		{
+			"status" : <Max 140 characters>
+		}
+    * Response:
+		{
+			"status"  : <true or false>
+		}
+
+
+
+				
+	
 ##<a name='Premises'></a>Premises Section
 * [Register](#RegisterPremises)
 * [Login](#LoginPremises)
 * [Edit Profile](#EditPremises)
+* [Pub Followers] (#PubFollowers)
+* [Create Event] (#CreateEvent)
+* [Edit Event]  (#EditEvent)
 
 ###<a name='RegisterPremises'></a>Register
 	* <baseUrl> + /register/local.php // We must change to the English word Premises
@@ -179,15 +496,15 @@ There are three ways to login in our application:
 	* Data Sent:
 		{
 			"email"		: <Max 50 characters>
-			"companyName"	: <Max 50 characters>
+			"companyNameLocal"	: <Max 50 characters>
 			"localName"	: <Max 20 characters>
 			"cif"		: <Max 9 characters>
 			"poblationLocal": <Max 20 characters>
 			"cpLocal"	: <This must be a numer>
-			"telephone"	: <This must be a numer>
+			"telephoneLocal"	: <This must be a numer>
 			"street"	: <0 street> or <1 Avda> or <2 Plaza>
-			"streetName"	: <Max 50 characters>
-			"streetNumber"	: <Max 50 characters>
+			"streetNameLocal"	: <Max 50 characters>
+			"streetNumberLocal"	: <Max 50 characters>
 		}
 	* Response:
 		{
@@ -217,26 +534,27 @@ There are three ways to login in our application:
 	* Method: GET
 	* Response:
 		{
-			"companyName"	: <Max 50 characters>
-			"localName"	: <Max 20 characters>
-			"cif"		: <Max 9 characters>
+			"companyNameLocal"	: <Max 50 characters>
+			"localName"  	: <Max 20 characters>
+			"cif"		    : <Max 9 characters>
 			"poblationLocal": <Max 20 characters>
-			"cpLocal"	: <This must be a numer>
-			"telephone"	: <This must be a numer>
-			"street"	: <0 street> or <1 Avda> or <2 Plaza>
-			"streetName"	: <Max 50 characters>
-			"streetNumber"	: <Max 50 characters>
-			"latitude"	: <Max 11 characters>
-			"longitude"	: <Max 11 characters>
-			"music"		: <Max 20 characters>
-			"entryPrice"	: <This must be a numer>
-			"drinkPrice"	: <This must be a numer>
+			"cpLocal"	    : <This must be a numer>
+			"telephoneLocal": <This must be a numer>
+			"street"	    : <0 street> or <1 Avda> or <2 Plaza>
+			"streetNameLocal"	: <Max 50 characters>
+			"streetNumberLocal"	: <Max 50 characters>
+			"latitude"	    : <Max 11 characters>
+			"longitude"	    : <Max 11 characters>
+			"music"		    : <Max 20 characters>
+			"entryPrice"	: <This must be a number>
+			"drinkPrice"	: <This must be a number>
 			"openingHours"	: <This must be a time>
 			"closeHours"	: <This must be a time>
-			"picture"	: <Profile's picture url>
-			"about"		: <Max 100 characters>
-			"follow:	: <0 not following this local by idProfile> or <1 following this local by idProfile>
-			"followers"	: <total followers of this premise
+			"picture"	    : <Profile's picture url>
+			"about"		    : <Max 100 characters>
+			"createdTime"   : <timestamp>
+			"follow:	    : <0 not following this local by idProfile> or <1 following this local by idProfile>
+			"followers"	    : <total followers of this premise>
 		}
 
 	* <baseUrl> + /update/local.php/<idProfile>/<Token> // We must change to the English word Premises
@@ -244,27 +562,112 @@ There are three ways to login in our application:
 	* Data Sent:
 		{
 			"idProfile"	: <Premises's idProfile>
-			"companyName"	: <Max 50 characters>
+			"companyNameLocal"	: <Max 50 characters>
 			"localName"	: <Max 20 characters>
 			"cif"		: <Max 9 characters>
 			"poblationLocal": <Max 20 characters>
-			"cpLocal"	: <This must be a numer>
-			"telephone"	: <This must be a numer>
+			"cpLocal"	: <This must be a number>
+			"telephoneLocal"	: <This must be a number>
 			"street"	: <0 street> or <1 Avda> or <2 Plaza>
-			"streetName"	: <Max 50 characters>
-			"streetNumber"	: <Max 50 characters>
+			"streetNameLocal"	: <Max 50 characters>
+			"streetNumberLocal"	: <Max 50 characters>
 			"latitude"	: <Max 11 characters>
 			"longitude"	: <Max 11 characters>
 			"music"		: <Max 20 characters>
-			"entryPrice"	: <This must be a numer>
-			"drinkPrice"	: <This must be a numer>
+			"entryPrice"	: <This must be a number>
+			"drinkPrice"	: <This must be a number>
 			"openingHours"	: <This must be a time>
 			"closeHours"	: <This must be a time>
 			"picture"	: <Profile's picture url>
 			"about"		: <Max 100 characters>
+
 		}
 
+###<a name='PubFollowers'></a>Pub followers
+	* <baseUrl> + /action/pubfollowers.php/<idProfile>/<Token>/<idPub> 
+	* Method: GET
+	* Response:		
+		{    
+		    For 1 to "followers"{
+		      "idProfile"	: <User's idProfile>
+			  "picture"	    : <user's picture url Max 100 characters>
+			  "name"		: <Max 20 characters>
+			  "surnames"	: <Max 45 characters> // We must fix this and change it to surname
+			  "birthdate"	: <birthdate dd/mm/yyyy>
+			  "gender"   	: <male> or <female>
+			  "music"		: <Max 20 characters>
+			  "civil_sate"	: <Max 20 characters>
+			  "city"		: <Max 20 characters>
+			  "drink"		: <Max 20 characters>
+			  "about"		: <Max 200 characters>
+			  "mode"        : <>
+			  "status"      : <Max 140 characters>
+		     }
+		
+		    "pubfollowers"	: <true if is a pub or false if isn't>
+		
+				
+		}	
 
+	
+###<a name='EditEvent'></a>Edit Event
+	* <baseUrl> + /update/event.php/<idEvent> <idProfile>
+	* Method: GET
+	* Response:
+		{
+
+			"idEvent   : <Event's profile>
+			"title"    : <Max 40 characters>
+			"text"     : <Max 40 characters>
+			"date"     : <dd/mm/yyyy>
+			"startHour": <time>
+			"CloseHour": <time>
+			"CreatedTime": <timeStamp>
+		}
+
+	* <baseUrl> + /update/event.php/<idEvent> <idProfile>
+	* Method: POST
+	* Data Sent:
+		{
+			"idProfile"	: <Event's idProfile>
+			"idEvent"   : <Event's id>
+			"title"		: <Max 40 characters>
+			"text"	    : <Max 200 characters>
+			"date"		: <dd/mm/yy>
+			"startHour"	: <time>
+			"closeHour"	: <time>
+
+		}
+	* Method: DELETE
+		{
+			"delete"    : <True>
+
+		}
+		
+				
+
+###<a name='CreateEvent'></a> Create Event
+	* <baseUrl> + /create/event.php 
+	* Method: POST
+	* Data Sent:
+		{
+			"title"		: <Max 40 characters>
+			"text"	    : <Max 200 characters>
+			"date"		: <dd/mm/yy>
+			"startHour"	: <time>
+			"closeHour"	: <time>
+		}
+	* Response:
+		{
+			"New"	: <True or False>
+		}	
+
+		
+
+
+
+		
+		
 ##<a name='Dj'></a>Dj Section
 * [Register](#RegisterDj)
 * [Login](#LoginDj)
@@ -325,11 +728,12 @@ There are three ways to login in our application:
 			"follow:	: <0 not following this local by idProfile> or <1 following this local by idProfile>
 			"followers"	: <total followers of this premise
 		}
-	* <baseUrl> + /update/user.php/<idProfile>/<Token>
+		
+	* <baseUrl> + /update/dj.php/<idProfile>/<Token>
 	* Method: POST
 	* Data Sent:
 		{
-			"idProfile"	: <Premises's idProfile>
+			"idProfile"	: <Dj's idProfile>
 			"nameDJ"	: <Max 30 characters>
 			"name"		: <Max 20 characters>
 			"surname"	: <Max 45 characters>
@@ -340,3 +744,4 @@ There are three ways to login in our application:
 			"picture"	: <Profile's picture url>
 			"about"		: <Max 100 characters>
 		}
+
