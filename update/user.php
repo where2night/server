@@ -7,6 +7,7 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idPartier = $request[0];
 	$token = $request[1];
+	$idUser= $request[2];
 	$tokenT= _tokenOK($idPartier,$token);
 	//If $tokenT is 1 access granted if it is 0 access not granted
 	
@@ -47,10 +48,33 @@
 			break;	
 
 		case 'GET':
-				$data = _getPartierData($idPartier);
+				$data = _getPartierData($idUser);
 				if ($data['gender'] == 1) $data['gender'] = male;
 				else $data['gender'] = female;
 				$data['birthdate'] = _formato_fechas($data['birthdate']);
+				//0- not friends 1-he want to be your friend
+				// 2-yourself 3-you want to be his friend 4-friends
+				if($idProfile != $idUser){
+					$friend= _getModeFollow($idProfile,$idUser);
+					switch ($friend) {
+						case '0': //you want to be his friend
+							$auxdata['modefriend']= 3;
+							break;
+						case '1': //friends
+							$auxdata['modefriend']= 4;
+							break;
+						case '4': // he want to be your friend
+							$auxdata['modefriend']= 1;
+							break;
+						
+						default: // not friend
+							$auxdata['modefriend']= 0;
+							break;
+					}
+				}else{ //yourself
+					$auxdata['modefriend']= 2; 
+				}
+				$data=array_merge($data,$aux);
 				echo json_encode($data);
 			break;	
 		  default:

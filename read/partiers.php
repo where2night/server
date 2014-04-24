@@ -15,9 +15,8 @@
 			case 'GET':
 				if ($idProfile != ""){
 					$data= _getPartiers();
-					echo json_encode($data);
-
 				}
+				echo json_encode($data);
 					
 			break;	
 		  default:

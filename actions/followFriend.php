@@ -15,31 +15,28 @@
 		switch ($method) {
 			case 'POST':
 				if ($idProfile != "" && $idUser != ""){
-					if ($type == 0){ //Partier
-						$idProfile = $_POST["idProfile"];
-						$idUser = $_POST["idPartier"];
+					$type=_getTypeProfile($idUser);
+					if ($type == 0){ //Partier	
 						$mode = _getModeFollow($idProfile,$idUser);
-						if($mode == 0){
-							$idP1= _getIdPartier($idProfile);
-							$idP2= _getIdPartier($idUser);
-							$mode=1;
-							$aux = _setModeFollowPartier($idP1,$idP2,$mode);
+						if($mode == 4){
+							$aux = _acceptFriend($idProfile,$idUser);
 							$aux['follow']=true;
 						}else{
-							$aux["follow"]=false;
+							$aux['follow']= false; 
 						}
 
 					}else{
 						$aux['follow'] = false;
 					}
 				}
+				echo json_encode($aux);
 				break;
 			case 'GET':
 				if ($idProfile != "" && $idUser != ""){
 					$type = _getTypeProfile($idUser);
-					$mode = 0;
+					
 					if ($type == 0){ //Partier
-						$aux = _followPartier($idProfile,$idUser,$mode);
+						$aux = _followPartier($idProfile,$idUser);
 						$aux['follow']=true;
 					}else{
 						$aux['follow'] = false;

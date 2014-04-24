@@ -1,4 +1,4 @@
-DELIMITER$$
+DELIMITER $$
 CREATE PROCEDURE `unFollowPartier`(idPartier INT, idProfileUser INT)
 BEGIN				
 		DECLARE idP int(11);
