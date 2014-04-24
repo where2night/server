@@ -172,7 +172,26 @@ There are three ways to login in our application:
 
 
 ###<a name='News'></a>News
-	* <baseUrl> + /read/news.php/<idProfile>/<Token>
+	* <baseUrl> + /read/news.php/<idProfile>/<Token>/<Page>
+	* Method: GET
+	* Response:
+		[	
+		    {
+		        "localName"	: <Max 20 characters>
+		        "picture"	: <Profile's picture url>
+		        "title"		: ""
+		        "text"		: ""
+		        "date"		: < Date >
+		        "startHour"	: < Time >
+		        "closeHour"	: < Time >
+		        "createdTime"	: < DateTime >
+		        "TYPE"		: "1" < That means that is an event >
+		        "GOES"		: < If this filed is not null means that this partier goes to this event >
+		    }
+		]
+		
+###<a name='NewsUser'></a>NewsUser
+	* <baseUrl> + /read/newsUser.php/<idProfile>/<Token>/<idUserProfiel>/<Page>
 	* Method: GET
 	* Response:
 		[	
