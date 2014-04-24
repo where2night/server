@@ -688,7 +688,7 @@ function _setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHou
 
  function _getListData($idList,$idProfile){
  	_db_connect();
- 	$query = "call getListData('{$idList}','{idProfile}')";
+ 	$query = "call getListData('{$idList}','{$idProfile}')";
  	$campo=_db_query($query);
  	$res=_db_fetch_array($campo);
  	_db_close();
@@ -888,20 +888,21 @@ function _goesToPub($idProfile,$idLocal){
 
 function _getNews($idProfile,$start){
 	_db_connect();
- 	$query = "call getNews('{$idProfile}')";
+ 	$query = "call getNews('{$idProfile}' )";
  	$campo=_db_query($query);
  	$filas = _db_num_rows($campo);
  	for($i= 0 ; $i<$filas ; $i++){
  		$res[$i]=_db_fetch_array($campo);
  	}
  	_db_close();
+ 	
 	$arr = array_slice($res,$start,10);
 	$arr['numElems'] = $filas;
  	return $arr;
 }
-function _getNewsUser($idProfile,$start){
+function _getNewsUser($idProfile,$idPartier,$start){
 	_db_connect();
- 	$query = "call getNewsUser('{$idProfile}')";
+ 	$query = "call getNewsUser('{$idProfile}', '{$idPartier}')";
  	$campo=_db_query($query);
  	$filas = _db_num_rows($campo);
  	for($i= 0 ; $i<$filas ; $i++){
@@ -1039,8 +1040,21 @@ function _eventsDontGo($idProfile){
  	_db_close();
  	return $res;
 }
-?>
+function _joinList($idProfile,$idList){
+	_db_connect();
+	$query = "call joinList('{$idList}','{$idProfile}')";
+	_db_query($query);
+	_db_close();
+}
+function _deleteOfList($idProfile,$idList){
+	_db_connect();
+	$query = "call deleteOfList('{$idList}','{$idProfile}')";
+	_db_query($query);
+	_db_close();
+}
 
+
+?>
 
 
 

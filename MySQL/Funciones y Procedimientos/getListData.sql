@@ -2,9 +2,14 @@ DELIMITER //
  
  CREATE PROCEDURE getListData(IN idList INT(11),IN idProfile INT(11))
     BEGIN
-		SELECT p.title, p.text, p.date, p.startHour, p.closeHour, p.createdTime
-		FROM `List` p
-		WHERE (p.idList = idList AND p.idPub = idProfile);
+		DECLARE idP int(11);
+   
+   		 SET idP = (SELECT pb.idPub
+					FROM `Pub` pb
+					WHERE pb.idProfile = idProfile);
+		SELECT p.title, p.about, p.date, p.startHour, p.closeHour, p.createdTime
+		FROM `Lists` p
+		WHERE (p.idLists = idList AND p.idPub = idP);
 	END//
     
 DELIMITER ;

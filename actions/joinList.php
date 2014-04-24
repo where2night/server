@@ -17,10 +17,26 @@
 				if ($idProfile != "" && $idList != ""){
 					$aux = _joinList($idProfile,$idList);
 					$aux['join'] = true;
-					echo json_encode($aux);
-
-				}
 					
+
+				}else{
+					$aux['join']=false;
+				}
+				echo json_encode($aux);
+					
+			break;
+			case 'DELETE':
+				if($idProfile != "" && $idList != ""){
+					
+					$aux= _deleteOfList($idProfile,$idList);
+					$aux['deleteofList']=true;
+				
+				}else{
+					$aux['deleteofList']=true;
+				}
+				echo json_encode($aux);
+			
+			
 			break;	
 		  default:
 		//	rest_error($request);  

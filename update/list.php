@@ -5,17 +5,17 @@
 	
 	//Checking credentials
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
-	$idList = $request[0];
-	$idProfile = $request[1];
-	
-	if (isset($_SERVER['REQUEST_METHOD']) ){
+	$idProfile = $request[0];
+	$token = $request[1];
+	$idList = $request[2];
+	$tokenT= _tokenOK($idProfile,$token);
+
+	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT==1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		case 'POST':
-			if (isset($_POST["idProfile"])){
+			if ($idProfile != ""){
 
-				$idProfile = $_POST["idProfile"];
-				$idList = $_POST["idList"];
 				$title = $_POST["title"];
   				$text = $_POST["text"];
   				$date = $_POST["date"];
@@ -24,21 +24,34 @@
   				$closeHour = $_POST["closeHour"];
   				
 				_setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour);
+				$aux['updateList']=true;
 				
+			}else{
+				$aux['updateList']=false;
 			}	
-				
+			echo json_encode($aux);	
 			break;	
 
 		case 'GET':
 				
-				$data = _getListData($idList,$idProfile);
-				$data['date'] = _formato_fechas($data['date']);	
+				if($idList != ""){
+					$data = _getListData($idList,$idProfile);
+					$data['date'] = _formato_fechas($data['date']);	
+					$data['getList']=true;
+				}else{
+					$data['getList']=false;
+				}
+				
 				echo json_encode($data);
 			break;
 		
 		case 'DELETE':
-				$data = _deleteList($idList,$idProfile);
-				$data['Delete'] = true ;
+				if($idList != ""){
+					$data = _deleteList($idList,$idProfile);
+					$data['DeleteList'] = true ;
+				}else{
+					$data['DeleteList']=false;
+				}
 				echo json_encode($data);
 				break;	
 		  default:
