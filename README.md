@@ -764,3 +764,41 @@ There are three ways to login in our application:
 			"about"		: <Max 100 characters>
 		}
 
+###<a name='EventsTodayUser'></a>EventsTodayUser
+	* <baseUrl> + /read/eventsTodayUser.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		[	
+		    {
+		        "localName"	: <Max 20 characters>
+		        "picture"	: <Profile's picture url>
+				"street"	:
+				"streetNameLocal"	: ""
+				"streetNumberLocal"	: ""
+		        "title"		: ""
+		        "text"		: ""
+		        "date"		: < Date >
+		        "startHour"	: < Time >
+		        "closeHour"	: < Time >
+		        "createdTime"	: < DateTime >
+		        
+		    }
+		]
+###<a name='updatePass'></a>updatePass
+	* <baseUrl> + /update/updatePass.php
+	* Method: POST
+	* Data Sent:
+		{
+			"idProfile"		: <id Profile>
+			"token"	: <user's token>
+			"oldPass"	: <user's old password>
+			"newPass"	: <user's new password>
+		}
+	* Response:
+		{
+			"error"	: 0 -> ok
+					  1 -> tokens fail 
+					  2 -> user fb or google (can't change)
+					  3 -> old pass is incorrect
+			
+		}
