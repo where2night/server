@@ -41,7 +41,10 @@
 				$city = $_POST['city'];
 				$drink = $_POST["drink"]; 
 				$about = $_POST["about"]; 
-				_setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about);
+				$facebook = $_POST['facebook'];
+				$twitter = $_POST["twitter"]; 
+				$instagram = $_POST["instragram"]; 
+				_setPartierData($idProfile,$picture,$name,$surnames,$birthdate,$genderbool,$music,$civil_state,$city,$drink,$about,$facebook,$twitter,$instagram);
 				
 			}	
 				
