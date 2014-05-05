@@ -57,6 +57,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Partier` (
   `city` VARCHAR(20) NULL,
   `drink` VARCHAR(20) NULL,
   `about` VARCHAR(200) NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   `picture_p` TINYINT(1) NOT NULL DEFAULT 1,
   `name_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `surname_p` TINYINT(1) NOT NULL DEFAULT 1,
@@ -67,6 +70,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Partier` (
   `city_p` TINYINT(1) NOT NULL DEFAULT 1,
   `drink_p` TINYINT(1) NOT NULL DEFAULT 1,
   `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idPartier`),
   INDEX `fk_Partier_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_Partier_Profile1`
@@ -102,6 +108,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `closeHours` TIME(2) NULL,
   `picture` VARCHAR(100) NULL,
   `about` VARCHAR(200) NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   ---- PRIVACY ----
   `music_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `entryPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
@@ -110,6 +119,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `closeHours_p` TINYINT(1) NOT NULL DEFAULT 1,
   `picture_p` TINYINT(1) NOT NULL DEFAULT 1,
   `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
 
 
   PRIMARY KEY (`idPub`),

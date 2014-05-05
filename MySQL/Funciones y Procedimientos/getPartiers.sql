@@ -4,7 +4,7 @@ DELIMITER //
     BEGIN
 				SELECT *
 				FROM `Partier` d 
-				ORDER BY d.name ASC, d.surnames ASC;
+				ORDER BY  d.surnames ASC, d.name ASC;
 	END//
     
 DELIMITER ;
