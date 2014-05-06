@@ -2,37 +2,25 @@
 
 	require_once ("../db.inc");
 	require_once ("../utils.inc");
-	
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
-
+	$page = $request[2];
 
 	$tokenT= _tokenOK($idProfile,$token);
-	
+	$MAX_ITEMS = 10;
 	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT == 1){
 		$method = $_SERVER['REQUEST_METHOD'];
-	
 		switch ($method) {
-		case 'POST':
-			if($idProfile != ""){
-				
-				$status = $_POST["status"];
+			case 'GET':
+				if ($idProfile != ""){
+					$start = $MAX_ITEMS * $page;
+					$data= _getNews($idProfile,$start);
+					echo json_encode($data);
 
-				_setStatusPartier($idProfile,$status);
-				$aux['status']=true;
-			}else{
-				$aux['status']=false;
-			}
-			echo json_encode($aux);
-			break;
+				}
 					
-		case 'GET':
-				
-				$data = _getStatusPartier($idProfile);
-				echo json_encode($data);
-					
-			break;		
+			break;	
 		  default:
 		//	rest_error($request);  
 			break;

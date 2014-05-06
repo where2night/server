@@ -14,7 +14,7 @@
 		switch ($method) {
 			case 'GET':
 				if ($idProfile != ""){
-					$aux = _eventsUser($idProfile);
+					$aux = _listsUser($idProfile);
 					$pos= $aux['rows'];
 					for ($i=0; $i < $pos ; $i++) {
 						$auxdam=$aux[$i];
@@ -22,27 +22,24 @@
 						$idPPub= _getIdProfilePub($id);
 						$type= _getTypeProfile($idPPub); 
 						
-						if ($type == -1) { //DJ
-							$auxdam=_getDJData($id);
-							$name= $auxdam['nameDJ'];
-							$picture = $auxdam['picture'];
-							$aux[$i]['name'] = $name;
-							$aux[$i]['pictureC'] = $picture;
-						}elseif ($type == 1) { //Pub
+						if ($type == 1) { //Pub
 							$auxdam=_getLocalData($idPPub);
 							$name= $auxdam['localName'];
 							$picture= $auxdam['picture'];
 							$aux[$i]['name'] = $name;
 							$aux[$i]['pictureC'] = $picture;
 							$aux[$i]['idProfile']= $idPPub;
-						}else{
-							
 						}
-	
+
 					}
-					echo json_encode($aux);
+					$aux['myLists']=true;
+					
+				}else{
+					$aux['myLists']=false;
 
 				}
+				echo json_encode($aux);
+
 					
 			break;	
 		  default:

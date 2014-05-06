@@ -14,6 +14,6 @@ BEGIN
 					WHERE d.idProfile = idPartier);
 		
 
-		INSERT INTO `Friends` VALUES (idU,idD,null,mode);
+		INSERT INTO `Friends` VALUES (idU,idD,0);
 		
   END$$

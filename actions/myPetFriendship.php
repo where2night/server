@@ -9,14 +9,30 @@
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
+	//petitions friendship that you sent to others
 	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT == 1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 			case 'GET':
 				if ($idProfile != ""){
-					$data= _getPartiers();
+
+					$data= _getMyPetFriendship($idProfile);
+					$num= $data['rows'];
+					for ($i=0; $i < $num ; $i++) { 
+						$aux=$data[$i];
+						$aux=$aux['idProfile'];
+						$aux1[$i]=_getPartierData($aux);
+						$aux1[$i]['idProfile']=$aux;
+
+					}
+					$aux1['numPetitions']=$num;
+					$aux1['friendship']=true;
+
+				}else{
+					$aux1['friendship']=false;
 				}
-				echo json_encode($data);
+
+				echo json_encode($aux1);
 					
 			break;	
 		  default:

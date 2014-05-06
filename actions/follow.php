@@ -10,6 +10,7 @@
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
+	
 	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT == 1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
@@ -25,7 +26,8 @@
 						$aux = _followLocal($idProfile,$idUser);
 						$aux['follow'] = true;
 					} elseif($type == 0){ //Partier
-						$aux = _followPartier($idProfile,$idUser);
+					
+						$a=_followPartier($idProfile,$idUser,0);
 						$aux['follow']=true;
 					}else{
 						$aux['follow'] = false;
@@ -65,6 +67,10 @@
 
 		}
 
-	}
+	}else{
+						$aux['follow'] = false;
+						$aux['info']="token and user are not correct";
+						echo json_encode($aux);
+						}
 
 ?>

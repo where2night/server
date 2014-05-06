@@ -2,7 +2,6 @@
 
 	require_once ("../db.inc");
 	require_once ("../utils.inc");
-	
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
@@ -15,9 +14,7 @@
 		switch ($method) {
 		  case 'POST':
 	
-			if($idProfile != ""){ 
-				
-			
+			if ($idProfile != ""){
 				$type = _getTypeProfile($idProfile); 
 				$title = $_POST["title"];
   				$text = $_POST["text"];
@@ -33,15 +30,12 @@
 					break;
  
   					default:
-  						$arr = _insertEvent($idProfile,$title,$text,$date,$startHour,$closeHour);
+  						$arr = _insertList($idProfile,$title,$text,$date,$startHour,$closeHour);
 						$arr['New'] = true;
   					break;
   				}
-				
-			}else{
-				$arr['error']=true;
+				echo json_encode($arr);
 			}
-			echo json_encode($arr);
 			
 			
 			break;		

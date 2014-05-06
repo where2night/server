@@ -12,26 +12,27 @@
 	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT == 1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
-		case 'POST':
-			
-				if($idProfile != ""){
-				$mode = $_POST["mode"];
-
-				_setModePartier($idProfile,$mode);
-				$aux['mode']=true;
-				}else{
-				$aux['mode']=false;
-				}
-				echo json_encode($aux);
-				
-				
-				
-			break;	
-			
 			case 'GET':
-				
-				$data = _getModePartier($idProfile);
-				echo json_encode($data);
+				if ($idProfile != ""){
+
+					$data= _getWhoFriend($idProfile);
+					$num= $data['rows'];
+					for ($i=0; $i < $num ; $i++) { 
+						$aux=$data[$i];
+						$aux=$aux['idProfile'];
+						$aux1[$i]=_getPartierData($aux);
+						$aux1[$i]['idProfile']=$aux;
+
+					}
+					$aux1['numPetitions']=$num;
+					$aux1['friendship']=true;
+
+				}else{
+					$aux1['friendship']=false;
+				}
+
+				echo json_encode($aux1);
+					
 			break;	
 		  default:
 		//	rest_error($request);  

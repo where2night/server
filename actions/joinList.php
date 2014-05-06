@@ -6,32 +6,39 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
+	$idList = $request[2];
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
 	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT == 1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
-		case 'POST':
-			
-				if($idProfile != ""){
-				$mode = $_POST["mode"];
 
-				_setModePartier($idProfile,$mode);
-				$aux['mode']=true;
+			case 'POST': //add to List
+				if ($idProfile != "" && $idList != ""){
+					$aux = _joinList($idProfile,$idList);
+					$aux['join'] = true;
+					
+
 				}else{
-				$aux['mode']=false;
+					$aux['join']=false;
 				}
 				echo json_encode($aux);
+					
+			break;
+
+			case 'DELETE':
+				if($idProfile != "" && $idList != ""){
+					
+					$aux= _deleteOfList($idProfile,$idList);
+					$aux['deleteofList']=true;
 				
-				
-				
-			break;	
+				}else{
+					$aux['deleteofList']=true;
+				}
+				echo json_encode($aux);
 			
-			case 'GET':
-				
-				$data = _getModePartier($idProfile);
-				echo json_encode($data);
+			
 			break;	
 		  default:
 		//	rest_error($request);  
