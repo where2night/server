@@ -859,6 +859,19 @@ function _eventsUser($idProfile){
  	return $res;
 
 }
+function _listsUser($idProfile){
+	_db_connect();
+ 	$query = "call listsUser('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	$res['rows']= $filas;
+ 	_db_close();
+ 	return $res;
+
+}
 function _goToPub($idProfile,$idPub){
 	_db_connect();
 	$query = "call goToPub('{$idPub}','{$idProfile}')";
@@ -1052,7 +1065,19 @@ function _deleteOfList($idProfile,$idList){
 	_db_query($query);
 	_db_close();
 }
+function _getPartiersInList($idList){
+	_db_connect();
+	$query = "call getPartiersInList('{$idList}')";
+	$campo= _db_query($query);
+	$filas= _db_num_rows($campo);
+	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	$res['rows']= $filas;
+ 	_db_close();
+ 	return $res;
 
+}
 
 ?>
 

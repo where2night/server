@@ -764,3 +764,186 @@ There are three ways to login in our application:
 			"about"		: <Max 100 characters>
 		}
 
+###<a name='EventsTodayUser'></a>EventsTodayUser
+	* <baseUrl> + /read/eventsTodayUser.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		[	
+		    {
+		        "localName"	: <Max 20 characters>
+		        "picture"	: <Profile's picture url>
+				"street"	:
+				"streetNameLocal"	: ""
+				"streetNumberLocal"	: ""
+		        "title"		: ""
+		        "text"		: ""
+		        "date"		: < Date >
+		        "startHour"	: < Time >
+		        "closeHour"	: < Time >
+		        "createdTime"	: < DateTime >
+		        
+		    }
+		]
+###<a name='updatePass'></a>updatePass
+	* <baseUrl> + /update/updatePass.php
+	* Method: POST
+	* Data Sent:
+		{
+			"idProfile"		: <id Profile>
+			"token"	: <user's token>
+			"oldPass"	: <user's old password>
+			"newPass"	: <user's new password>
+		}
+	* Response:
+		{
+			"error"	: 0 -> ok
+					  1 -> tokens fail 
+					  2 -> user fb or google (can't change)
+					  3 -> old pass is incorrect
+			
+		}
+###<a name='Lists'></a>Lists
+
+* [Create Lists](#CreateLists)
+* [Update Lists](#UpdateLists)
+* [Join List](#JoinList)
+* [Pub Lists] (#PubLists)
+* [My Lists(Partiers)](#MyLists)
+* [Partiers in List(PUB)](#PartiersInList)
+
+###<a name='CreateLists'></a> Create
+* <baseUrl> + /create/list.php/<idProfile>/<Token>
+	* Method: POST
+	* Data Sent:
+		{
+
+			"title" : <Max 40 characters>
+  			"text" : <Max 140 characters>
+  			"date" : <dd/mm/yyyy>
+  			"startHour" : <time>
+  			"closeHour" : <time>
+		}
+	* Response:
+	{
+		"New": <True or False>
+
+	}
+###<a name='UpdateLists'></a> Update
+* <baseUrl> + /update/list.php/<idProfile>/<Token>/<idList>
+	* Method: POST
+	* Data Sent:
+		{
+			
+			"title" : <Max 40 characters>
+  			"text" : <Max 140 characters>
+  			"date" : <dd/mm/yyyy>
+  			"startHour" : <time>
+  			"closeHour" : <time>
+		}
+	* Response:
+	{
+		"updateList": <True or False>
+
+	}
+
+	* Method: GET	
+	* Response:
+	{
+		"title" : <Max 40 characters>
+  		"text" : <Max 140 characters>
+  		"date" : <dd/mm/yyyy>
+  		"startHour" : <time>
+		"closeHour" : <time>
+		"createdTime": <yyyy-mm-dd hh:mm:ss>
+		"getList": <True or False>
+
+	}
+
+	* Method: DELETE
+	* Response:
+		{
+			
+			"DeleteList" : <true or false>
+		}
+
+###<a name='JoinList'></a> Join List
+* <baseUrl> + /actions/joinList.php/<idProfile>/<Token>/<idList>
+	* Method: GET
+	* Response:
+	{
+		"join": <True or False>
+
+	}
+
+	* Method: DELETE
+	* Response:
+	{
+		"deleteofList": <True or False>
+
+	}
+###<a name='PubLists'></a> Pub Lists
+* <baseUrl> + /read/lists.php/<idProfile>/<Token>/<idProfilePub>
+	* Method: GET
+	* Response:
+	{
+		"name": localname <Max 20 characters>
+		"picture": <Max 100 characters>
+		"error":<true or false>
+		For 0 to i:{
+			"idLists":""
+			"title":<Max 40 characters>
+			"about":<Max 140 characters>
+			"createdTime":<yyyy-mm-dd hh:mm:ss>
+			"date":<yyyy-mm-dd>
+			"startHour":<time>
+			"closeHour":<time>
+		}
+
+	}
+###<a name='MyLists'></a> My Lists Partier
+* <baseUrl> + /actions/myLists.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+	{
+		For 0 to i:{
+			"idLists":""
+			"idPub":""
+			"title":<Max 40 characters>
+			"about":<Max 140 characters>
+			"date":<yyyy-mm-dd>
+			"startHour":<time>
+			"closeHour":<time>
+			"name": localname <Max 20 characters>
+			"picture": <Max 100 characters>
+			"idProfile": <idProfilePub>
+		}
+		"rows": <int>
+		"myLists":<true or false>
+
+	}
+
+###<a name='PartiersInList'></a> Partiers in List
+* <baseUrl> + /read/partiersInList.php/<idProfile>/<Token>/<idList>
+	* Method: GET
+	* Response:
+	{
+		For 0 to i:{
+			"idProfile"	: <User's idProfile>
+			"picture"	    : <user's picture url Max 100 characters>
+			"name"		: <Max 20 characters>
+			"surnames"	: <Max 45 characters> // We must fix this and change it to surname
+			"birthdate"	: <birthdate dd/mm/yyyy>
+			"gender"   	: <male> or <female>
+			"music"		: <Max 20 characters>
+			"civil_sate"	: <Max 20 characters>
+			"city"		: <Max 20 characters>
+			"drink"		: <Max 20 characters>
+			"about"		: <Max 200 characters>
+			"mode"        : <>
+			"status"      : <Max 140 characters>
+		}
+		"rows": <int>
+		"getPartiersInList": <true or false>
+	}
+
+

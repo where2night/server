@@ -13,7 +13,8 @@
 	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT == 1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
-			case 'GET':
+
+			case 'POST': //add to List
 				if ($idProfile != "" && $idList != ""){
 					$aux = _joinList($idProfile,$idList);
 					$aux['join'] = true;
@@ -25,6 +26,7 @@
 				echo json_encode($aux);
 					
 			break;
+
 			case 'DELETE':
 				if($idProfile != "" && $idList != ""){
 					

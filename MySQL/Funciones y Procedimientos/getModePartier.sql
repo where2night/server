@@ -11,5 +11,6 @@ DELIMITER $$
         SELECT pm.mode
         FROM `PartierMode` pm
         WHERE (pm.idPartier = idP1)
-        ORDER BY pm.createdTime DESC;
+        ORDER BY pm.createdTime DESC
+        LIMIT 0,1;
   END$$
