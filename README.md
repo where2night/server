@@ -810,11 +810,11 @@ There are three ways to login in our application:
 * [Update Lists](#UpdateLists)
 * [Join List](#JoinList)
 * [Pub Lists] (#PubLists)
-* [My Lists(Partiers)](#MyLists)
-* [Partiers in List(PUB)](#PartiersInList)
+* [My Lists Partiers](#MyLists)
+* [Partiers in List PUB](#PartiersInList)
 
 ###<a name='CreateLists'></a> Create
-* <baseUrl> + /create/list.php/<idProfile>/<Token>
+	* <baseUrl> + /create/list.php/<idProfile>/<Token>
 	* Method: POST
 	* Data Sent:
 		{
@@ -831,7 +831,7 @@ There are three ways to login in our application:
 
 	}
 ###<a name='UpdateLists'></a> Update
-* <baseUrl> + /update/list.php/<idProfile>/<Token>/<idList>
+	* <baseUrl> + /update/list.php/<idProfile>/<Token>/<idList>
 	* Method: POST
 	* Data Sent:
 		{
@@ -869,7 +869,7 @@ There are three ways to login in our application:
 		}
 
 ###<a name='JoinList'></a> Join List
-* <baseUrl> + /actions/joinList.php/<idProfile>/<Token>/<idList>
+	* <baseUrl> + /actions/joinList.php/<idProfile>/<Token>/<idList>
 	* Method: GET
 	* Response:
 	{
@@ -884,7 +884,7 @@ There are three ways to login in our application:
 
 	}
 ###<a name='PubLists'></a> Pub Lists
-* <baseUrl> + /read/lists.php/<idProfile>/<Token>/<idProfilePub>
+	* <baseUrl> + /read/lists.php/<idProfile>/<Token>/<idProfilePub>
 	* Method: GET
 	* Response:
 	{
@@ -903,7 +903,7 @@ There are three ways to login in our application:
 
 	}
 ###<a name='MyLists'></a> My Lists Partier
-* <baseUrl> + /actions/myLists.php/<idProfile>/<Token>
+	* <baseUrl> + /actions/myLists.php/<idProfile>/<Token>
 	* Method: GET
 	* Response:
 	{
@@ -925,7 +925,7 @@ There are three ways to login in our application:
 	}
 
 ###<a name='PartiersInList'></a> Partiers in List
-* <baseUrl> + /read/partiersInList.php/<idProfile>/<Token>/<idList>
+	* <baseUrl> + /read/partiersInList.php/<idProfile>/<Token>/<idList>
 	* Method: GET
 	* Response:
 	{
