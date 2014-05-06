@@ -801,8 +801,8 @@ There are three ways to login in our application:
 					  2 -> user fb or google (can't change)
 					  3 -> old pass is incorrect
 			
-<<<<<<< HEAD
 		}
+
 ###<a name='Lists'></a>Lists
 
 * [Create Lists](#CreateLists)
@@ -948,6 +948,6 @@ There are three ways to login in our application:
 	}
 
 
-=======
+
 		}
->>>>>>> 2043d25c533b3391bdb5bf0da2c5fdc4d5ba6038
+
