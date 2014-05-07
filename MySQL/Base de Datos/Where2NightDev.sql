@@ -381,7 +381,8 @@ BEGIN
       p.openingHours= openingHours,
       p.closeHours=  closeHours,
       p.picture= picture,
-      p.about= about  
+      p.about= about 
+
     
     WHERE (p.idProfile = idProfile);
   END$$
@@ -737,6 +738,9 @@ CREATE TABLE IF NOT EXISTS `Partier` (
   `city` varchar(20) DEFAULT NULL,
   `drink` varchar(20) DEFAULT NULL,
   `about` varchar(200) DEFAULT NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   `picture_p` tinyint(1) NOT NULL DEFAULT '1',
   `name_p` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `surname_p` tinyint(1) NOT NULL DEFAULT '1',
@@ -747,6 +751,9 @@ CREATE TABLE IF NOT EXISTS `Partier` (
   `city_p` tinyint(1) NOT NULL DEFAULT '1',
   `drink_p` tinyint(1) NOT NULL DEFAULT '1',
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idPartier`),
   KEY `fk_Partier_Profile1_idx` (`idProfile`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
@@ -885,6 +892,9 @@ CREATE TABLE IF NOT EXISTS `Pub` (
   `closeHours` time DEFAULT NULL,
   `picture` varchar(100) DEFAULT NULL,
   `about` varchar(200) DEFAULT NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   `music_p` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `entryPrice_p` tinyint(1) NOT NULL DEFAULT '1',
   `drinkPrice_p` tinyint(1) NOT NULL DEFAULT '1',
@@ -892,6 +902,9 @@ CREATE TABLE IF NOT EXISTS `Pub` (
   `closeHours_p` tinyint(1) NOT NULL DEFAULT '1',
   `picture_p` tinyint(1) NOT NULL DEFAULT '1',
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idPub`),
   KEY `fk_Pub_Profile1_idx` (`idProfile`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
