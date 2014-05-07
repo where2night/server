@@ -1124,6 +1124,8 @@ function _getPartiersInList($idList){
  	return $res;
 
 }
+
+/* -------------------------------- JUKEBOX-------------------------------------*/
 function _insertTrack($idProfile,$name,$artist){
 
 	_db_connect();
@@ -1133,6 +1135,33 @@ function _insertTrack($idProfile,$name,$artist){
 	$arr = array();
 	return $arr;
 }
+function _setTrackData($idProfile,$idTrack,$name,$artist){
+	_db_connect();
+ 	$query = "call setTrackData('{$idProfile}','{$idTrack}','{$name}','{$artist}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+
+}
+function _getTrackData($idProfile,$idTrack){
+	_db_connect();
+ 	$query = "call getTrackData('{$idProfile}','{$idTrack}')";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+
+}
+function _deleteTrack($idProfile,$idTrack){
+	_db_connect();
+ 	$query = "call deleteTrack('{$idProfile}','{$idTrack}')";
+ 	$campo=_db_query($query);
+ 	
+ 	_db_close();
+ 	return $res;
+
+}
+
+/* ----------------------------------------------------------------------------------*/
 
 ?>
 
