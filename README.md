@@ -971,5 +971,37 @@ There are three ways to login in our application:
 		"NewTrack": <True or False>
 
 	}
+###<a name='UpdateTrack'></a> Update Track
+	* <baseUrl> + /update/track.php/<idProfile>/<Token>/<idTrack>
+	* Method: POST
+	* Data Sent:
+		{
+			
+			"name" : <Max 40 characters>
+  			"artist" : <Max 40 characters>
+		}
+	* Response:
+	{
+		"updateTrack": <True or False>
+
+	}
+
+	* Method: GET	
+	* Response:
+	{
+		"trackName" : <Max 40 characters>
+  		"trackArtist" : <Max 40 characters>
+		"createdTime": <yyyy-mm-dd hh:mm:ss>
+		"getTrack": <True or False>
+
+	}
+
+	* Method: DELETE
+	* Response:
+		{
+			
+			"DeleteTrack" : <true or false>
+		}
+
 
 
