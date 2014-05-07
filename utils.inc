@@ -1171,6 +1171,12 @@ function  _getPlayList($idProfile){
  	_db_close();
  	return $res;
 }
+function _voteTrack($idProfile,$idPub,$idTrack){
+	_db_connect();
+ 	$query = "call voteTrack('{$idProfile}','{$idPub}','{$idTrack}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+}
 /* ----------------------------------------------------------------------------------*/
 
 ?>

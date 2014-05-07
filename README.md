@@ -1023,4 +1023,16 @@ There are three ways to login in our application:
 
 	}
 
+###<a name='PartierVoteTrack'></a> Partier Vote Track
+	* <baseUrl> + /actions/voteTrack.php/<idProfile>/<Token>/<idPub>/<idTrack>
+	* Method: POST
+	* Response:
+	{
+		"vote": <True or False>
+		"error": <True or False>
+				"vote=true and error=false": <vote ok>
+				"error=true": <NO PARTIER>
+				"vote=false and error=true": <some field empty>
+	}
+
 
