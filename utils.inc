@@ -1124,6 +1124,15 @@ function _getPartiersInList($idList){
  	return $res;
 
 }
+function _insertTrack($idProfile,$name,$artist){
+
+	_db_connect();
+	$query = "call setTrack('{$idProfile}','{$name}','{$artist}')";
+	$res=_db_query($query);
+	_db_close();
+	$arr = array();
+	return $arr;
+}
 
 ?>
 
