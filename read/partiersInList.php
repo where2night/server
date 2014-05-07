@@ -6,6 +6,8 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
+	$idList= $request[2];
+
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
@@ -14,32 +16,24 @@
 		switch ($method) {
 			case 'GET':
 				if ($idProfile != ""){
-					$aux = _listsUser($idProfile);
-					$pos= $aux['rows'];
+					$type= _getTypeProfile($idProfile);
+					if ($type==1) {//local
+						$aux=_getPartiersInList($idList);
+						$pos= $aux['rows'];
 					for ($i=0; $i < $pos ; $i++) {
-						$auxdam=$aux[$i];
-						$id=$auxdam['idProfileCreator'];
-						$idPPub= _getIdProfilePub($id);
-						$type= _getTypeProfile($idPPub); 
-						
-						if ($type == 1) { //Pub
-							$auxdam=_getLocalData($idPPub);
-							$name= $auxdam['localName'];
-							$picture= $auxdam['picture'];
-							$aux[$i]['name'] = $name;
-							$aux[$i]['pictureC'] = $picture;
-							$aux[$i]['idProfile']= $idPPub;
-						}
-
+						if($aux[$i]['gender']==1){
+							$aux[$i]['gender']=male;
+						}else {
+							$aux[$i]['gender']=female;
+						}	
 					}
-					$aux['myLists']=true;
+					$aux['getPartiersInList']=true;
+					}else{
+						$aux['getPartiersInList']=false;
+					}
 					
-				}else{
-					$aux['myLists']=false;
-
 				}
 				echo json_encode($aux);
-
 					
 			break;	
 		  default:

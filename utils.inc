@@ -495,6 +495,37 @@ function _tokenOk($id,$token){//devuelve 1 si corresponden
 	return $res;
 
 }
+
+function _setUserPass ($idProfile,$oldPass,$newPass){
+   	_db_connect();
+
+	
+	$passEncriptada = sha1($oldPass);
+	$passEncriptada1 = sha1($newPass);
+	$query = "Select checkPass('{$idProfile}','{$passEncriptada}')";
+	$resultado = _db_query($query);
+	$campo = _db_fetch_array($resultado);
+	$existe = current($campo);	
+
+	if ($existe == -1){
+	$query = "call setUserPass('{$idProfile}','{$passEncriptada1}')";
+	$arr = array('Error' => '0');
+
+	}
+	else if ($existe == 0 OR $existe == 1) {//FB or Google user
+
+	$arr = array('Error' => '2');
+	}
+	else if ($existe == 2 ) {//pass incorrect
+
+	$arr = array('Error' => '3');
+	}
+	_db_query($query);
+	_db_close();
+			return $arr;	
+}
+
+
 function _getPartierData($id){  
 	_db_connect();
 	$query = "Call getPartierData('{$id}')";
@@ -859,6 +890,19 @@ function _eventsUser($idProfile){
  	return $res;
 
 }
+function _listsUser($idProfile){
+	_db_connect();
+ 	$query = "call listsUser('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	$res['rows']= $filas;
+ 	_db_close();
+ 	return $res;
+
+}
 function _goToPub($idProfile,$idPub){
 	_db_connect();
 	$query = "call goToPub('{$idPub}','{$idProfile}')";
@@ -911,6 +955,21 @@ function _getNewsUser($idProfile,$idPartier,$start){
  	_db_close();
 	$arr = array_slice($res,$start,10);
 	$arr['numElems'] = $filas;
+ 	return $arr;
+}
+
+
+function _getEventsTodayUser($idProfile){
+	_db_connect();
+ 	$query = "call getEventsTodayUser('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+	
+	$arr['numElems'] = $res;
  	return $arr;
 }
 
@@ -1052,7 +1111,19 @@ function _deleteOfList($idProfile,$idList){
 	_db_query($query);
 	_db_close();
 }
+function _getPartiersInList($idList){
+	_db_connect();
+	$query = "call getPartiersInList('{$idList}')";
+	$campo= _db_query($query);
+	$filas= _db_num_rows($campo);
+	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	$res['rows']= $filas;
+ 	_db_close();
+ 	return $res;
 
+}
 
 ?>
 
