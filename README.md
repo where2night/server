@@ -947,8 +947,29 @@ There are three ways to login in our application:
 		"rows": <int>
 		"getPartiersInList": <true or false>
 	}
+##<a name='JukeBox'></a>JukeBox
 
+* [Create Track](#CreateTrack)
+* [Update Track](#UpdateTrack)
+* [Get Pub Playlist](#PlayList)
+* [Partier Vote Track](#PartierVoteTrack)
+* [Restart Playlist](#Restart)
+* [Playing Track](#PlayingTrack)
 
+###<a name='CreateTrack'></a> Create Track
+	* <baseUrl> + /create/track.php/<idProfile>/<Token>
+	* Method: POST
+	* Data Sent:
+		{
+
+			"name" : <Max 40 characters>
+  			"artist" : <Max 40 characters>
 
 		}
+	* Response:
+	{
+		"NewTrack": <True or False>
+
+	}
+
 
