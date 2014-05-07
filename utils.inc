@@ -1160,7 +1160,17 @@ function _deleteTrack($idProfile,$idTrack){
  	return $res;
 
 }
-
+function  _getPlayList($idProfile){
+	_db_connect();
+ 	$query = "call getPlayList('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+ 	return $res;
+}
 /* ----------------------------------------------------------------------------------*/
 
 ?>

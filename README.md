@@ -1002,6 +1002,25 @@ There are three ways to login in our application:
 			
 			"DeleteTrack" : <true or false>
 		}
+###<a name='PlayList'></a> Get Pub Playlist
+	* <baseUrl> + /read/playList.php/<idProfile>/<Token>/<idProfilePub>
+	* Method: GET
+	* Response:
+	ORDER BY VOTES DESC AND trackArtist ASC
+	{
+		"name": localname <Max 20 characters>
+		"picture": <Max 100 characters>
+		"error":<true or false>
+		For 0 to i:{
+			"idTrack":""
+			"trackName":<Max 40 characters>
+			"trackArtist":<Max 40 characters>
+			"createdTime":<yyyy-mm-dd hh:mm:ss>
+			"votes":<>
+			"playing":<0 stop 1 playing>
+			
+		}
 
+	}
 
 
