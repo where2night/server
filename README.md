@@ -38,6 +38,7 @@
 * [Read my news] (#ReadMyNews)
 * [Read Partiers] (#ReadPartiers)
 * [Read my pet friendship] (#ReadPetFriendship)
+* [Read all users, searchs] (#ReadAllUsers)
 * [Mode] (#Mode)
 * [Status] (#Status)
 
@@ -470,7 +471,34 @@ There are three ways to login in our application:
           "friendship"   : <true or false>	
 		
 		}	
-				
+			
+
+###<a name='ReadAllUsers'></a>Read All Users
+	* <baseUrl> + /read/allusers.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+
+        Partiers:
+		  For 0 to "i": {
+		  	"name"		: <Max 20 characters>
+			"surnames"	: <Max 45 characters>
+			"picture"	: <user's picture url Max 100 characters>
+			"idProfile"	: <User's idProfile> 
+			"type"      : 0
+		}	
+
+		Pubs:
+		  For 0 to "j": {
+		  	"name"		: <Max 20 characters>
+			"picture"	: <user's picture url Max 100 characters>
+			"idProfile"	: <User's idProfile> 
+			"type"      : 1
+		}
+
+
+        }
+
 
 ###<a name='Mode'></a>Mode
 	* <baseUrl> + /update/mode.php/<idProfile>/<Token>
