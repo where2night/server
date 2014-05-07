@@ -151,6 +151,11 @@ There are three ways to login in our application:
 			"status"    : <Max 140 characters>
 			"modefriend": <0- not friends, 1-he want to be your friend, 2-yourself, 
 			               3-you want to be his friend, 4-friends>
+			"facebook"	: <Max 50 characters>
+			"twitter"	: <Max 15 characters>
+			"instagram"	: <Max 30 characters>
+
+			
 		}
 	* Method: POST
 	* Every slot has to be text
@@ -169,6 +174,9 @@ There are three ways to login in our application:
 			"about"		: <Max 200 characters>
 			"mode"      : <tinyint>
 			"status"    : <Max 140 characters>
+			"facebook"	: <Max 50 characters>
+			"twitter"	: <Max 15 characters>
+			"instagram"	: <Max 30 characters>
 		}
 
 
@@ -384,6 +392,9 @@ There are three ways to login in our application:
 			        "about"		: <Max 200 characters>
 			        "mode"      : <tinyint>
 			        "status"    : <Max 140 characters>
+			        "facebook"	: <Max 50 characters>
+			        "twitter"	: <Max 15 characters>
+			        "instagram"	: <Max 30 characters>
 				  
 				  }
 
@@ -442,6 +453,9 @@ There are three ways to login in our application:
 			"about"		: <Max 200 characters>
 			"mode"      : <tinyint>
 			"status"    : <Max 140 characters>
+			"facebook"	: <Max 50 characters>
+			"twitter"	: <Max 15 characters>
+			"instagram"	: <Max 30 characters>
 		}		
 		
 		
@@ -465,6 +479,9 @@ There are three ways to login in our application:
 			        "about"		: <Max 200 characters>
 			        "mode"      : <tinyint>
 			        "status"    : <Max 140 characters>
+			        "facebook"	: <Max 50 characters>
+			        "twitter"	: <Max 15 characters>
+			        "instagram"	: <Max 30 characters>
 	                }
 					
           "numPetitions"   : <value of $i>
@@ -599,6 +616,9 @@ There are three ways to login in our application:
 			"closeHours"	: <This must be a time>
 			"picture"	    : <Profile's picture url>
 			"about"		    : <Max 100 characters>
+			"facebook"	: <Max 50 characters>
+			"twitter"	: <Max 15 characters>
+			"instagram"	: <Max 30 characters>
 			"createdTime"   : <timestamp>
 			"follow:	    : <0 not following this local by idProfile> or <1 following this local by idProfile>
 			"followers"	    : <total followers of this premise>
@@ -627,6 +647,9 @@ There are three ways to login in our application:
 			"closeHours"	: <This must be a time>
 			"picture"	: <Profile's picture url>
 			"about"		: <Max 100 characters>
+			"facebook"	: <Max 50 characters>
+			"twitter"	: <Max 15 characters>
+			"instagram"	: <Max 30 characters>
 
 		}
 
@@ -649,6 +672,9 @@ There are three ways to login in our application:
 			  "about"		: <Max 200 characters>
 			  "mode"        : <>
 			  "status"      : <Max 140 characters>
+			  "facebook"	: <Max 50 characters>
+			  "twitter"	: <Max 15 characters>
+			  "instagram"	: <Max 30 characters>
 		     }
 		
 		    "pubfollowers"	: <true if is a pub or false if isn't>
