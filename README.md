@@ -1034,5 +1034,13 @@ There are three ways to login in our application:
 				"error=true": <NO PARTIER>
 				"vote=false and error=true": <some field empty>
 	}
-
+	* Method: DELETE
+	* Response:
+	{
+		"deleteVote": <True or False>
+		"error": <True or False>
+				"deleteVote=true and error=false": <vote ok>
+				"error=true": <NO PARTIER>
+				"deleteVote=false and error=true": <some field empty>
+	}
 

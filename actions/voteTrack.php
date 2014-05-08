@@ -37,6 +37,23 @@
 				echo json_encode($aux);
 					
 			break;
+			case 'DELETE':
+				if ($idProfile != "" && $idTrack != "" && $idPub != ""){
+					$type=_getTypeProfile($idUser);
+					if ($type == 0){ //Partier
+						$aux = _deleteVote($idProfile,$idPub,$idTrack);
+						$aux['deletevote'] = true;
+						$aux['error'] = false;
+					}else{
+						$aux['error'] = true;
+					}
+				}else{
+					$aux['deletevote']=false;
+					$aux['error']=true;
+				}
+				echo json_encode($aux);
+				
+				break;
 		  default:
 		//	rest_error($request);  
 			break;

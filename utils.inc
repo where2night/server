@@ -1177,6 +1177,14 @@ function _voteTrack($idProfile,$idPub,$idTrack){
  	$campo = _db_query($query);
  	_db_close();
 }
+function _deleteVote($idProfile,$idPub,$idTrack){
+	_db_connect();
+ 	$query = "call deleteVote('{$idProfile}','{$idPub}','{$idTrack}')";
+ 	$campo=_db_query($query);
+ 	_db_close();
+ 	return $res;
+
+}
 /* ----------------------------------------------------------------------------------*/
 
 ?>
