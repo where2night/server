@@ -1185,6 +1185,17 @@ function _deleteVote($idProfile,$idPub,$idTrack){
  	return $res;
 
 }
+function _myTracksIn($idProfile,$idPub){
+	_db_connect();
+ 	$query = "call myTracksIn('{$idProfile}','{$idPub}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+ 	return $res;
+}
 /* ----------------------------------------------------------------------------------*/
 
 ?>

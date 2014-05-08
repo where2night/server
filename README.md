@@ -953,6 +953,7 @@ There are three ways to login in our application:
 * [Update Track](#UpdateTrack)
 * [Get Pub Playlist](#PlayList)
 * [Partier Vote Track](#PartierVoteTrack)
+* [My Tracks Voted In Pub](#MyTracksIn)
 * [Restart Playlist](#Restart)
 * [Playing Track](#PlayingTrack)
 
@@ -1043,4 +1044,13 @@ There are three ways to login in our application:
 				"error=true": <NO PARTIER>
 				"deleteVote=false and error=true": <some field empty>
 	}
+###<a name='MyTracksIn'></a> My Tracks Voted In Pub
+	* <baseUrl> + /actions/myTracksIn.php/<idProfile>/<Token>/<idProfilePub>
+	* Method: GET
+	* Response:
+	{
+		For 0 to i:{
+			"idTrack":""
+		}
 
+	}
