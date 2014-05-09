@@ -1211,6 +1211,13 @@ function _playTrack($idProfile,$idTrack){
  	$campo = _db_query($query);
  	_db_close();
 }
+function _restartPlaylist($idProfile){
+	_db_connect();
+ 	$query = "call restartPlaylist('{$idProfile}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+}
+
 /* ----------------------------------------------------------------------------------*/
 
 ?>

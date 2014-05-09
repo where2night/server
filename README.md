@@ -1063,3 +1063,10 @@ There are three ways to login in our application:
 	{
 		"playTrack": <True or False>
 	}
+###<a name='Restart'></a> Restart Playlist
+	* <baseUrl> + /actions/restartPlaylist.php/<idProfile>/<Token>
+	* Method: POST
+	* Response:
+	{
+		"restartPlaylist": <True or False>
+	}
