@@ -964,6 +964,25 @@ CREATE TABLE IF NOT EXISTS `Works` (
   KEY `fk_DJ_has_Pub_DJ1_idx` (`idDJ`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Messages`
+--
+
+DROP TABLE IF EXISTS `Messages`;
+CREATE TABLE IF NOT EXISTS `Messages` (
+  `idPartier1` int(11) NOT NULL,
+  `idPartier2` int(11) NOT NULL,
+  `message` varchar(1000)  DEFAULT NOT NULL,
+  `sentTime` timestamp DEFAULT CURRENT_TIMESTAMP
+  PRIMARY KEY (`idPartier1`,`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier2_idx` (`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier1_idx` (`idPartier1`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
 --
 -- Restricciones para tablas volcadas
 --
