@@ -1205,6 +1205,12 @@ function _myTracksIn($idProfile,$idPub){
  	_db_close();
  	return $res;
 }
+function _playTrack($idProfile,$idTrack){
+	_db_connect();
+ 	$query = "call playTrack('{$idProfile}','{$idTrack}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+}
 /* ----------------------------------------------------------------------------------*/
 
 ?>

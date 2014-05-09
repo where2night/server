@@ -956,7 +956,7 @@ There are three ways to login in our application:
 * [Partier Vote Track](#PartierVoteTrack)
 * [My Tracks Voted In Pub](#MyTracksIn)
 * [Restart Playlist](#Restart)
-* [Playing Track](#PlayingTrack)
+* [Play Track](#PlayTrack)
 
 ###<a name='CreateTrack'></a> Create Track
 	* <baseUrl> + /create/track.php/<idProfile>/<Token>
@@ -1055,4 +1055,11 @@ There are three ways to login in our application:
 			"idTrack":""
 		}
 
+	}
+###<a name='PlayTrack'></a> Play Track
+	* <baseUrl> + /actions/playTrack.php/<idProfile>/<Token>/<idTrack>
+	* Method: POST
+	* Response:
+	{
+		"playTrack": <True or False>
 	}
