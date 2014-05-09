@@ -27,7 +27,8 @@
 					$aux = _dontGoToEvent($idProfile,$idEvent);
 					$aux['goto'] = false;
 					echo json_encode($aux);
-				}		
+				}
+			break;		
 		  default:
 		//	rest_error($request);  
 			break;

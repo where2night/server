@@ -922,7 +922,7 @@ function _dontGoToPub($idProfile,$idPub){
 }
 function _goesToPub($idProfile,$idLocal){
 	_db_connect();
-	$query = "select userGoesToPub('{$idProfile}','{$idlocal}')";
+	$query = "select userGoesToPub('{$idProfile}','{$idLocal}')";
 	$campo=_db_query($query);
 	$res= _db_fetch_array($campo);
 	$res=current($res);
@@ -1124,6 +1124,15 @@ function _getPartiersInList($idList){
  	return $res;
 
 }
+function _joinedInList($idProfile,$idList){
+	_db_connect();
+	$query = "select userJoinedList('{$idProfile}','{$idList}')";
+	$campo=_db_query($query);
+	$res= _db_fetch_array($campo);
+	$res=current($res);
+	_db_close();
+	return $res;
+}
 
 /* -------------------------------- JUKEBOX-------------------------------------*/
 function _insertTrack($idProfile,$name,$artist){
@@ -1160,9 +1169,9 @@ function _deleteTrack($idProfile,$idTrack){
  	return $res;
 
 }
-function  _getPlayList($idProfile){
+function  _getPlayList($idProfile,$idPub){
 	_db_connect();
- 	$query = "call getPlayList('{$idProfile}')";
+ 	$query = "call getPlayList('{$idProfile}','{$idPub}')";
  	$campo=_db_query($query);
  	$filas = _db_num_rows($campo);
  	for($i= 0 ; $i<$filas ; $i++){

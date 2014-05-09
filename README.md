@@ -899,6 +899,7 @@ There are three ways to login in our application:
 			"date":<yyyy-mm-dd>
 			"startHour":<time>
 			"closeHour":<time>
+			"GOES": <idProfile or null>
 		}
 
 	}
@@ -1019,6 +1020,7 @@ There are three ways to login in our application:
 			"createdTime":<yyyy-mm-dd hh:mm:ss>
 			"votes":<>
 			"playing":<0 stop 1 playing>
+			"VOTE": <idPartier or null>
 			
 		}
 

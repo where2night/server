@@ -24,7 +24,7 @@
 						$data['error']=true;
 					}
 					
-					$data= _getPlayList($idUser);
+					$data= _getPlayList($idProfile,$idUser);
 					if($data != null){
 						$data=array_merge($resaux,$data);
 					}else{
