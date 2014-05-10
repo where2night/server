@@ -9,9 +9,9 @@ BEGIN
 		
 
 
-        SELECT DISTINCT ms.idPartier2
-        FROM  `MessagesStatus` ms
-        WHERE (ms.idPartier1 = idP ) ;
+        SELECT DISTINCT p.idProfile
+        FROM  `MessagesStatus` ms, `Partier` p
+        WHERE (ms.idPartier1 = idP ) and (ms.idPartier2=p.idPartier) ;
 
 
   END$$

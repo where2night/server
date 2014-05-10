@@ -6,6 +6,7 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
+	$idEvent = $request[2]; //Event
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
@@ -13,23 +14,15 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 			case 'GET':
-				if ($idProfile != ""){
-					$aux= _getPartiersMessages($idProfile);
+				if ($idProfile != "" && $idEvent != ""){
+					$res= _howManyGoesToEvent($idEvent);			
+					echo json_encode($res);
+
 				}
-				
-				for ($i=0; $i < sizeof($aux) ; $i++) {
-							$idP = $aux[$i]['idProfile'];
-							$data[$i] = _getMessagesFriend($idProfile,$idP);
-	                        $data[$i]['idProfile']=$idP;  
-								
-						} 
-
-
-				echo json_encode($data);
 					
-			break;	
-
-		  default: 
+			break;
+				
+		  default:
 			break;
 		}
 	}

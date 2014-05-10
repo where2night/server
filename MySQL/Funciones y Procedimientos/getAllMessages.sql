@@ -9,9 +9,9 @@ BEGIN
 		
 
 
-        SELECT m.message, m.createdTime, ms.idPartier2, ms.mode
-        FROM `Messages` m, `MessagesStatus` ms
-        WHERE (ms.idPartier1 = idP ) and (ms.idMessage = m.idMessage) ;
+        SELECT m.message, m.createdTime, p.idProfile, ms.mode
+        FROM `Messages` m, `MessagesStatus` ms, `Partier` p
+        WHERE (ms.idPartier1 = idP ) and (ms.idMessage = m.idMessage) and (p.idPartier=  ms.idPartier2) ;
 
 
   END$$

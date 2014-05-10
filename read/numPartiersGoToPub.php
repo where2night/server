@@ -6,6 +6,7 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
+	$idUser = $request[2]; //Pub
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
@@ -13,23 +14,21 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 			case 'GET':
-				if ($idProfile != ""){
-					$aux= _getPartiersMessages($idProfile);
-				}
-				
-				for ($i=0; $i < sizeof($aux) ; $i++) {
-							$idP = $aux[$i]['idProfile'];
-							$data[$i] = _getMessagesFriend($idProfile,$idP);
-	                        $data[$i]['idProfile']=$idP;  
-								
-						} 
-
-
-				echo json_encode($data);
+				if ($idProfile != "" && $idUser != ""){
+					$type = _getTypeProfile($idUser);
+					if ($type == 1) { //Pub
+						$res= _howManyGoToPub($idUser);
+					} else{
+						echo "No es un local.";
+					}
 					
-			break;	
+					echo json_encode($res);
 
-		  default: 
+				}
+					
+			break;
+				
+		  default:
 			break;
 		}
 	}

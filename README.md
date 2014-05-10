@@ -39,9 +39,16 @@
 * [Read Partiers] (#ReadPartiers)
 * [Read my pet friendship] (#ReadPetFriendship)
 * [Read all users, searchs] (#ReadAllUsers)
+* [Number of Partiers who go to a pub] (#numPartiersGoToPub)
+* [Number of Partiers who go to a event] (#numPartiersGoToEvent)
 * [Mode] (#Mode)
 * [Status] (#Status)
-
+* [Check unread Messages](#checkMessagesUnread)
+* [Read all my messages](#ReadMessages)
+* [Read all my messages Sorted by Friend](#ReadMessagesSorted)
+* [Read my messages of a Friend](#ReadMessagesFriend)
+* [Partiers with which you have messages](#partiersMessages)
+* [SendMessage](#sendMessage)
 
 ###<a name='RegisterUser'></a>Register
 	* <baseUrl> + /register/user.php
@@ -542,7 +549,108 @@ There are three ways to login in our application:
 			"status"  : <true or false>
 		}
 
+###<a name='numPartiersGoToPub'></a>Number of Partiers who go to a pub
+	* <baseUrl> + /read/numPartiersGoToPub.php/<idProfile>/<Token>/<idUser>   //idUser have to be a pub
+	* Method: GET
+	* Response:
+		{
+		    "howManyGoToPub('idProfilePub')"	: <Int>
+		}
 
+###<a name='numPartiersGoToEvent'></a>Number of Partiers who go to a event
+	* <baseUrl> + /read/numPartiersGoToPub.php/<idProfile>/<Token>/<idEvent>
+	* Method: GET
+	* Response:
+		{
+		    "howManyGoesToEvent('idEvent')"	: <Int>
+		}	
+
+###<a name='checkMessagesUnread'></a>Check unread Messages
+	* <baseUrl> + /read/checkMessagesUnread.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		    For 0 to "i": {
+
+		    	           "idProfile": <idProfile of all users who sent you a message without reading>
+		    }
+
+		    //if it is null, don't new messages
+		}	
+
+
+###<a name='ReadMessages'></a>Read all my messages
+	* <baseUrl> + /read/messages.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		    For 0 to "i": {
+
+		    	           "message"    : <Max 1000 characters>
+		    	           "createdTime": <Sent time>
+		    	           "idProfile"  : <idProfile who have sent or received>
+		    	           "mode"       : <0:sent  1:received, but NOT read  2:read>
+		    }
+		}	
+
+
+###<a name='ReadMessagesSorted'></a>Read all my messages Sorted by Friend
+	* <baseUrl> + /read/messagesSorted.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		      
+            For 0 to "i": {
+              
+		        For 0 to "j": {
+
+		    	           "message"    : <Max 1000 characters>
+		    	           "createdTime": <Sent time>
+		    	           "mode"       : <0:sent  1:received, but NOT read  2:read>
+		             }
+                         "idProfile"  : <idProfile who have sent or received>
+
+                  }
+
+		}	
+
+
+###<a name='ReadMessagesFriend'></a>Read my messages of a Friend
+	* <baseUrl> + /read/messagesFriend.php/<idProfile1>/<Token>/<idProfile2>
+	* Method: GET
+	* Response:
+		{
+		    
+		    "message"    : <Max 1000 characters>
+		    "createdTime": <Sent time>
+		    "mode"       : <0:sent  1:received, but NOT read  2:read>
+		    
+		}	
+
+
+###<a name='partiersMessages'></a>Partiers with which you have messages
+	* <baseUrl> + /read/partiersMessages.php/<idProfile>/<Token>
+	* Method: GET
+	* Response:
+		{
+		    For 0 to "i": {
+
+		    	        "idProfile"  : <idProfile who have sent or received message(s)>
+		    }
+		}	
+
+
+####<a name='sendMessage'></a>Send Message
+	* <baseUrl> + /actions/sendMessage.php/<idProfile>/<Token>/<idReceiver>
+	* Method: POST
+	* Data Sent:
+		{
+			"message" : <max 1000 characters>
+		}
+	* Response:
+		{
+			"sent"	: <True or false>
+		}
 
 				
 	
