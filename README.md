@@ -822,6 +822,8 @@ There are three ways to login in our application:
 			"title" : <Max 40 characters>
   			"text" : <Max 140 characters>
   			"date" : <dd/mm/yyyy>
+  			"closeDate": <dd/mm/yyyy>
+  			"maxGuest": <int>
   			"startHour" : <time>
   			"closeHour" : <time>
 		}
@@ -839,6 +841,8 @@ There are three ways to login in our application:
 			"title" : <Max 40 characters>
   			"text" : <Max 140 characters>
   			"date" : <dd/mm/yyyy>
+  			"closeDate": <dd/mm/yyyy>
+  			"maxGuest": <int>
   			"startHour" : <time>
   			"closeHour" : <time>
 		}
@@ -856,6 +860,8 @@ There are three ways to login in our application:
   		"date" : <dd/mm/yyyy>
   		"startHour" : <time>
 		"closeHour" : <time>
+		"dateClose": <dd/mm/yyyy>
+		"maxGuest": <int>
 		"createdTime": <yyyy-mm-dd hh:mm:ss>
 		"getList": <True or False>
 
@@ -895,6 +901,8 @@ There are three ways to login in our application:
 			"idLists":""
 			"title":<Max 40 characters>
 			"about":<Max 140 characters>
+			"dateClose": <yyyy-mm-dd>
+			"maxGuest": <int>
 			"createdTime":<yyyy-mm-dd hh:mm:ss>
 			"date":<yyyy-mm-dd>
 			"startHour":<time>
@@ -914,6 +922,8 @@ There are three ways to login in our application:
 			"title":<Max 40 characters>
 			"about":<Max 140 characters>
 			"date":<yyyy-mm-dd>
+			"dateClose": <yyyy-mm-dd>
+			"maxGuest": <int>
 			"startHour":<time>
 			"closeHour":<time>
 			"name": localname <Max 20 characters>

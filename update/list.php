@@ -19,11 +19,14 @@
 				$title = $_POST["title"];
   				$text = $_POST["text"];
   				$date = $_POST["date"];
+  				$closedate= $_POST["closeDate"];
+  				$maxGuest= $_POST["maxGuest"];
   				$date = _formato_fechasFB($date);
+  				$closedate=_formato_fechasFB($closedate);
   				$startHour = $_POST["startHour"];
   				$closeHour = $_POST["closeHour"];
   				
-				_setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour);
+				_setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour,$closedate,$maxGuest);
 				$aux['updateList']=true;
 				
 			}else{

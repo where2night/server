@@ -613,10 +613,10 @@ function _insertEvent($idProfile,$title,$text,$date,$startHour,$closeHour){
 	return $arr;
 }
 
-function _insertList($idProfile,$title,$text,$date,$startHour,$closeHour){
+function _insertList($idProfile,$title,$text,$date,$startHour,$closeHour,$closedate,$maxGuest){
 
 	_db_connect();
-	$query = "call setList('{$idProfile}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
+	$query = "call setList('{$idProfile}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$closedate}','{$maxGuest}')";
 
 	$res=_db_query($query);
 
@@ -710,9 +710,9 @@ function _userFollowsPub($idLocal,$idPartier){
 
 
 
-function _setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour){
+function _setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour,$closeDate,$maxGuest){
  	_db_connect();
- 	$query = "call setListData('{$idProfile}','{$idList}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
+ 	$query = "call setListData('{$idProfile}','{$idList}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$closeDate}','{$maxGuest}')";
  	$campo = _db_query($query);
  	_db_close();
  }

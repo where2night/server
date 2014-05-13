@@ -7,7 +7,7 @@ DELIMITER //
    		 SET idP = (SELECT pb.idPub
 					FROM `Pub` pb
 					WHERE pb.idProfile = idProfile);
-		SELECT p.title, p.about, p.date, p.startHour, p.closeHour, p.createdTime
+		SELECT p.title, p.about, p.date, p.startHour, p.closeHour, p.closeDate,p.maxGuest,p.createdTime
 		FROM `Lists` p
 		WHERE (p.idLists = idList AND p.idPub = idP);
 	END//

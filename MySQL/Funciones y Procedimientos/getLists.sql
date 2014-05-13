@@ -12,7 +12,7 @@ DELIMITER //
 					FROM `Pub` pu
 					WHERE pu.idProfile = idPub);
 				
-				SELECT EL.idLists,EL.title,EL.about,EL.createdTime,EL.date,EL.startHour,EL.closeHour, PGTE.idPartier AS GOES
+				SELECT EL.idLists,EL.title,EL.about,EL.createdTime,EL.date,EL.startHour,EL.dateClose,EL.maxGuest,EL.closeHour, PGTE.idPartier AS GOES
 				FROM 
 				(
 					SELECT d.idLists,d.title,d.about,d.createdTime,d.date,d.startHour,d.closeHour
