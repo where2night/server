@@ -92,7 +92,7 @@ function _formato_fechasFB($date)
 	return "$year-$month-$day";
 }
 
-function _conversion_fecha_mysql_api($date)
+function _conversion_fecha_mysql_apijo($date)
 {
 	$part = explode("-", $date);
 	$year= "$part[0]";
@@ -1099,9 +1099,9 @@ function _eventsDontGo($idProfile){
  	_db_close();
  	return $res;
 }
-function _joinList($idProfile,$idList){
+function _joinList($idProfile,$idList,$numGuest){
 	_db_connect();
-	$query = "call joinList('{$idList}','{$idProfile}')";
+	$query = "call joinList('{$idList}','{$idProfile}','{$numGuest}')";
 	_db_query($query);
 	_db_close();
 }
@@ -1219,7 +1219,17 @@ function _restartPlaylist($idProfile){
 }
 
 /* ----------------------------------------------------------------------------------*/
-
+function _getStatisticsPub($idProfile){
+	_db_connect();
+ 	$query = "call statisticsPub('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+ 	return $res;
+}
 ?>
 
 

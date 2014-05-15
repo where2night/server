@@ -876,7 +876,13 @@ There are three ways to login in our application:
 
 ###<a name='JoinList'></a> Join List
 	* <baseUrl> + /actions/joinList.php/<idProfile>/<Token>/<idList>
-	* Method: GET
+	* Method: POST
+	* Data Sent:
+		{
+			
+			"numGuest" : <int>
+  
+		}
 	* Response:
 	{
 		"join": <True or False>
@@ -1079,4 +1085,55 @@ There are three ways to login in our application:
 	* Response:
 	{
 		"restartPlaylist": <True or False>
+	}
+##<a name='Statistics'></a>Statistics
+
+* [Get Statistics](#GetStatistics)
+
+###<a name='GetStatistics'></a> Get Statistics
+	* <baseUrl> + /actions/statisticsPub.php/<idProfile>/<Token>/<idProfilePub>
+	* Method: GET
+	* Response:
+	{
+		
+		for "0" to i:{
+			For PARTIER only get modeP=0
+			For LOCAL I add modeP=1 
+			"idProfile"	: <User's idProfile>
+			"picture"	    : <user's picture url Max 100 characters>
+			"name"		: <Max 20 characters>
+			"surnames"	: <Max 45 characters> 
+			"birthdate"	: <birthdate yyyy-mm-dd>
+			"gender"   	: <male> or <female>
+			"music"		: <int>
+			"civil_sate"	: <int>
+			"city"		: <Max 20 characters>
+			"drink"		: <int>
+			"about"		: <Max 200 characters>
+			"mode"        : <>
+			"status"      : <Max 140 characters>
+			"modeP": <0 partier who will goes to pub - 1 partier who has gone to pub>
+			"num":""
+			}
+			"rows": <int>
+			"mens": <int>
+			"womens": <int>
+			"a18-20": <int> 18 <= age <= 20
+			"a21-23": <int> 21 <= age <= 23
+			"a24-30": <int> 24 <= age <= 30
+			"am31": <int> 31 <= age
+			"i+1":<int> this i continues with initial i, this i varies depending of quantity of users returns the query (quantity in "rows" example: 4 users this i=4 final i=80)
+			"i+2": to "i+77": <int>
+			(meaning of "i":
+			i+1 to i+44: music order by list in googleDrive
+			i+45 to i+70: drink order by list in googleDrive
+			i+71 to i+77: civil state order by list in googleDrive
+			these fields contain the number of partiers who share that field)
+			"numGo":<int> partiers who will goes to pub 
+				//coment if partier
+				"statisticsPartier":true
+				//comment id pub
+				"bestClients":<int> partiers who have gone to pub
+				"statisticsPub":true
+
 	}

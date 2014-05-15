@@ -16,7 +16,8 @@
 
 			case 'POST': //add to List
 				if ($idProfile != "" && $idList != ""){
-					$aux = _joinList($idProfile,$idList);
+					$numGuest=$_POST['numGuest'];
+					$aux = _joinList($idProfile,$idList,$numGuest);
 					$aux['join'] = true;
 					
 
