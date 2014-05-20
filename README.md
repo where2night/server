@@ -572,7 +572,9 @@ There are three ways to login in our application:
 		{
 		    For 0 to "i": {
 
-		    	           "idProfile": <idProfile of all users who sent you a message without reading>
+		    	           "idProfile" : <idProfile of all users who sent you a message without reading>
+		    	           "name"      :<Friend's name>
+                           "surnames"  :<Friend's surnames>
 		    }
 
 		    //if it is null, don't new messages
@@ -608,7 +610,11 @@ There are three ways to login in our application:
 		    	           "createdTime": <Sent time>
 		    	           "mode"       : <0:sent  1:received, but NOT read  2:read>
 		             }
-                         "idProfile"  : <idProfile who have sent or received>
+                         "idProfile" : <idProfile who have sent or received>
+                         "num"       :<number of messages>
+                         "name"      :<Friend's name>
+                         "surnames"  :<Friend's surnames>
+                         "picture"   :<Friend's picture>
 
                   }
 
@@ -619,13 +625,22 @@ There are three ways to login in our application:
 	* <baseUrl> + /read/messagesFriend.php/<idProfile1>/<Token>/<idProfile2>
 	* Method: GET
 	* Response:
-		{
+	    {
+		For 0 to "i": {
 		    
 		    "message"    : <Max 1000 characters>
 		    "createdTime": <Sent time>
 		    "mode"       : <0:sent  1:received, but NOT read  2:read>
 		    
-		}	
+		}
+		 "num"       :<number of messages>	
+         "name"      :<idProfile1's name>
+         "surnames"  :<idProfile1's surnames>
+         "picture"   :<idProfile1's picture>
+         "nameF"     :<idProfile2's name>
+         "surnamesF" :<idProfile2's surnames>
+         "pictureF"  :<idProfile2's picture>
+       }
 
 
 ###<a name='partiersMessages'></a>Partiers with which you have messages

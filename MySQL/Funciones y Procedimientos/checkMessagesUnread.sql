@@ -9,7 +9,7 @@ BEGIN
 		
 
 
-        SELECT  p.idProfile
+        SELECT DISTINCT p.idProfile, p.name, p.surnames
         FROM  `MessagesStatus` ms, `Partier` p
         WHERE (ms.idPartier1 = idP ) and (ms.mode=1) and (p.idPartier=ms.idPartier2) ;
 
