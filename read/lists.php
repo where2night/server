@@ -21,10 +21,10 @@
 						$aux= _getLocalData($idUser);
 						$resaux= array('name'=> $aux['localName'],'pictureC'=> $aux['picture'],'error'=> false );
 					} else{
-						echo "FALLO EN GETLISTAS LAS LISTAS NO ESTAN CREADAS PORLOCAL";
+						
 					}
 					
-					$data= _getLists($idUser);
+					$data= _getLists($idProfile,$idUser);
 					if($data != null){
 						$data=array_merge($resaux,$data);
 					}else{

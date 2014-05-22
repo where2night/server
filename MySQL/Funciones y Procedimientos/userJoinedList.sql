@@ -1,7 +1,7 @@
 DELIMITER $$
-CREATE FUNCTION `userJoinedList`(idProfileP INT, idList INT) RETURNS tinyint(1)
+CREATE FUNCTION `userJoinedList`(idProfile INT, idList INT) RETURNS tinyint(1)
 BEGIN
     RETURN (SELECT Count(*)
-        FROM `PartierJoinedList` pg, `Partier` p 
-        WHERE ((idProfileP = p.idProfile) AND (pg.idPartier = p.idPartier) AND (pg.idList = idList)) = 1);
+        FROM `PartierIsInList` pg, `Partier` p 
+        WHERE ((p.idProfile=idProfile) AND (pg.idPartier = p.idPartier) AND (pg.idList = idList)) = 1)s;
   END$$
