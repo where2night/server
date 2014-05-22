@@ -986,7 +986,14 @@ There are three ways to login in our application:
 		}
 	* Response:
 	{
-		"NewTrack": <True or False>
+		if track exist
+		"idTrack":
+		"Error": 1
+		"NewTrack": <False>
+
+		if new track
+		"Error": 0
+		"NewTrack": <True>
 
 	}
 ###<a name='UpdateTrack'></a> Update Track
@@ -1077,6 +1084,9 @@ There are three ways to login in our application:
 	* Method: POST
 	* Response:
 	{
+		for 0 to i {
+			"idTrack": ""
+		}
 		"playTrack": <True or False>
 	}
 ###<a name='Restart'></a> Restart Playlist
