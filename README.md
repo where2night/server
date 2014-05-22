@@ -1042,8 +1042,10 @@ There are three ways to login in our application:
 	* Method: GET	
 	* Response:
 	{
+		"idTrack": ""
 		"trackName" : <Max 40 characters>
   		"trackArtist" : <Max 40 characters>
+		"playing": <0 or 1>
 		"createdTime": <yyyy-mm-dd hh:mm:ss>
 		"getTrack": <True or False>
 
