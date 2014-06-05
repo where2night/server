@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-03-2014 a las 20:41:33
+-- Tiempo de generación: 07-04-2014 a las 23:16:50
 -- Versión del servidor: 5.1.70-cll
 -- Versión de PHP: 5.3.17
 
@@ -26,6 +26,14 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+DROP PROCEDURE IF EXISTS `deleteEvent`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `deleteEvent`(IN idEvent1 INT(11),IN idProfile1 INT(11))
+BEGIN
+		DELETE FROM  `Event`
+		WHERE (idEvent = idEvent1 AND idProfileCreator = idProfile1);
+
+	END$$
+
 DROP PROCEDURE IF EXISTS `deleteToken`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `deleteToken`(IN email VARCHAR(50))
 BEGIN
@@ -43,6 +51,36 @@ BEGIN
         WHERE (d.idProfile = idProfileDJ) AND (d.idDJ = pf.idDJ) AND (pf.idPartier = p.idPartier));
   END$$
 
+DROP PROCEDURE IF EXISTS `dontGoToEvent`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `dontGoToEvent`(IN `idProfileUser` INT(11), IN `idEventD` INT(11))
+BEGIN
+		
+		DELETE FROM `PartierGoesToEvent`
+		WHERE (idProfileUser = idPartier
+				AND idEvent = idEventD);		
+  END$$
+
+DROP PROCEDURE IF EXISTS `dontGoToPub`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `dontGoToPub`(IN `idProfileUser` INT(11), IN `idProfilePub` INT(11))
+BEGIN
+		
+		DECLARE idP int(11);
+		DECLARE idU int(11);
+
+		SET idU = (SELECT p.idPartier
+					FROM `Partier` p
+					WHERE p.idProfile = idProfileUser);
+
+		SET idP = (SELECT pu.idPub
+					FROM `Pub` pu
+					WHERE pu.idProfile = idProfilePub);
+
+		DELETE FROM `PartierGoToPub` 
+		WHERE (idPub=idP AND idPartier=idU);
+
+		
+  END$$
+
 DROP PROCEDURE IF EXISTS `EventAssistants`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `EventAssistants`(idEvent INT)
 BEGIN
@@ -51,20 +89,31 @@ BEGIN
         WHERE (pg.idPartier = p.idPartier) AND (pg.idEvent = idEvent));
   END$$
 
+DROP PROCEDURE IF EXISTS `eventsUser`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `eventsUser`(IN `idProfile` INT(11))
+BEGIN
+				SELECT e.idEvent, e.idProfileCreator, e.title, e.text, e.date, e.startHour, e.closeHour
+				FROM `Event` e, `PartierGoesToEvent` pg
+				WHERE (e.idEvent = pg.idEvent and pg.idPartier= idProfile)
+				ORDER BY e.date ASC;
+	END$$
+
 DROP PROCEDURE IF EXISTS `followDJ`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `followDJ`(IN `idProfileDJ` INT, IN `idProfileUser` INT)
 BEGIN
 
+		DECLARE idD int(11);
+		DECLARE idU int(11);
 
-		SET @idU = (SELECT p.idPartier
+		SET idU = (SELECT p.idPartier
 					FROM `Partier` p
 					WHERE p.idProfile = idProfileUser);
 
-		SET @idD = (SELECT d.idDJ
+		SET idD = (SELECT d.idDJ
 					FROM `DJ` d
 					WHERE d.idProfile = idProfileDJ);
 
-		INSERT INTO `PartierFollowsDJ` VALUES (@idU,@idD);
+		INSERT INTO `PartierFollowsDJ` VALUES (idU,idD);
 		
   END$$
 
@@ -72,16 +121,18 @@ DROP PROCEDURE IF EXISTS `followPub`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `followPub`(IN `idProfilePub` INT, IN `idProfileUser` INT)
 BEGIN
 		
-		
-		SET @idU = (SELECT p.idPartier
+		DECLARE idP int(11);
+		DECLARE idU int(11);
+
+		SET idU = (SELECT p.idPartier
 					FROM `Partier` p
 					WHERE p.idProfile = idProfileUser);
 
-		SET @idP = (SELECT pu.idPub
+		SET idP = (SELECT pu.idPub
 					FROM `Pub` pu
 					WHERE pu.idProfile = idProfilePub);
 
-		INSERT INTO `PartierFollowsPub` VALUES (@idU,@idP);
+		INSERT INTO `PartierFollowsPub` VALUES (idU,idP);
 
 		
   END$$
@@ -94,13 +145,66 @@ BEGIN
     WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
   END$$
 
+DROP PROCEDURE IF EXISTS `getDjs`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `getDjs`()
+BEGIN
+				SELECT d.idProfile, d.nameDJ, d.picture, d.music
+				FROM `DJ` d 
+				ORDER BY d.nameDJ ASC;
+	END$$
+
+DROP PROCEDURE IF EXISTS `getEventData`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `getEventData`(IN idEvent INT(11),IN idProfile INT(11))
+BEGIN
+		SELECT p.title, p.text, p.date, p.startHour, p.closeHour, p.createdTime
+		FROM `Event` p
+		WHERE (p.idEvent = idEvent AND p.idProfileCreator = idProfile);
+	END$$
+
+DROP PROCEDURE IF EXISTS `getEvents`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `getEvents`(IN `idProfile` INT(11))
+BEGIN
+				SELECT *
+				FROM `Event`  
+				WHERE (idProfileCreator = idProfile)
+				ORDER BY createdTime DESC;
+	END$$
+
 DROP PROCEDURE IF EXISTS `getLocalData`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `getLocalData`(IN `idProfile` INT)
 BEGIN
-    SELECT p.companyNameLocal, p.localName, p.cif, p.poblationLocal, p.cpLocal, p.telephoneLocal, p.street, p.streetNameLocal, p.streetNumberLocal, p.latitude, p.longitude, p.music, p.entryPrice , p.drinkPrice, p.openingHours, p.closeHours, p.picture, p.about 
+    SELECT p.companyNameLocal, 
+           p.localName, 
+           p.cif, 
+           p.poblationLocal, 
+           p.cpLocal, 
+           p.telephoneLocal, 
+           p.street, 
+           p.streetNameLocal, 
+           p.streetNumberLocal, 
+           p.latitude, 
+           p.longitude, 
+           p.music, 
+           p.entryPrice, 
+           p.drinkPrice, 
+           p.openingHours, 
+           p.closeHours, 
+           p.picture, 
+           p.about,
+           p.facebook,
+           p.twitter,
+           p.instagram
     FROM `Profile` pr, `Pub` p
     WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
   END$$
+
+DROP PROCEDURE IF EXISTS `getLocals`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `getLocals`()
+BEGIN
+				SELECT d.idProfile, d.localName, d.telephoneLocal, d.street, d.streetNameLocal, d.streetNumberLocal, d.latitude, d.longitude, d.picture
+				FROM `Pub` d 
+				ORDER BY d.localName ASC;
+	END$$
 
 DROP PROCEDURE IF EXISTS `getPartierData`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `getPartierData`(IN `idProfile` INT)
@@ -111,15 +215,30 @@ BEGIN
 	END$$
 
 DROP PROCEDURE IF EXISTS `goToEvent`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `goToEvent`(idEvent INT, idProfileUser INT)
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `goToEvent`(IN `idEvent` INT, IN `idProfileUser` INT)
 BEGIN
 		
+		INSERT INTO `PartierGoesToEvent` VALUES (idProfileUser,idEvent);
+
 		
-		SET @idU = (SELECT p.idPartier
+  END$$
+
+DROP PROCEDURE IF EXISTS `goToPub`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `goToPub`(idProfilePub INT, idProfileUser INT)
+BEGIN
+		
+		DECLARE idP int(11);
+		DECLARE idU int(11);
+
+		SET idU = (SELECT p.idPartier
 					FROM `Partier` p
 					WHERE p.idProfile = idProfileUser);
 
-		INSERT INTO `PartierGoesToEvent` VALUES (@idU,idEvent);
+		SET idP = (SELECT pu.idPub
+					FROM `Pub` pu
+					WHERE pu.idProfile = idProfilePub);
+
+		INSERT INTO `PartierGoToPub` VALUES (idU,idP);
 
 		
   END$$
@@ -128,7 +247,7 @@ DROP PROCEDURE IF EXISTS `insertDJUser`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertDJUser`(IN `email` VARCHAR(50), IN `pass` VARCHAR(80))
 BEGIN
     INSERT INTO `User`
-    VALUES (email,pass,-1,NULL);
+    VALUES (email,pass,-1,NULL,NULL);
 
     INSERT INTO `Profile` (`type`,`email`)
     VALUES (-1,email);
@@ -141,10 +260,10 @@ BEGIN
   END$$
 
 DROP PROCEDURE IF EXISTS `insertFacebookUser`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertFacebookUser`(email VARCHAR(50))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertFacebookUser`(IN `email` VARCHAR(50))
 BEGIN
     INSERT INTO `User`
-    VALUES (email,0,0,NULL);
+    VALUES (email,0,0,NULL,NULL);
 
     INSERT INTO `Profile` (`type`,`email`)
     VALUES (0,email);
@@ -157,10 +276,10 @@ BEGIN
   END$$
 
 DROP PROCEDURE IF EXISTS `insertGoogleUser`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertGoogleUser`(email VARCHAR(50))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertGoogleUser`(IN `email` VARCHAR(50))
 BEGIN
 		INSERT INTO `User`
-		VALUES (email,NULL,1,NULL);
+		VALUES (email,NULL,1,NULL,NULL);
 
 		INSERT INTO `Profile` (`type`,`email`)
 		VALUES (0,email);
@@ -176,7 +295,7 @@ DROP PROCEDURE IF EXISTS `insertNormalUser`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertNormalUser`(IN `email` VARCHAR(50), IN `pass` VARCHAR(80))
 BEGIN
 		INSERT INTO `User`
-		VALUES (email,pass,-1,NULL);
+		VALUES (email,pass,-1,NULL,NULL);
 
 		INSERT INTO `Profile` (`type`,`email`)
 		VALUES (0,email);
@@ -192,7 +311,7 @@ DROP PROCEDURE IF EXISTS `insertPubUser`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `insertPubUser`(IN `email` VARCHAR(50), IN `pass` VARCHAR(80))
 BEGIN
     INSERT INTO `User`
-    VALUES (email,pass,-1,NULL);
+    VALUES (email,pass,-1,NULL,NULL);
 
     INSERT INTO `Profile` (`type`,`email`)
     VALUES (1,email);
@@ -222,9 +341,7 @@ BEGIN
   END$$
 
 DROP PROCEDURE IF EXISTS `setDJData`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `setDJData`(IN idProfile INT, IN nameDJ VARCHAR (30) ,IN name VARCHAR(20) ,IN surname VARCHAR(45),
-  IN telephoneDJ INT ,IN gender TINYINT(1) ,IN birthdate DATE ,
-  IN picture VARCHAR(100) ,IN music VARCHAR(20) ,IN about VARCHAR(200))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setDJData`(IN `idProfile` INT, IN `nameDJ` VARCHAR(30), IN `name` VARCHAR(20), IN `surname` VARCHAR(45), IN `telephoneDJ` INT, IN `gender` TINYINT(1), IN `birthdate` DATE, IN `picture` VARCHAR(100), IN `music` VARCHAR(20), IN `about` VARCHAR(400))
 BEGIN
     UPDATE DJ p
     SET 
@@ -241,8 +358,29 @@ BEGIN
     WHERE (p.idProfile = idProfile);
   END$$
 
+DROP PROCEDURE IF EXISTS `setEvent`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setEvent`(idProf INT(11),title VARCHAR (40),about VARCHAR(200),dateEv DATE,startHour TIME,closeHour TIME)
+BEGIN
+      INSERT INTO `Event` (`idProfileCreator`,`title`,`text`,`date`,`startHour`,`closeHour`)
+      VALUES (idProf,title,about,dateEv,startHour,closeHour);
+   END$$
+
+DROP PROCEDURE IF EXISTS `setEventData`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setEventData`(IN idProfile INT(11),IN idEvent INT(11),IN title VARCHAR(40),IN about VARCHAR(200),IN dateE DATE,IN startHour TIME,IN closeHour TIME)
+BEGIN
+		UPDATE Event p
+		SET 
+			P.title = title, 
+ 			P.text = about,
+  			P.date = dateE,
+      		p.startHour =startHour,
+      		p.closeHour =closeHour	
+		
+		WHERE (p.idEvent = idEvent AND p.idProfileCreator = idProfile);
+	END$$
+
 DROP PROCEDURE IF EXISTS `setLocalData`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `setLocalData`(IN `idProfile` INT, IN `companyNameLocal` VARCHAR(50), IN `localName` VARCHAR(20), IN `cif` VARCHAR(9), IN `poblationLocal` VARCHAR(20), IN `cpLocal` INT(5), IN `telephoneLocal` INT, IN `street` TINYINT(1), IN `streetNameLocal` VARCHAR(50), IN `streetNumberLocal` VARCHAR(50), IN `latitude` VARCHAR(11), IN `longitude` VARCHAR(11), IN `music` VARCHAR(20), IN `entryPrice` INT, IN `drinkPrice` INT, IN `openingHours` TIME, IN `closeHours` TIME, IN `picture` VARCHAR(100), IN `about` VARCHAR(200))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setLocalData`(IN `idProfile` INT, IN `companyNameLocal` VARCHAR(50), IN `localName` VARCHAR(20), IN `cif` VARCHAR(9), IN `poblationLocal` VARCHAR(20), IN `cpLocal` INT(5), IN `telephoneLocal` INT, IN `street` TINYINT(1), IN `streetNameLocal` VARCHAR(50), IN `streetNumberLocal` VARCHAR(50), IN `latitude` VARCHAR(11), IN `longitude` VARCHAR(11), IN `music` VARCHAR(20), IN `entryPrice` INT, IN `drinkPrice` INT, IN `openingHours` TIME, IN `closeHours` TIME, IN `picture` VARCHAR(100), IN `about` VARCHAR(200), IN `facebook` VARCHAR(50), IN `twitter` VARCHAR(15), IN `instagram` VARCHAR(30))
 BEGIN
     UPDATE Pub p
     SET 
@@ -263,18 +401,63 @@ BEGIN
       p.openingHours= openingHours,
       p.closeHours=  closeHours,
       p.picture= picture,
-      p.about= about  
+      p.about= about ,
+      p.facebook = facebook,
+      p.twitter = twitter,
+      p.instagram =instagram
+
     
     WHERE (p.idProfile = idProfile);
   END$$
 
 DROP PROCEDURE IF EXISTS `setPartierData`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `setPartierData`(IN idProfile INT, IN picture VARCHAR(100), IN `name`VARCHAR(20), IN surnames VARCHAR(45), IN birthdate DATE, IN gender BOOL, IN music VARCHAR(20), IN civil_state VARCHAR(20), IN city VARCHAR(20), IN drink VARCHAR(20), IN about VARCHAR(200))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setPartierData`(IN idProfile INT, IN picture VARCHAR(100), IN `name`VARCHAR(20), IN surnames VARCHAR(45), IN birthdate DATE, IN gender BOOL, IN music VARCHAR(20), IN civil_state VARCHAR(20), IN city VARCHAR(20), IN drink VARCHAR(20), IN about VARCHAR(200), IN `facebook` VARCHAR(50), IN `twitter` VARCHAR(15), IN `instagram` VARCHAR(30))
 BEGIN
 		UPDATE Partier p
-		SET p.picture = picture, p.name = name, p.surnames = surnames, p.birthdate = birthdate, p.gender = gender, p.music = music, p.civil_state = civil_state, p.city = city, p.drink = drink, p.about = about 
+		SET p.picture = picture, p.name = name, p.surnames = surnames, p.birthdate = birthdate, p.gender = gender, p.music = music, p.civil_state = civil_state, p.city = city, p.drink = drink, p.about = about, p.facebook = facebook, p.twitter = twitter, p.instagram = instagram
 		WHERE (p.idProfile = idProfile);
 	END$$
+
+DROP PROCEDURE IF EXISTS `unFollowDJ`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `unFollowDJ`(IN `idProfileDJ` INT, IN `idProfileUser` INT)
+    NO SQL
+BEGIN
+
+
+		DECLARE idD int(11);
+		DECLARE idU int(11);
+
+		SET idU = (SELECT p.idPartier
+					FROM `Partier` p
+					WHERE p.idProfile = idProfileUser);
+
+		SET idD = (SELECT d.idDJ
+					FROM `DJ` d
+					WHERE d.idProfile = idProfileDJ);
+	
+DELETE FROM  `PartierFollowsDJ`
+		WHERE (idPartier = idU AND idDJ = idD);
+		
+  END$$
+
+DROP PROCEDURE IF EXISTS `unFollowPub`$$
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `unFollowPub`(IN `idProfilePub` INT, IN `idProfileUser` INT)
+    NO SQL
+BEGIN				
+		DECLARE idP int(11);
+		DECLARE idU int(11);
+
+		SET idU = (SELECT p.idPartier
+					FROM `Partier` p
+					WHERE p.idProfile = idProfileUser);
+
+		SET idP = (SELECT pu.idPub
+					FROM `Pub` pu
+					WHERE pu.idProfile = idProfilePub);
+
+DELETE FROM  `PartierFollowsPub`
+		WHERE (idPartier = idU AND idPub= idP);
+END$$
 
 DROP PROCEDURE IF EXISTS `updateToken`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `updateToken`(IN email VARCHAR(50), IN tkn VARCHAR(45))
@@ -344,6 +527,22 @@ BEGIN
   
   END$$
 
+DROP FUNCTION IF EXISTS `insertTokenMobile`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `insertTokenMobile`(`email` VARCHAR(50), `tkn` VARCHAR(45)) RETURNS int(1)
+    NO SQL
+BEGIN
+
+    UPDATE `User` u
+    SET u.tokenMobile= tkn
+    WHERE u.email = email ;
+    
+
+    RETURN (SELECT p.type
+				FROM `Profile` p
+				WHERE (p.email = email));
+  
+  END$$
+
 DROP FUNCTION IF EXISTS `loginSucceed`$$
 CREATE DEFINER=`where2`@`localhost` FUNCTION `loginSucceed`(usr VARCHAR(50), pass VARCHAR(80)) RETURNS tinyint(1)
 BEGIN
@@ -397,11 +596,11 @@ BEGIN
 	END$$
 
 DROP FUNCTION IF EXISTS `tokenOK`$$
-CREATE DEFINER=`where2`@`localhost` FUNCTION `tokenOK`(idUsr INT, tkn VARCHAR(45)) RETURNS tinyint(1)
+CREATE DEFINER=`where2`@`localhost` FUNCTION `tokenOK`(`idUsr` INT, `tkn` VARCHAR(45)) RETURNS tinyint(1)
 BEGIN
     RETURN ((SELECT Count(*)
         FROM `User` u, `Profile` p
-        WHERE p.email = u.email AND p.idProfile = idUsr AND u.token = tkn) = 1);
+        WHERE (p.email = u.email AND p.idProfile = idUsr AND u.token = tkn)or (p.email = u.email AND p.idProfile = idUsr AND u.tokenMobile = tkn)  ) = 1);
   END$$
 
 DROP FUNCTION IF EXISTS `userExists`$$
@@ -413,7 +612,7 @@ BEGIN
 	END$$
 
 DROP FUNCTION IF EXISTS `userFollowsDJ`$$
-CREATE DEFINER=`where2`@`localhost` FUNCTION `userFollowsDJ`(idProfileP INT, idProfileDJ INT) RETURNS tinyint(1)
+CREATE DEFINER=`where2`@`localhost` FUNCTION `userFollowsDJ`(`idProfileDJ` INT, `idProfileP` INT) RETURNS tinyint(1)
 BEGIN
     RETURN (SELECT Count(*)
         FROM `PartierFollowsDJ` pf, `Partier` p, `DJ` d 
@@ -421,7 +620,7 @@ BEGIN
   END$$
 
 DROP FUNCTION IF EXISTS `userFollowsPub`$$
-CREATE DEFINER=`where2`@`localhost` FUNCTION `userFollowsPub`(idProfileP INT, idProfilePub INT) RETURNS tinyint(1)
+CREATE DEFINER=`where2`@`localhost` FUNCTION `userFollowsPub`(`idProfilePub` INT, `idProfileP` INT) RETURNS tinyint(1)
 BEGIN
     RETURN (SELECT Count(*)
         FROM `PartierFollowsPub` pf, `Partier` p, `Pub` d 
@@ -438,6 +637,14 @@ BEGIN
     RETURN (SELECT Count(*)
         FROM `PartierGoesToEvent` pg, `Partier` p 
         WHERE ((idProfileP = p.idProfile) AND (pg.idPartier = p.idPartier) AND (pg.idEvent = idEvent)) = 1);
+  END$$
+
+DROP FUNCTION IF EXISTS `userGoesToPub`$$
+CREATE DEFINER=`where2`@`localhost` FUNCTION `userGoesToPub`(idProfileP INT, idProfilePub INT) RETURNS tinyint(1)
+BEGIN
+    RETURN (SELECT Count(*)
+        FROM `PartierGoToPub` pf, `Partier` p, `Pub` d 
+        WHERE ((idProfileP = p.idProfile) AND (d.idProfile = idProfilePub) AND (pf.idPartier = p.idPartier) AND (pf.idPub = d.idPub)) = 1);
   END$$
 
 DELIMITER ;
@@ -458,16 +665,16 @@ CREATE TABLE IF NOT EXISTS `DJ` (
   `telephoneDJ` int(11) NOT NULL,
   `gender` tinyint(1) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
-  `picture` varchar(100) DEFAULT NULL,
+  `picture` varchar(100) NOT NULL,
   `music` varchar(20) DEFAULT NULL,
-  `about` varchar(200) DEFAULT NULL,
+  `about` varchar(400) NOT NULL,
   `birthdate_p` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `gender_p` tinyint(1) NOT NULL DEFAULT '1',
   `music_p` tinyint(1) NOT NULL DEFAULT '1',
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idDJ`),
   KEY `fk_DJ_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -487,7 +694,7 @@ CREATE TABLE IF NOT EXISTS `Event` (
   `createdTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idEvent`),
   KEY `fk_Event_idProfile1_idx` (`idProfileCreator`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -514,6 +721,7 @@ DROP TABLE IF EXISTS `Friends`;
 CREATE TABLE IF NOT EXISTS `Friends` (
   `idPartier1` int(11) NOT NULL,
   `idPartier2` int(11) NOT NULL,
+  `mode` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idPartier1`,`idPartier2`),
   KEY `fk_Partier_has_Partier_Partier2_idx` (`idPartier2`),
   KEY `fk_Partier_has_Partier_Partier1_idx` (`idPartier1`)
@@ -553,6 +761,9 @@ CREATE TABLE IF NOT EXISTS `Partier` (
   `city` varchar(20) DEFAULT NULL,
   `drink` varchar(20) DEFAULT NULL,
   `about` varchar(200) DEFAULT NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   `picture_p` tinyint(1) NOT NULL DEFAULT '1',
   `name_p` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `surname_p` tinyint(1) NOT NULL DEFAULT '1',
@@ -563,9 +774,12 @@ CREATE TABLE IF NOT EXISTS `Partier` (
   `city_p` tinyint(1) NOT NULL DEFAULT '1',
   `drink_p` tinyint(1) NOT NULL DEFAULT '1',
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idPartier`),
   KEY `fk_Partier_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
 
 -- --------------------------------------------------------
 
@@ -615,6 +829,21 @@ CREATE TABLE IF NOT EXISTS `PartierGoesToEvent` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `PartierGoToPub`
+--
+
+DROP TABLE IF EXISTS `PartierGoToPub`;
+CREATE TABLE IF NOT EXISTS `PartierGoToPub` (
+  `idPartier` int(11) NOT NULL,
+  `idPub` int(11) NOT NULL,
+  PRIMARY KEY (`idPartier`,`idPub`),
+  KEY `fk_Partier_has_Pub_Pub1_idx` (`idPub`),
+  KEY `fk_Partier_has_Pub_Partier1_idx` (`idPartier`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `PartierIsInLists`
 --
 
@@ -656,7 +885,7 @@ CREATE TABLE IF NOT EXISTS `Profile` (
   `email` varchar(50) NOT NULL,
   PRIMARY KEY (`idProfile`),
   KEY `fk_Profile_User_idx` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=80 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=77 ;
 
 -- --------------------------------------------------------
 
@@ -686,6 +915,9 @@ CREATE TABLE IF NOT EXISTS `Pub` (
   `closeHours` time DEFAULT NULL,
   `picture` varchar(100) DEFAULT NULL,
   `about` varchar(200) DEFAULT NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   `music_p` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `entryPrice_p` tinyint(1) NOT NULL DEFAULT '1',
   `drinkPrice_p` tinyint(1) NOT NULL DEFAULT '1',
@@ -693,9 +925,12 @@ CREATE TABLE IF NOT EXISTS `Pub` (
   `closeHours_p` tinyint(1) NOT NULL DEFAULT '1',
   `picture_p` tinyint(1) NOT NULL DEFAULT '1',
   `about_p` tinyint(1) NOT NULL DEFAULT '1',
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idPub`),
   KEY `fk_Pub_Profile1_idx` (`idProfile`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
 
@@ -709,6 +944,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `password` varchar(80) DEFAULT NULL,
   `type` int(11) DEFAULT NULL COMMENT '0 - facebook\n1 - google\n-1 - registrado',
   `token` varchar(45) DEFAULT NULL,
+  `tokenMobile` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`email`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -727,6 +963,25 @@ CREATE TABLE IF NOT EXISTS `Works` (
   KEY `fk_DJ_has_Pub_Pub1_idx` (`idPub`),
   KEY `fk_DJ_has_Pub_DJ1_idx` (`idDJ`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Messages`
+--
+
+DROP TABLE IF EXISTS `Messages`;
+CREATE TABLE IF NOT EXISTS `Messages` (
+  `idPartier1` int(11) NOT NULL,
+  `idPartier2` int(11) NOT NULL,
+  `message` varchar(1000)  DEFAULT NOT NULL,
+  `sentTime` timestamp DEFAULT CURRENT_TIMESTAMP
+  PRIMARY KEY (`idPartier1`,`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier2_idx` (`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier1_idx` (`idPartier1`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 
 --
 -- Restricciones para tablas volcadas

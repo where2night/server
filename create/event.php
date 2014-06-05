@@ -2,14 +2,21 @@
 
 	require_once ("../db.inc");
 	require_once ("../utils.inc");
+	
+	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
+	$idProfile = $request[0];
+	$token = $request[1];
 
-	if (isset($_SERVER['REQUEST_METHOD'])){
+
+	$tokenT= _tokenOK($idProfile,$token);
+	
+	if (isset($_SERVER['REQUEST_METHOD']) && $tokenT == 1){
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 		  case 'POST':
 	
-			if (isset($_POST["idProfile"]) && $_POST["idProfile"] != ""){ 
-				$idProfile=$_POST["idProfile"];
+			if($idProfile != ""){ 
+				
 			
 				$type = _getTypeProfile($idProfile); 
 				$title = $_POST["title"];
@@ -30,8 +37,11 @@
 						$arr['New'] = true;
   					break;
   				}
-				echo json_encode($arr);
+				
+			}else{
+				$arr['error']=true;
 			}
+			echo json_encode($arr);
 			
 			
 			break;		

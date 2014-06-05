@@ -57,6 +57,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Partier` (
   `city` VARCHAR(20) NULL,
   `drink` VARCHAR(20) NULL,
   `about` VARCHAR(200) NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   `picture_p` TINYINT(1) NOT NULL DEFAULT 1,
   `name_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `surname_p` TINYINT(1) NOT NULL DEFAULT 1,
@@ -67,6 +70,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Partier` (
   `city_p` TINYINT(1) NOT NULL DEFAULT 1,
   `drink_p` TINYINT(1) NOT NULL DEFAULT 1,
   `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idPartier`),
   INDEX `fk_Partier_Profile1_idx` (`idProfile` ASC),
   CONSTRAINT `fk_Partier_Profile1`
@@ -102,6 +108,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `closeHours` TIME(2) NULL,
   `picture` VARCHAR(100) NULL,
   `about` VARCHAR(200) NULL,
+  `facebook` VARCHAR(50) NULL,
+  `twitter` VARCHAR(15) NULL,
+  `instagram` VARCHAR(30) NULL,
   ---- PRIVACY ----
   `music_p` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - publico\n0 - solo amigos\n-1 - privado',
   `entryPrice_p` TINYINT(1) NOT NULL DEFAULT 1,
@@ -110,6 +119,9 @@ CREATE TABLE IF NOT EXISTS `Where2Night`.`Pub` (
   `closeHours_p` TINYINT(1) NOT NULL DEFAULT 1,
   `picture_p` TINYINT(1) NOT NULL DEFAULT 1,
   `about_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `facebook_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `twitter_p` TINYINT(1) NOT NULL DEFAULT 1,
+  `instagram_p` TINYINT(1) NOT NULL DEFAULT 1,
 
 
   PRIMARY KEY (`idPub`),
@@ -324,16 +336,17 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`Lists`
+-- Table `Where2Night`.`List`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`Lists` ;
+DROP TABLE IF EXISTS `Where2Night`.`List` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`Lists` (
-  `idLists` INT NOT NULL,
-  `idPub` INT NOT NULL,
-  PRIMARY KEY (`idLists`),
-  INDEX `fk_Lists_Pub1_idx` (`idPub` ASC),
-  CONSTRAINT `fk_Lists_Pub1`
+CREATE TABLE IF NOT EXISTS `Where2Night`.`List` (
+  `idList` INT NOT NULL AUTO_INCREMENT,
+  `text` VARCHAR(200) NULL,
+  `idPub` INT NULL,
+  PRIMARY KEY (`idList`),
+  INDEX `fk_List_Pub1_idx` (`idPub` ASC),
+  CONSTRAINT `fk_List_Pub1`
     FOREIGN KEY (`idPub`)
     REFERENCES `Where2Night`.`Pub` (`idPub`)
     ON DELETE NO ACTION
@@ -342,27 +355,48 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Where2Night`.`PartierIsInLists`
+-- Table `Where2Night`.`PartierJoinedList`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Where2Night`.`PartierIsInLists` ;
+DROP TABLE IF EXISTS `Where2Night`.`PartierJoinedList` ;
 
-CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierIsInLists` (
+CREATE TABLE IF NOT EXISTS `Where2Night`.`PartierJoinedList` (
   `idPartier` INT NOT NULL,
-  `idLists` INT NOT NULL,
-  PRIMARY KEY (`idPartier`, `idLists`),
-  INDEX `fk_Partier_has_Lists_Lists1_idx` (`idLists` ASC),
-  INDEX `fk_Partier_has_Lists_Partier1_idx` (`idPartier` ASC),
-  CONSTRAINT `fk_Partier_has_Lists_Partier1`
+  `idList` INT NOT NULL,
+  `text` VARCHAR(200) NULL,
+  PRIMARY KEY (`idPartier`, `idList`),
+  INDEX `fk_Partier_has_List_List1_idx` (`idList` ASC),
+  INDEX `fk_Partier_has_List_Partier1_idx` (`idPartier` ASC),
+  CONSTRAINT `fk_Partier_has_List_Partier1`
     FOREIGN KEY (`idPartier`)
     REFERENCES `Where2Night`.`Partier` (`idPartier`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Partier_has_Lists_Lists1`
-    FOREIGN KEY (`idLists`)
-    REFERENCES `Where2Night`.`Lists` (`idLists`)
+  CONSTRAINT `fk_Partier_has_List_List1`
+    FOREIGN KEY (`idList`)
+    REFERENCES `Where2Night`.`List` (`idList`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- --------------------------------------------------------
+-- Table `Where2Night`. `Messages`
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `Messages`;
+CREATE TABLE IF NOT EXISTS `Messages` (
+  `idPartier1` int(11) NOT NULL,
+  `idPartier2` int(11) NOT NULL,
+  `message` varchar(1000)  DEFAULT NOT NULL,
+  `sentTime` timestamp DEFAULT CURRENT_TIMESTAMP
+  PRIMARY KEY (`idPartier1`,`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier2_idx` (`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier1_idx` (`idPartier1`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

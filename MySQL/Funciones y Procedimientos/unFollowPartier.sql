@@ -1,4 +1,4 @@
-DELIMITER$$
+DELIMITER $$
 CREATE PROCEDURE `unFollowPartier`(idPartier INT, idProfileUser INT)
 BEGIN				
 		DECLARE idP int(11);
@@ -8,10 +8,10 @@ BEGIN
 					FROM `Partier` p
 					WHERE p.idProfile = idProfileUser);
 
-		SET idP = (SELECT pu.idPub
+		SET idP = (SELECT pu.idPartier
 					FROM `Partier` pu
 					WHERE pu.idProfile = idPartier);
 
 DELETE FROM  `Friends`
-		WHERE (idPartier1 = idU AND idPartier2= idP);
+		WHERE ((idPartier1 = idU AND idPartier2= idP) OR (idPartier1 = idP AND idPartier2= idU));
 END$$

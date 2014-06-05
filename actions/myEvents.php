@@ -19,8 +19,8 @@
 					for ($i=0; $i < $pos ; $i++) {
 						$auxdam=$aux[$i];
 						$id=$auxdam['idProfileCreator'];
-						
-						$type= _getTypeProfile($id); 
+						$idPPub= _getIdProfilePub($id);
+						$type= _getTypeProfile($idPPub); 
 						
 						if ($type == -1) { //DJ
 							$auxdam=_getDJData($id);
@@ -29,13 +29,14 @@
 							$aux[$i]['name'] = $name;
 							$aux[$i]['pictureC'] = $picture;
 						}elseif ($type == 1) { //Pub
-							$auxdam=_getLocalData($id);
+							$auxdam=_getLocalData($idPPub);
 							$name= $auxdam['localName'];
 							$picture= $auxdam['picture'];
 							$aux[$i]['name'] = $name;
 							$aux[$i]['pictureC'] = $picture;
+							$aux[$i]['idProfile']= $idPPub;
 						}else{
-							echo "ERROR MYEVENTS.PHP";
+							
 						}
 	
 					}

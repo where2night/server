@@ -5,7 +5,7 @@ DELIMITER //
  	IN cpLocal INT (5),IN telephoneLocal INT,IN street TINYINT(1),
  	IN streetNameLocal VARCHAR(50),IN streetNumberLocal VARCHAR(50),
   	IN music VARCHAR(20),IN entryPrice INT,IN drinkPrice INT,IN openingHours TIME(2),
-  	IN closeHours TIME(2),IN picture VARCHAR(100),IN about VARCHAR(200))
+  	IN closeHours TIME(2),IN picture VARCHAR(100),IN about VARCHAR(200),IN facebook VARCHAR(100),IN twitter VARCHAR(100),IN instagram VARCHAR(100))
 
     BEGIN
 		UPDATE Pub p
@@ -25,7 +25,10 @@ DELIMITER //
   		P.openingHours= openingHours,
   		P.closeHours=  closeHours,
   		P.picture= picture,
-  		P.about= about	
+  		P.about= about,	
+      P.facebook = facebook,
+      P.twitter = twitter,
+      P.instagram = instagram
 		
 		WHERE (p.idProfile = idProfile);
 	END//

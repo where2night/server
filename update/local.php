@@ -36,8 +36,11 @@
 				$closeHours = $_POST["closeHours"];
 				$picture = $_POST["picture"];				
 				$about = $_POST["about"];
+				$facebook = $_POST['facebook'];
+				$twitter = $_POST["twitter"]; 
+				$instagram = $_POST["instragram"]; 
 
-				_setLocalData($idProfile,$companyNameLocal,$localName,$cif,$poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$lat,$lng,$music,$entryPrice,$drinkPrice,$openingHours,$closeHours,$picture,$about);
+				_setLocalData($idProfile,$companyNameLocal,$localName,$cif,$poblationLocal,$cpLocal,$telephoneLocal,$street,$streetNameLocal,$streetNumberLocal,$lat,$lng,$music,$entryPrice,$drinkPrice,$openingHours,$closeHours,$picture,$about,$facebook,$twitter,$instagram);
 				
 			}	
 				
