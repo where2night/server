@@ -92,7 +92,7 @@ function _formato_fechasFB($date)
 	return "$year-$month-$day";
 }
 
-function _conversion_fecha_mysql_api($date)
+function _conversion_fecha_mysql_apijo($date)
 {
 	$part = explode("-", $date);
 	$year= "$part[0]";
@@ -613,10 +613,10 @@ function _insertEvent($idProfile,$title,$text,$date,$startHour,$closeHour){
 	return $arr;
 }
 
-function _insertList($idProfile,$title,$text,$date,$startHour,$closeHour){
+function _insertList($idProfile,$title,$text,$date,$startHour,$closeHour,$closedate,$maxGuest){
 
 	_db_connect();
-	$query = "call setList('{$idProfile}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
+	$query = "call setList('{$idProfile}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$closedate}','{$maxGuest}')";
 
 	$res=_db_query($query);
 
@@ -710,9 +710,9 @@ function _userFollowsPub($idLocal,$idPartier){
 
 
 
-function _setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour){
+function _setListData($idProfile,$idList,$title,$text,$date,$startHour,$closeHour,$closeDate,$maxGuest){
  	_db_connect();
- 	$query = "call setListData('{$idProfile}','{$idList}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}')";
+ 	$query = "call setListData('{$idProfile}','{$idList}','{$title}','{$text}','{$date}','{$startHour}','{$closeHour}','{$closeDate}','{$maxGuest}')";
  	$campo = _db_query($query);
  	_db_close();
  }
@@ -922,7 +922,7 @@ function _dontGoToPub($idProfile,$idPub){
 }
 function _goesToPub($idProfile,$idLocal){
 	_db_connect();
-	$query = "select userGoesToPub('{$idProfile}','{$idlocal}')";
+	$query = "select userGoesToPub('{$idProfile}','{$idLocal}')";
 	$campo=_db_query($query);
 	$res= _db_fetch_array($campo);
 	$res=current($res);
@@ -1099,9 +1099,9 @@ function _eventsDontGo($idProfile){
  	_db_close();
  	return $res;
 }
-function _joinList($idProfile,$idList){
+function _joinList($idProfile,$idList,$numGuest){
 	_db_connect();
-	$query = "call joinList('{$idList}','{$idProfile}')";
+	$query = "call joinList('{$idList}','{$idProfile}','{$numGuest}')";
 	_db_query($query);
 	_db_close();
 }
@@ -1124,18 +1124,72 @@ function _getPartiersInList($idList){
  	return $res;
 
 }
+function _joinedInList($idProfile,$idList){
+	_db_connect();
+	$query = "select userJoinedList('{$idProfile}','{$idList}')";
+	$campo=_db_query($query);
+	$res= _db_fetch_array($campo);
+	$res=current($res);
+	_db_close();
+	return $res;
+}
 
+/* -------------------------------- JUKEBOX-------------------------------------*/
+function _insertTrack($idProfile,$name,$artist){
+
+	_db_connect();
+	$query = "call setTrack('{$idProfile}','{$name}','{$artist}')";
+	$res=_db_query($query);
+	_db_close();
+	$arr = array();
+	return $arr;
+}
+function _setTrackData($idProfile,$idTrack,$name,$artist){
+	_db_connect();
+ 	$query = "call setTrackData('{$idProfile}','{$idTrack}','{$name}','{$artist}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+
+}
+function _getTrackData($idProfile,$idTrack){
+	_db_connect();
+ 	$query = "call getTrackData('{$idProfile}','{$idTrack}')";
+ 	$campo=_db_query($query);
+ 	$res=_db_fetch_array($campo);
+ 	_db_close();
+ 	return $res;
+
+}
+function _deleteTrack($idProfile,$idTrack){
+	_db_connect();
+ 	$query = "call deleteTrack('{$idProfile}','{$idTrack}')";
+ 	$campo=_db_query($query);
+ 	
+ 	_db_close();
+ 	return $res;
+
+<<<<<<< HEAD
 function _getAllMessages($idProfile){
 	_db_connect();
 	$query = "call getAllMessages('{$idProfile}')";
 	$campo= _db_query($query);
 	$filas= _db_num_rows($campo);
 	for($i= 0 ; $i<$filas ; $i++){
+=======
+}
+function  _getPlayList($idProfile,$idPub){
+	_db_connect();
+ 	$query = "call getPlayList('{$idProfile}','{$idPub}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+>>>>>>> fb34213b9f907a0aa56519313286dd9e3254e2d5
  		$res[$i]=_db_fetch_array($campo);
  	}
  	_db_close();
  	return $res;
 }
+<<<<<<< HEAD
 
 function _getMessagesFriend($idProfile1,$idProfile2){
 	_db_connect();
@@ -1143,11 +1197,62 @@ function _getMessagesFriend($idProfile1,$idProfile2){
 	$campo= _db_query($query);
 	$filas= _db_num_rows($campo);
 	for($i= 0 ; $i<$filas ; $i++){
+=======
+function _voteTrack($idProfile,$idPub,$idTrack){
+	_db_connect();
+ 	$query = "call voteTrack('{$idProfile}','{$idPub}','{$idTrack}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+}
+function _deleteVote($idProfile,$idPub,$idTrack){
+	_db_connect();
+ 	$query = "call deleteVote('{$idProfile}','{$idPub}','{$idTrack}')";
+ 	$campo=_db_query($query);
+ 	_db_close();
+ 	return $res;
+
+}
+function _myTracksIn($idProfile,$idPub){
+	_db_connect();
+ 	$query = "call myTracksIn('{$idProfile}','{$idPub}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
  		$res[$i]=_db_fetch_array($campo);
  	}
  	_db_close();
  	return $res;
 }
+function _playTrack($idProfile,$idTrack){
+	_db_connect();
+ 	$query = "call playTrack('{$idProfile}','{$idTrack}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+}
+function _restartPlaylist($idProfile){
+	_db_connect();
+ 	$query = "call restartPlaylist('{$idProfile}')";
+ 	$campo = _db_query($query);
+ 	_db_close();
+}
+
+/* ----------------------------------------------------------------------------------*/
+function _getStatisticsPub($idProfile){
+	_db_connect();
+ 	$query = "call statisticsPub('{$idProfile}')";
+ 	$campo=_db_query($query);
+ 	$filas = _db_num_rows($campo);
+ 	for($i= 0 ; $i<$filas ; $i++){
+>>>>>>> fb34213b9f907a0aa56519313286dd9e3254e2d5
+ 		$res[$i]=_db_fetch_array($campo);
+ 	}
+ 	_db_close();
+ 	return $res;
+}
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> fb34213b9f907a0aa56519313286dd9e3254e2d5
 
 function _sendMessage($idProfile1,$idProfile2,$message){
 	_db_connect();

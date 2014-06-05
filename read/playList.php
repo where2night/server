@@ -17,23 +17,21 @@
 			case 'GET':
 				if ($idProfile != "" && $idUser != ""){
 					$type = _getTypeProfile($idUser);
-					if ($type == -1) { //DJ
-						$aux=_getDJData($idUser);
-						$resaux= array('name'=> $aux['nameDJ'],'pictureC'=> $aux['picture'],'error'=>false );
-					} elseif ($type == 1) { //Local
+					if ($type == 1) { //Local
 						$aux= _getLocalData($idUser);
-						$resaux= array('name'=> $aux['localName'],'pictureC'=> $aux['picture'],'error'=>false );
+						$resaux= array('name'=> $aux['localName'],'pictureC'=> $aux['picture'],'error'=> false );
 					} else{
-						
+						$data['error']=true;
 					}
-					$data= _getEvents($idProfile,$idUser);
 					
-					
+					$data= _getPlayList($idProfile,$idUser);
 					if($data != null){
 						$data=array_merge($resaux,$data);
 					}else{
+						
 						$data=$resaux;
-						$data['error']=true;
+						$data['error']= true;
+
 					}
 					
 					echo json_encode($data);

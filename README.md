@@ -999,6 +999,8 @@ There are three ways to login in our application:
 			"title" : <Max 40 characters>
   			"text" : <Max 140 characters>
   			"date" : <dd/mm/yyyy>
+  			"closeDate": <dd/mm/yyyy>
+  			"maxGuest": <int>
   			"startHour" : <time>
   			"closeHour" : <time>
 		}
@@ -1016,6 +1018,8 @@ There are three ways to login in our application:
 			"title" : <Max 40 characters>
   			"text" : <Max 140 characters>
   			"date" : <dd/mm/yyyy>
+  			"closeDate": <dd/mm/yyyy>
+  			"maxGuest": <int>
   			"startHour" : <time>
   			"closeHour" : <time>
 		}
@@ -1033,6 +1037,8 @@ There are three ways to login in our application:
   		"date" : <dd/mm/yyyy>
   		"startHour" : <time>
 		"closeHour" : <time>
+		"dateClose": <dd/mm/yyyy>
+		"maxGuest": <int>
 		"createdTime": <yyyy-mm-dd hh:mm:ss>
 		"getList": <True or False>
 
@@ -1047,7 +1053,13 @@ There are three ways to login in our application:
 
 ###<a name='JoinList'></a> Join List
 	* <baseUrl> + /actions/joinList.php/<idProfile>/<Token>/<idList>
-	* Method: GET
+	* Method: POST
+	* Data Sent:
+		{
+			
+			"numGuest" : <int>
+  
+		}
 	* Response:
 	{
 		"join": <True or False>
@@ -1072,10 +1084,13 @@ There are three ways to login in our application:
 			"idLists":""
 			"title":<Max 40 characters>
 			"about":<Max 140 characters>
+			"dateClose": <yyyy-mm-dd>
+			"maxGuest": <int>
 			"createdTime":<yyyy-mm-dd hh:mm:ss>
 			"date":<yyyy-mm-dd>
 			"startHour":<time>
 			"closeHour":<time>
+			"GOES": <idProfile or null>
 		}
 
 	}
@@ -1090,6 +1105,8 @@ There are three ways to login in our application:
 			"title":<Max 40 characters>
 			"about":<Max 140 characters>
 			"date":<yyyy-mm-dd>
+			"dateClose": <yyyy-mm-dd>
+			"maxGuest": <int>
 			"startHour":<time>
 			"closeHour":<time>
 			"name": localname <Max 20 characters>
@@ -1124,8 +1141,188 @@ There are three ways to login in our application:
 		"rows": <int>
 		"getPartiersInList": <true or false>
 	}
+##<a name='JukeBox'></a>JukeBox
 
+* [Create Track](#CreateTrack)
+* [Update Track](#UpdateTrack)
+* [Get Pub Playlist](#PlayList)
+* [Partier Vote Track](#PartierVoteTrack)
+* [My Tracks Voted In Pub](#MyTracksIn)
+* [Restart Playlist](#Restart)
+* [Play Track](#PlayTrack)
 
+###<a name='CreateTrack'></a> Create Track
+	* <baseUrl> + /create/track.php/<idProfile>/<Token>
+	* Method: POST
+	* Data Sent:
+		{
+
+			"name" : <Max 40 characters>
+  			"artist" : <Max 40 characters>
 
 		}
+	* Response:
+	{
+		if track exist
+		"idTrack":
+		"Error": 1
+		"NewTrack": <False>
 
+		if new track
+		"Error": 0
+		"NewTrack": <True>
+
+	}
+###<a name='UpdateTrack'></a> Update Track
+	* <baseUrl> + /update/track.php/<idProfile>/<Token>/<idTrack>
+	* Method: POST
+	* Data Sent:
+		{
+			
+			"name" : <Max 40 characters>
+  			"artist" : <Max 40 characters>
+		}
+	* Response:
+	{
+		"updateTrack": <True or False>
+
+	}
+
+	* Method: GET	
+	* Response:
+	{
+		"idTrack": ""
+		"trackName" : <Max 40 characters>
+  		"trackArtist" : <Max 40 characters>
+		"playing": <0 or 1>
+		"createdTime": <yyyy-mm-dd hh:mm:ss>
+		"getTrack": <True or False>
+
+	}
+
+	* Method: DELETE
+	* Response:
+		{
+			
+			"DeleteTrack" : <true or false>
+		}
+###<a name='PlayList'></a> Get Pub Playlist
+	* <baseUrl> + /read/playList.php/<idProfile>/<Token>/<idProfilePub>
+	* Method: GET
+	* Response:
+	ORDER BY VOTES DESC AND trackArtist ASC
+	{
+		"name": localname <Max 20 characters>
+		"picture": <Max 100 characters>
+		"error":<true or false>
+		For 0 to i:{
+			"idTrack":""
+			"trackName":<Max 40 characters>
+			"trackArtist":<Max 40 characters>
+			"createdTime":<yyyy-mm-dd hh:mm:ss>
+			"votes":<>
+			"playing":<0 stop 1 playing>
+			"VOTE": <idPartier or null>
+			
+		}
+
+	}
+
+###<a name='PartierVoteTrack'></a> Partier Vote Track
+	* <baseUrl> + /actions/voteTrack.php/<idProfile>/<Token>/<idPub>/<idTrack>
+	* Method: POST
+	* Response:
+	{
+		"vote": <True or False>
+		"error": <True or False>
+				"vote=true and error=false": <vote ok>
+				"error=true": <NO PARTIER>
+				"vote=false and error=true": <some field empty>
+	}
+	* Method: DELETE
+	* Response:
+	{
+		"deleteVote": <True or False>
+		"error": <True or False>
+				"deleteVote=true and error=false": <vote ok>
+				"error=true": <NO PARTIER>
+				"deleteVote=false and error=true": <some field empty>
+	}
+###<a name='MyTracksIn'></a> My Tracks Voted In Pub
+	* <baseUrl> + /actions/myTracksIn.php/<idProfile>/<Token>/<idProfilePub>
+	* Method: GET
+	* Response:
+	{
+		For 0 to i:{
+			"idTrack":""
+		}
+
+	}
+###<a name='PlayTrack'></a> Play Track
+	* <baseUrl> + /actions/playTrack.php/<idProfile>/<Token>/<idTrack>
+	* Method: POST
+	* Response:
+	{
+		for 0 to i {
+			"idTrack": ""
+		}
+		"playTrack": <True or False>
+	}
+###<a name='Restart'></a> Restart Playlist
+	* <baseUrl> + /actions/restartPlaylist.php/<idProfile>/<Token>
+	* Method: POST
+	* Response:
+	{
+		"restartPlaylist": <True or False>
+	}
+##<a name='Statistics'></a>Statistics
+
+* [Get Statistics](#GetStatistics)
+
+###<a name='GetStatistics'></a> Get Statistics
+	* <baseUrl> + /actions/statisticsPub.php/<idProfile>/<Token>/<idProfilePub>
+	* Method: GET
+	* Response:
+	{
+		
+		for "0" to i:{
+			For PARTIER only get modeP=0
+			For LOCAL I add modeP=1 
+			"idProfile"	: <User's idProfile>
+			"picture"	    : <user's picture url Max 100 characters>
+			"name"		: <Max 20 characters>
+			"surnames"	: <Max 45 characters> 
+			"birthdate"	: <birthdate yyyy-mm-dd>
+			"gender"   	: <male> or <female>
+			"music"		: <int>
+			"civil_sate"	: <int>
+			"city"		: <Max 20 characters>
+			"drink"		: <int>
+			"about"		: <Max 200 characters>
+			"mode"        : <>
+			"status"      : <Max 140 characters>
+			"modeP": <0 partier who will goes to pub - 1 partier who has gone to pub>
+			"num":""
+			}
+			"rows": <int>
+			"mens": <int>
+			"womens": <int>
+			"a18-20": <int> 18 <= age <= 20
+			"a21-23": <int> 21 <= age <= 23
+			"a24-30": <int> 24 <= age <= 30
+			"am31": <int> 31 <= age
+			"i+1":<int> this i continues with initial i, this i varies depending of quantity of users returns the query (quantity in "rows" example: 4 users this i=4 final i=80)
+			"i+2": to "i+77": <int>
+			(meaning of "i":
+			i+1 to i+44: music order by list in googleDrive
+			i+45 to i+70: drink order by list in googleDrive
+			i+71 to i+77: civil state order by list in googleDrive
+			these fields contain the number of partiers who share that field)
+			"numGo":<int> partiers who will goes to pub 
+				//coment if partier
+				"statisticsPartier":true
+				//comment id pub
+				"bestClients":<int> partiers who have gone to pub
+				"statisticsPub":true
+
+	}

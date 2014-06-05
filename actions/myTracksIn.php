@@ -6,7 +6,7 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$idProfile = $request[0];
 	$token = $request[1];
-	$idEvent = $request[2];
+	$idPub= $request[2];
 
 	$tokenT= _tokenOK($idProfile,$token);
 	
@@ -14,21 +14,15 @@
 		$method = $_SERVER['REQUEST_METHOD'];
 		switch ($method) {
 			case 'GET':
-				if ($idProfile != "" && $idEvent != ""){
-					$aux = _goToEvent($idProfile,$idEvent);
-					$aux['goto'] = true;
-					echo json_encode($aux);
-
+				if ($idPub != ""){
+					$aux = _myTracksIn($idProfile,$idPub);
+					$aux['myTracksIn']= true;
+				}else{
+					$aux['myTracksIn']=false;
 				}
+				echo json_encode($aux);
 					
-			break;
-			case 'DELETE':
-			if ($idProfile != "" && $idEvent != ""){
-					$aux = _dontGoToEvent($idProfile,$idEvent);
-					$aux['goto'] = false;
-					echo json_encode($aux);
-				}
-			break;		
+			break;	
 		  default:
 		//	rest_error($request);  
 			break;
