@@ -173,7 +173,27 @@ BEGIN
 DROP PROCEDURE IF EXISTS `getLocalData`$$
 CREATE DEFINER=`where2`@`localhost` PROCEDURE `getLocalData`(IN `idProfile` INT)
 BEGIN
-    SELECT p.companyNameLocal, p.localName, p.cif, p.poblationLocal, p.cpLocal, p.telephoneLocal, p.street, p.streetNameLocal, p.streetNumberLocal, p.latitude, p.longitude, p.music, p.entryPrice , p.drinkPrice, p.openingHours, p.closeHours, p.picture, p.about 
+    SELECT p.companyNameLocal, 
+           p.localName, 
+           p.cif, 
+           p.poblationLocal, 
+           p.cpLocal, 
+           p.telephoneLocal, 
+           p.street, 
+           p.streetNameLocal, 
+           p.streetNumberLocal, 
+           p.latitude, 
+           p.longitude, 
+           p.music, 
+           p.entryPrice, 
+           p.drinkPrice, 
+           p.openingHours, 
+           p.closeHours, 
+           p.picture, 
+           p.about,
+           p.facebook,
+           p.twitter,
+           p.instagram
     FROM `Profile` pr, `Pub` p
     WHERE (pr.idProfile = idProfile) AND (pr.idProfile = p.idProfile);
   END$$
@@ -360,7 +380,7 @@ BEGIN
 	END$$
 
 DROP PROCEDURE IF EXISTS `setLocalData`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `setLocalData`(IN `idProfile` INT, IN `companyNameLocal` VARCHAR(50), IN `localName` VARCHAR(20), IN `cif` VARCHAR(9), IN `poblationLocal` VARCHAR(20), IN `cpLocal` INT(5), IN `telephoneLocal` INT, IN `street` TINYINT(1), IN `streetNameLocal` VARCHAR(50), IN `streetNumberLocal` VARCHAR(50), IN `latitude` VARCHAR(11), IN `longitude` VARCHAR(11), IN `music` VARCHAR(20), IN `entryPrice` INT, IN `drinkPrice` INT, IN `openingHours` TIME, IN `closeHours` TIME, IN `picture` VARCHAR(100), IN `about` VARCHAR(200))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setLocalData`(IN `idProfile` INT, IN `companyNameLocal` VARCHAR(50), IN `localName` VARCHAR(20), IN `cif` VARCHAR(9), IN `poblationLocal` VARCHAR(20), IN `cpLocal` INT(5), IN `telephoneLocal` INT, IN `street` TINYINT(1), IN `streetNameLocal` VARCHAR(50), IN `streetNumberLocal` VARCHAR(50), IN `latitude` VARCHAR(11), IN `longitude` VARCHAR(11), IN `music` VARCHAR(20), IN `entryPrice` INT, IN `drinkPrice` INT, IN `openingHours` TIME, IN `closeHours` TIME, IN `picture` VARCHAR(100), IN `about` VARCHAR(200), IN `facebook` VARCHAR(50), IN `twitter` VARCHAR(15), IN `instagram` VARCHAR(30))
 BEGIN
     UPDATE Pub p
     SET 
@@ -381,17 +401,20 @@ BEGIN
       p.openingHours= openingHours,
       p.closeHours=  closeHours,
       p.picture= picture,
-      p.about= about 
+      p.about= about ,
+      p.facebook = facebook,
+      p.twitter = twitter,
+      p.instagram =instagram
 
     
     WHERE (p.idProfile = idProfile);
   END$$
 
 DROP PROCEDURE IF EXISTS `setPartierData`$$
-CREATE DEFINER=`where2`@`localhost` PROCEDURE `setPartierData`(IN idProfile INT, IN picture VARCHAR(100), IN `name`VARCHAR(20), IN surnames VARCHAR(45), IN birthdate DATE, IN gender BOOL, IN music VARCHAR(20), IN civil_state VARCHAR(20), IN city VARCHAR(20), IN drink VARCHAR(20), IN about VARCHAR(200))
+CREATE DEFINER=`where2`@`localhost` PROCEDURE `setPartierData`(IN idProfile INT, IN picture VARCHAR(100), IN `name`VARCHAR(20), IN surnames VARCHAR(45), IN birthdate DATE, IN gender BOOL, IN music VARCHAR(20), IN civil_state VARCHAR(20), IN city VARCHAR(20), IN drink VARCHAR(20), IN about VARCHAR(200), IN `facebook` VARCHAR(50), IN `twitter` VARCHAR(15), IN `instagram` VARCHAR(30))
 BEGIN
 		UPDATE Partier p
-		SET p.picture = picture, p.name = name, p.surnames = surnames, p.birthdate = birthdate, p.gender = gender, p.music = music, p.civil_state = civil_state, p.city = city, p.drink = drink, p.about = about 
+		SET p.picture = picture, p.name = name, p.surnames = surnames, p.birthdate = birthdate, p.gender = gender, p.music = music, p.civil_state = civil_state, p.city = city, p.drink = drink, p.about = about, p.facebook = facebook, p.twitter = twitter, p.instagram = instagram
 		WHERE (p.idProfile = idProfile);
 	END$$
 
@@ -940,6 +963,25 @@ CREATE TABLE IF NOT EXISTS `Works` (
   KEY `fk_DJ_has_Pub_Pub1_idx` (`idPub`),
   KEY `fk_DJ_has_Pub_DJ1_idx` (`idDJ`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Messages`
+--
+
+DROP TABLE IF EXISTS `Messages`;
+CREATE TABLE IF NOT EXISTS `Messages` (
+  `idPartier1` int(11) NOT NULL,
+  `idPartier2` int(11) NOT NULL,
+  `message` varchar(1000)  DEFAULT NOT NULL,
+  `sentTime` timestamp DEFAULT CURRENT_TIMESTAMP
+  PRIMARY KEY (`idPartier1`,`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier2_idx` (`idPartier2`),
+  KEY `fk_Partier_has_Partier_Partier1_idx` (`idPartier1`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 
 --
 -- Restricciones para tablas volcadas
